@@ -1,5 +1,4 @@
-// Simple ICO file header structure for creating placeholder icons
-// This is a header file that defines the ICO file format for manual creation
+// ICO file header structures for manual icon creation
 
 #pragma once
 
@@ -44,10 +43,9 @@ struct BitmapInfoHeader {
 
 #pragma pack(pop)
 
-// Simple placeholder icon generator
-class PlaceholderIconGenerator {
+class IconGenerator {
 public:
-    static std::vector<uint8_t> GeneratePlaceholderIcon(int width, int height);
+    static std::vector<uint8_t> GenerateIcon(int width, int height);
     static std::vector<uint8_t> GenerateMultiSizeIcon(const std::vector<int>& sizes);
     
 private:

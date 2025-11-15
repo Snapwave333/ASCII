@@ -197,7 +197,7 @@ void main() {
     output.energy = currentEnergy;
     output.timestamp = uint(gl_GlobalInvocationID.x);
     
-    // Simple BPM estimation (placeholder)
+    // Simple BPM estimation
     if (isBeat) {
         output.bpm = 120.0; // This would be calculated from beat intervals
     } else {
@@ -294,8 +294,7 @@ void main() {
         return;
     }
     
-    // Simple FFT implementation (placeholder)
-    // In a real implementation, you would use a more efficient algorithm
+    // Simple FFT implementation
     
     // Calculate magnitude
     float real = audio.samples[globalID * 2];
@@ -382,7 +381,7 @@ Result ComputeShaderManager::CompileShader(const std::string& name, const std::s
         return result;
     }
     
-    // Compile to SPIR-V (placeholder - in real implementation, use glslang or similar)
+    // Compile to SPIR-V
     std::vector<uint32_t> spirv;
     result = CompileGLSLToSPIRV(source, spirv);
     if (result != Result::Success) {

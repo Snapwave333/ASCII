@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\tests\ascii_font_atlas_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\VulkanContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\chrom\Documents\trae_projects\ASCIi\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{966BEA8F-3E39-337F-ABAC-472BC5DAF194}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

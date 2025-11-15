@@ -1,0 +1,79 @@
+[VulkanContext] Creating Vulkan instance with validation...
+[VulkanContext] Performing pre-initialization safety checks...
+[VulkanContext] Testing basic Vulkan loader functionality...
+[VulkanContext] Vulkan loader test successful, found 15 layer(s)
+[VulkanContext] Vulkan API Version: 1.2
+[VulkanContext] Required extensions count: 3
+[VulkanContext] Extension[0]: VK_EXT_debug_utils
+[VulkanContext] Extension[1]: VK_KHR_win32_surface
+[VulkanContext] Extension[2]: VK_KHR_surface
+[VulkanContext] Validation layers enabled
+[VulkanContext] Creating Vulkan instance...
+[VulkanContext] Vulkan instance created successfully
+[VulkanContext] Enumerating physical devices...
+[VulkanContext] Found 2 physical device(s)
+[VulkanContext] Device[0]: NVIDIA GeForce RTX 4070 Laptop GPU
+[VulkanContext]   Type: 2
+[VulkanContext]   API Version: 1.4.312
+[VulkanContext]   Driver Version: 2437824512
+[VulkanContext]   Vendor ID: 0x10de
+[VulkanContext]   Device ID: 0x2860
+[VulkanContext] Device[1]: Intel(R) UHD Graphics
+[VulkanContext]   Type: 1
+[VulkanContext]   API Version: 1.4.311
+[VulkanContext]   Driver Version: 1661574
+[VulkanContext]   Vendor ID: 0x8086
+[VulkanContext]   Device ID: 0xa7a8
+[VulkanContext] Checking device suitability...
+[VulkanContext] Selected device: NVIDIA GeForce RTX 4070 Laptop GPU
+[VulkanContext] Physical device selected and memory properties obtained
+[VulkanContext] Creating logical device...
+[VulkanContext] Queue families found:
+[VulkanContext]   Graphics family: 0
+[VulkanContext]   Compute family: 0
+[VulkanContext]   Present family: none
+[VulkanContext]   Surface status: not attached
+[VulkanContext] Graphics queue family: 0
+[VulkanContext] Compute queue family: 0
+[VulkanContext] Required device extensions:
+[VulkanContext]   Extension[0]: VK_KHR_swapchain
+[VulkanContext]   Extension[1]: VK_KHR_storage_buffer_storage_class
+[VulkanContext] Creating logical device...
+[VulkanContext] Logical device created successfully
+[VulkanContext] Graphics and compute queues obtained
+[VulkanContext] Present queue not distinct, using graphics queue
+ShaderCompile start compute
+The filename, directory name, or volume label syntax is incorrect.
+ShaderCompile failed rc=1
+PipelineCreate skip: shader compile unavailable
+[ASCIIConverter] Creating GPU resources...
+[ASCIIConverter] GPU resources created successfully
+[ASCIIConverter] Generating font atlas...
+[ASCIIConverter] FreeType not available, creating basic font atlas...
+[ASCIIConverter] Basic font atlas created with 192x192 dimensions
+[ASCIIConverter] Atlas image creation result: SUCCESS
+[ASCIIConverter] Font atlas generated successfully
+[ASCIIConverter] Creating compute pipeline...
+[ComputeShaderManager] Running: "C:\VulkanSDK\1.4.328.1\Bin\glslangValidator.exe" -V "C:\Users\chrom\AppData\Local\Temp\ng_ascii.comp" -o "C:\Users\chrom\AppData\Local\Temp\ng_ascii.spv"
+The filename, directory name, or volume label syntax is incorrect.
+[ASCIIConverter] Failed to create compute pipeline
+[ASCIIConverter] Compute pipeline created successfully
+PASS: font atlas fallback
+Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
+vkDestroyDevice(): Object Tracking - For VkDevice 0x18b9eb652e0, VkBuffer 0x100000000010 has not been destroyed.
+The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
+Objects: 1
+    [0] VkBuffer 0x100000000010
+
+Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
+vkDestroyDevice(): Object Tracking - For VkDevice 0x18b9eb652e0, VkDeviceMemory 0x110000000011 has not been destroyed.
+The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
+Objects: 1
+    [0] VkDeviceMemory 0x110000000011
+
+Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
+vkDestroyDevice(): Object Tracking - For VkDevice 0x18b9eb652e0, VkDescriptorSetLayout 0x90000000009 has not been destroyed.
+The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
+Objects: 1
+    [0] VkDescriptorSetLayout 0x90000000009
+

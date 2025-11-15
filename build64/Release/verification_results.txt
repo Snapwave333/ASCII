@@ -1,0 +1,4 @@
+runtime_logic_tests=0
+ascii_font_atlas_test=0
+e2e_test=1
+gpu_pipeline_test=0

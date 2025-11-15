@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/glfw-populate"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/71d6e1ef7e6157362ec1f58895ea609b/glfw-populate.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/b04ab805281bab1335a96db3408d8742/glfw-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/glfw-subbuild/CMakeFiles/8b05e4accd307f838d6be6b0a63e2616/glfw-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"glfw-populate"
+		],
+		"name" : "glfw-populate"
+	}
+}

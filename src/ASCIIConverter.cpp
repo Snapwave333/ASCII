@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <immintrin.h>
 #if NEONGLYPH_HAVE_FREETYPE
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -615,9 +616,66 @@ Result ASCIIConverter::ConvertCPU(const uint8_t* inputTexture, uint32_t width, u
 
 Result ASCIIConverter::ConvertSIMD(const uint8_t* inputTexture, uint32_t width, uint32_t height, 
                                   ASCIIMapping* outputBuffer, uint32_t bufferSize) {
-    // TODO: Implement SIMD-optimized conversion
-    // For now, fall back to CPU implementation
-    return ConvertCPU(inputTexture, width, height, outputBuffer, bufferSize);
+    uint32_t charWidth = width / 80;
+    uint32_t charHeight = height / 24;
+    for (uint32_t y = 0; y < 24; y++) {
+        for (uint32_t x = 0; x < 80; x++) {
+            uint32_t startX = x * charWidth;
+            uint32_t startY = y * charHeight;
+            uint32_t endX = std::min(startX + charWidth, width);
+            uint32_t endY = std::min(startY + charHeight, height);
+            float total = 0.0f;
+            uint32_t count = 0;
+            for (uint32_t py = startY; py < endY; py++) {
+                uint32_t idx = (py * width + startX) * 4;
+                uint32_t cols = endX - startX;
+                uint32_t simdCols = (cols / 8) * 8;
+                __m256 sum = _mm256_setzero_ps();
+                uint32_t i = 0;
+                for (; i < simdCols; i += 8) {
+                    __m256 r = _mm256_cvtepi32_ps(_mm256_set_epi32(
+                        inputTexture[idx + (i+7)*4 + 0], inputTexture[idx + (i+6)*4 + 0], inputTexture[idx + (i+5)*4 + 0], inputTexture[idx + (i+4)*4 + 0],
+                        inputTexture[idx + (i+3)*4 + 0], inputTexture[idx + (i+2)*4 + 0], inputTexture[idx + (i+1)*4 + 0], inputTexture[idx + i*4 + 0]));
+                    __m256 g = _mm256_cvtepi32_ps(_mm256_set_epi32(
+                        inputTexture[idx + (i+7)*4 + 1], inputTexture[idx + (i+6)*4 + 1], inputTexture[idx + (i+5)*4 + 1], inputTexture[idx + (i+4)*4 + 1],
+                        inputTexture[idx + (i+3)*4 + 1], inputTexture[idx + (i+2)*4 + 1], inputTexture[idx + (i+1)*4 + 1], inputTexture[idx + i*4 + 1]));
+                    __m256 b = _mm256_cvtepi32_ps(_mm256_set_epi32(
+                        inputTexture[idx + (i+7)*4 + 2], inputTexture[idx + (i+6)*4 + 2], inputTexture[idx + (i+5)*4 + 2], inputTexture[idx + (i+4)*4 + 2],
+                        inputTexture[idx + (i+3)*4 + 2], inputTexture[idx + (i+2)*4 + 2], inputTexture[idx + (i+1)*4 + 2], inputTexture[idx + i*4 + 2]));
+                    __m256 rf = _mm256_mul_ps(r, _mm256_set1_ps(1.0f/255.0f));
+                    __m256 gf = _mm256_mul_ps(g, _mm256_set1_ps(1.0f/255.0f));
+                    __m256 bf = _mm256_mul_ps(b, _mm256_set1_ps(1.0f/255.0f));
+                    __m256 lum = _mm256_add_ps(_mm256_add_ps(_mm256_mul_ps(rf, _mm256_set1_ps(0.299f)), _mm256_mul_ps(gf, _mm256_set1_ps(0.587f))), _mm256_mul_ps(bf, _mm256_set1_ps(0.114f)));
+                    lum = _mm256_add_ps(_mm256_mul_ps(lum, _mm256_set1_ps(m_contrast)), _mm256_set1_ps(m_brightness));
+                    __m256 cl0 = _mm256_max_ps(lum, _mm256_set1_ps(0.0f));
+                    __m256 cl1 = _mm256_min_ps(cl0, _mm256_set1_ps(1.0f));
+                    sum = _mm256_add_ps(sum, cl1);
+                }
+                float tmp[8];
+                _mm256_storeu_ps(tmp, sum);
+                total += tmp[0] + tmp[1] + tmp[2] + tmp[3] + tmp[4] + tmp[5] + tmp[6] + tmp[7];
+                count += simdCols;
+                for (; i < cols; i++) {
+                    uint32_t p = idx + i*4;
+                    float r = inputTexture[p] * (1.0f/255.0f);
+                    float g = inputTexture[p+1] * (1.0f/255.0f);
+                    float b = inputTexture[p+2] * (1.0f/255.0f);
+                    float lum = 0.299f*r + 0.587f*g + 0.114f*b;
+                    lum = lum * m_contrast + m_brightness;
+                    lum = std::clamp(lum, 0.0f, 1.0f);
+                    total += lum;
+                    count++;
+                }
+            }
+            float avg = count ? (total / count) : 0.0f;
+            char c = FindBestCharacter(avg);
+            uint32_t oi = y * 80 + x;
+            if (oi < bufferSize) {
+                outputBuffer[oi] = ASCIIMapping(c, avg, 0);
+            }
+        }
+    }
+    return Result::Success;
 }
 
 Result ASCIIConverter::ConvertGPU(VkImage inputImage, uint32_t width, uint32_t height,

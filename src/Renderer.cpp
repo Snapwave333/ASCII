@@ -332,19 +332,25 @@ void Renderer::DrawOverlayToCanvas() {
     std::string l3 = std::string("RenderMs=") + std::to_string(m_overlay.renderMs);
     std::string l4 = std::string("PresentMs=") + std::to_string(m_overlay.presentMs);
     std::string l5 = std::string("Jitter=") + std::to_string(m_overlay.jitter) + std::string(" DF=") + std::to_string(m_overlay.droppedFrames);
+    std::string l6 = std::string("AudioRMS=") + std::to_string(m_overlay.audioRms)
+                   + std::string(" Peak=") + std::to_string(m_overlay.audioPeak)
+                   + std::string(" B=") + std::to_string(m_overlay.audioBass)
+                   + std::string(" M=") + std::to_string(m_overlay.audioMids)
+                   + std::string(" H=") + std::to_string(m_overlay.audioHighs);
     uint32 overlayWidth = 0;
     overlayWidth = std::max<uint32>(overlayWidth, static_cast<uint32>(l1.size()));
     overlayWidth = std::max<uint32>(overlayWidth, static_cast<uint32>(l2.size()));
     overlayWidth = std::max<uint32>(overlayWidth, static_cast<uint32>(l3.size()));
     overlayWidth = std::max<uint32>(overlayWidth, static_cast<uint32>(l4.size()));
     overlayWidth = std::max<uint32>(overlayWidth, static_cast<uint32>(l5.size()));
+    overlayWidth = std::max<uint32>(overlayWidth, static_cast<uint32>(l6.size()));
     overlayWidth = std::min<uint32>(overlayWidth + 2u, m_canvasWidth);
     uint32 ox = 1;
     uint32 oy = 1;
     if (m_overlayPosition == "top_left") { ox = 1; oy = 1; }
     else if (m_overlayPosition == "top_right") { ox = m_canvasWidth > overlayWidth ? m_canvasWidth - overlayWidth : 0; oy = 1; }
-    else if (m_overlayPosition == "bottom_left") { ox = 1; oy = m_canvasHeight > 6 ? m_canvasHeight - 6 : 0; }
-    else if (m_overlayPosition == "bottom_right") { ox = m_canvasWidth > overlayWidth ? m_canvasWidth - overlayWidth : 0; oy = m_canvasHeight > 6 ? m_canvasHeight - 6 : 0; }
+    else if (m_overlayPosition == "bottom_left") { ox = 1; oy = m_canvasHeight > 7 ? m_canvasHeight - 7 : 0; }
+    else if (m_overlayPosition == "bottom_right") { ox = m_canvasWidth > overlayWidth ? m_canvasWidth - overlayWidth : 0; oy = m_canvasHeight > 7 ? m_canvasHeight - 7 : 0; }
     auto drawLine = [&](uint32 y, const std::string& str){ for (size_t i=0;i<str.size() && (ox+i)<m_canvasWidth;i++){ size_t idx = static_cast<size_t>(y)*m_canvasWidth + (ox+static_cast<uint32>(i)); m_canvas[idx] = str[i]; m_fgColor[idx] = 0x00FF88u; } };
     uint32 y0 = oy;
     if (y0 < m_canvasHeight) drawLine(y0, l1);
@@ -352,6 +358,7 @@ void Renderer::DrawOverlayToCanvas() {
     if (y0+2 < m_canvasHeight) drawLine(y0+2, l3);
     if (y0+3 < m_canvasHeight) drawLine(y0+3, l4);
     if (y0+4 < m_canvasHeight) drawLine(y0+4, l5);
+    if (y0+5 < m_canvasHeight) drawLine(y0+5, l6);
 }
 
 void Renderer::UpdateOverlay() { DrawOverlayToCanvas(); }

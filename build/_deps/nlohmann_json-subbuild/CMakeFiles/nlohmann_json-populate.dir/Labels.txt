@@ -1,0 +1,14 @@
+# Target labels
+ nlohmann_json-populate
+# Source files and their labels
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/nlohmann_json-populate
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/15e30394a584dffb8e241fdc24b46ee8/nlohmann_json-populate.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/a5dadbd4b74345395876c6f81d1f080d/nlohmann_json-populate-complete.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-build.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-configure.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-download.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-install.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-mkdir.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-patch.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-test.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/nlohmann_json-subbuild/CMakeFiles/e1e6722cc66d381d87ced9478aa9e3ea/nlohmann_json-populate-update.rule

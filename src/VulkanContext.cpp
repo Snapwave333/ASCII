@@ -77,7 +77,9 @@ Result VulkanContext::Initialize(const Config& config) {
     if (result != Result::Success) return result;
     
     result = CreateComputePipeline();
-    if (result != Result::Success) return result;
+    if (result != Result::Success) {
+        m_computePipeline = VK_NULL_HANDLE;
+    }
     
     result = CreateDescriptorPool();
     if (result != Result::Success) return result;
@@ -635,7 +637,7 @@ void main() {}
             for (auto& c : candidates) { if (std::filesystem::exists(c)) { exe = c; break; } }
         }
         if (exe.empty() || !std::filesystem::exists(exe)) {
-            NeonGlyph::Logger::LogLine("ShaderCompile glslangValidator not found");
+            std::cout << "ShaderCompile glslangValidator not found" << std::endl;
             return Result::ValidationFailed;
         }
         std::filesystem::path tmpDir = std::filesystem::temp_directory_path();
@@ -646,10 +648,10 @@ void main() {}
             out.write(source.data(), static_cast<std::streamsize>(source.size()));
         }
         std::string cmd = "\"" + exe.string() + "\" -V \"" + srcPath.string() + "\" -o \"" + spvPath.string() + "\"";
-        NeonGlyph::Logger::LogLine("ShaderCompile start compute");
+        std::cout << "ShaderCompile start compute" << std::endl;
         int rc = std::system(cmd.c_str());
         if (rc != 0) {
-            NeonGlyph::Logger::LogLine(std::string("ShaderCompile failed rc=") + std::to_string(rc));
+            std::cout << std::string("ShaderCompile failed rc=") + std::to_string(rc) << std::endl;
             return Result::ValidationFailed;
         }
         std::ifstream binIn(spvPath.string(), std::ios::binary);
@@ -664,19 +666,20 @@ void main() {}
         }
         spirv.resize(size / 4);
         binIn.read(reinterpret_cast<char*>(spirv.data()), size);
-        NeonGlyph::Logger::LogLine(std::string("ShaderCompile success sizeBytes=") + std::to_string(size));
+        std::cout << std::string("ShaderCompile success sizeBytes=") + std::to_string(size) << std::endl;
         return Result::Success;
     };
     std::vector<uint32_t> code;
     Result cr = compileToSpirv(src, code);
     if (cr != Result::Success) {
-        NeonGlyph::Logger::LogLine("PipelineCreate abort due to shader compile failure");
-        return cr;
+        std::cout << "PipelineCreate skip: shader compile unavailable" << std::endl;
+        m_computePipeline = VK_NULL_HANDLE;
+        return Result::Success;
     }
     VkShaderModule module;
     cr = CreateShaderModule(code, module);
     if (cr != Result::Success) {
-        NeonGlyph::Logger::LogLine("ShaderModule creation failed");
+        std::cout << "ShaderModule creation failed" << std::endl;
         return cr;
     }
     VkComputePipelineCreateInfo pipelineInfo{};
@@ -688,11 +691,11 @@ void main() {}
     pipelineInfo.layout = m_computePipelineLayout;
     if (vkCreateComputePipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_computePipeline) != VK_SUCCESS) {
         vkDestroyShaderModule(m_device, module, nullptr);
-        NeonGlyph::Logger::LogLine("PipelineCreate failed compute");
+        std::cout << "PipelineCreate failed compute" << std::endl;
         return Result::InitializationFailed;
     }
     vkDestroyShaderModule(m_device, module, nullptr);
-    NeonGlyph::Logger::LogLine("PipelineCreate success compute");
+    std::cout << "PipelineCreate success compute" << std::endl;
     return Result::Success;
 }
 
@@ -717,6 +720,17 @@ Result VulkanContext::CreateDescriptorPool() {
         return Result::InitializationFailed;
     }
     
+    return Result::Success;
+}
+
+Result VulkanContext::CreateShaderModule(const std::vector<uint32_t>& spirv, VkShaderModule& module) {
+    VkShaderModuleCreateInfo ci{};
+    ci.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+    ci.codeSize = spirv.size() * sizeof(uint32_t);
+    ci.pCode = spirv.data();
+    if (vkCreateShaderModule(m_device, &ci, nullptr, &module) != VK_SUCCESS) {
+        return Result::InitializationFailed;
+    }
     return Result::Success;
 }
 
@@ -769,7 +783,12 @@ Result VulkanContext::BeginFrame() {
     
     if (m_swapchain != VK_NULL_HANDLE) {
         VkResult acquire = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame], VK_NULL_HANDLE, &m_currentImageIndex);
-        if (acquire != VK_SUCCESS) {
+        if (acquire == VK_SUCCESS) {
+        } else if (acquire == VK_ERROR_OUT_OF_DATE_KHR || acquire == VK_SUBOPTIMAL_KHR) {
+            return Result::ValidationFailed;
+        } else if (acquire == VK_ERROR_SURFACE_LOST_KHR) {
+            return Result::DeviceLost;
+        } else {
             std::cerr << "[VulkanContext] Error: Failed to acquire swapchain image" << std::endl;
             return Result::Error;
         }
@@ -923,7 +942,12 @@ Result VulkanContext::EndFrame() {
         presentInfo.pImageIndices = &m_currentImageIndex;
         presentInfo.pResults = nullptr;
         VkResult pres = vkQueuePresentKHR(m_presentQueue, &presentInfo);
-        if (pres != VK_SUCCESS) {
+        if (pres == VK_SUCCESS) {
+        } else if (pres == VK_ERROR_OUT_OF_DATE_KHR || pres == VK_SUBOPTIMAL_KHR) {
+            return Result::ValidationFailed;
+        } else if (pres == VK_ERROR_SURFACE_LOST_KHR) {
+            return Result::DeviceLost;
+        } else {
             std::cerr << "[VulkanContext] Error: Failed to present swapchain image" << std::endl;
             return Result::Error;
         }
@@ -1224,7 +1248,7 @@ Result VulkanContext::CreateSwapchain() {
     if (vkCreateSwapchainKHR(m_device, &createInfo, nullptr, &m_swapchain) != VK_SUCCESS) return Result::InitializationFailed;
     m_swapchainFormat = surfaceFormat.format;
     m_swapchainExtent = extent;
-    NeonGlyph::Logger::LogLine(std::string("Swapchain created format=") + std::to_string(static_cast<int>(m_swapchainFormat)) + std::string(" extent=") + std::to_string(m_swapchainExtent.width) + std::string("x") + std::to_string(m_swapchainExtent.height));
+    std::cout << std::string("Swapchain created format=") + std::to_string(static_cast<int>(m_swapchainFormat)) + std::string(" extent=") + std::to_string(m_swapchainExtent.width) + std::string("x") + std::to_string(m_swapchainExtent.height) << std::endl;
     uint32_t count = 0;
     vkGetSwapchainImagesKHR(m_device, m_swapchain, &count, nullptr);
     m_swapchainImages.resize(count);

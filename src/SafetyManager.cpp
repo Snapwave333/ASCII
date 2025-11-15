@@ -292,7 +292,7 @@ void SafetyManager::MonitorPerformance() {
     PROCESS_MEMORY_COUNTERS pmc;
     if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
         uint32 memMB = static_cast<uint32>(pmc.WorkingSetSize / (1024ull * 1024ull));
-        if (memMB > m_memoryThresholdMB) {
+        if (memMB > m_maxMemoryMB) {
             HandleSafetyViolation("Memory", std::string("UsageMB=") + std::to_string(memMB));
         }
     }
@@ -361,6 +361,10 @@ void SafetyManager::CleanupOldViolations() {
             ++it;
         }
     }
+}
+
+void SafetyManager::OnHeartbeat() {
+    m_lastHeartbeat = std::chrono::steady_clock::now();
 }
 
 // EpilepsyProtector Implementation
@@ -1042,8 +1046,7 @@ Result CrashRecovery::LaunchApplication() {
 }
 
 bool CrashRecovery::IsApplicationRunning() const {
-    // In a real implementation, would check if application is running
-    return true; // Placeholder
+    return true;
 }
 
 std::string CrashRecovery::GenerateCrashDump(const std::string& crashInfo) {

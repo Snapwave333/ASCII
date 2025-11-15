@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\33f8c721730d9d2307e6f892153edd38\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{AF5B72C2-4870-3D44-96F5-26C275E37917}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

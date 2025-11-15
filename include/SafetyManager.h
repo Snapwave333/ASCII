@@ -39,6 +39,7 @@ public:
     bool IsPerformanceAcceptable(const PerformanceMetrics& metrics);
     void LogSafetyViolation(const std::string& violation);
     std::vector<std::string> GetRecentViolations() const;
+    void OnHeartbeat();
     
     // Safety thresholds and configuration
     void SetEpilepsyThreshold(float32 threshold);
@@ -76,6 +77,8 @@ private:
     float32 m_maxFrameTimeMs;
     uint32_t m_maxMemoryMB;
     std::vector<PerformanceMetrics> m_performanceHistory;
+    std::chrono::steady_clock::time_point m_lastHeartbeat;
+    uint32_t m_memoryThresholdMB;
     
     // Safety violations
     std::vector<std::pair<std::chrono::steady_clock::time_point, std::string>> m_violations;
@@ -296,3 +299,4 @@ private:
 };
 
 } // namespace NeonGlyph
+    void OnHeartbeat();

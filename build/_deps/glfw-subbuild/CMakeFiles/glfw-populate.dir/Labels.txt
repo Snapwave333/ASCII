@@ -1,0 +1,14 @@
+# Target labels
+ glfw-populate
+# Source files and their labels
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/glfw-populate
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/aa24272d21f3474f0bf4da05d3296a17/glfw-populate.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/cf3858eb6915f37eaa80c90db2b802da/glfw-populate-complete.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-build.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-configure.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-download.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-install.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-mkdir.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-patch.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-test.rule
+C:/Users/chrom/Documents/trae_projects/ASCIi/build/_deps/glfw-subbuild/CMakeFiles/6b815a1436138d4327deccc045b7e25c/glfw-populate-update.rule

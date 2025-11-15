@@ -96,6 +96,11 @@ private:
     std::ofstream m_metrics;
     bool m_prevF1Pressed = false;
     bool m_prevF11Pressed = false;
+    float32 m_audioRms = 0.0f;
+    float32 m_audioPeak = 0.0f;
+    float32 m_audioBass = 0.0f;
+    float32 m_audioMids = 0.0f;
+    float32 m_audioHighs = 0.0f;
 };
 
 } // namespace NeonGlyph

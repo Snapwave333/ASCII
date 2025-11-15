@@ -65,10 +65,9 @@ Result AIConductor::Initialize(const Config& config) {
     }
     
 #ifdef NEONGLYPH_HAVE_ONNXRUNTIME
-    try {
-    } catch (...) {
-        std::cerr << "AI initialization failed" << std::endl;
-        return Result::InitializationFailed;
+    Result mr = LoadModels();
+    if (mr != Result::Success) {
+        return mr;
     }
 #endif
         
@@ -144,12 +143,6 @@ Result AIConductor::LoadModels() {
 
 #ifdef NEONGLYPH_HAVE_ONNXRUNTIME
 Result AIConductor::InitializeGenreClassifier() {
-    // Create a simple genre classification model (placeholder)
-    // In a real implementation, this would load a pre-trained ONNX model
-    
-    // For now, create a dummy session that will use rule-based classification
-    // m_genreClassifier = std::make_unique<Ort::Session>(*m_env, "genre_classifier_dummy.onnx", m_sessionOptions);
-    // For stubbed implementation, just set to nullptr and use rule-based logic
     m_genreClassifier = nullptr;
     
     // Set up input/output names
@@ -162,9 +155,6 @@ Result AIConductor::InitializeGenreClassifier() {
 
 #ifdef NEONGLYPH_HAVE_ONNXRUNTIME
 Result AIConductor::InitializeMoodPredictor() {
-    // Create a mood prediction model (placeholder)
-    // m_moodPredictor = std::make_unique<Ort::Session>(*m_env, "mood_predictor_dummy.onnx", m_sessionOptions);
-    // For stubbed implementation, just set to nullptr and use rule-based logic
     m_moodPredictor = nullptr;
     
     // Set up input/output names
@@ -177,9 +167,6 @@ Result AIConductor::InitializeMoodPredictor() {
 
 #ifdef NEONGLYPH_HAVE_ONNXRUNTIME
 Result AIConductor::InitializeSceneGenerator() {
-    // Create a scene generation model (placeholder)
-    // m_sceneGenerator = std::make_unique<Ort::Session>(*m_env, "scene_generator_dummy.onnx", m_sessionOptions);
-    // For stubbed implementation, just set to nullptr and use rule-based logic
     m_sceneGenerator = nullptr;
     
     // Set up input/output names

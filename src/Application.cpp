@@ -19,6 +19,7 @@
 #include <thread>
 #include <atomic>
 #include <csignal>
+#include <algorithm>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -372,7 +373,8 @@ void Application::MainLoop() {
             Render();
             auto renderEnd = std::chrono::high_resolution_clock::now();
             std::cout << "[Application] Render completed, calling EndFrame..." << std::endl;
-            EndFrame();
+            Result endRes = EndFrame();
+            if (endRes != Result::Success) { m_shouldExit = true; break; }
             std::cout << "[Application] EndFrame completed" << std::endl;
             auto presentEnd = std::chrono::high_resolution_clock::now();
             float32 renderMs = std::chrono::duration<float32, std::milli>(renderEnd - renderStart).count();
@@ -403,7 +405,8 @@ void Application::MainLoop() {
                 m_metrics.put('\n');
             }
             m_prevFrameTimeMs = m_performanceMetrics.frameTimeMs;
-        }
+            if (m_safetyManager) m_safetyManager->OnHeartbeat();
+        } else { m_shouldExit = true; break; }
         
         // Update performance metrics
         auto frameEnd = std::chrono::high_resolution_clock::now();
@@ -486,7 +489,7 @@ void Application::ProcessInput() {
     if (f1 && !m_prevF1Pressed) {
         m_config.render.overlayEnabled = !m_config.render.overlayEnabled;
         LogPerformanceMetrics();
-        m_renderer->SetOverlayData({m_config.render.overlayEnabled, m_config.render.overlayPosition, m_performanceMetrics.frameTimeMs, 0.0f, 0.0f, 0.0f, m_droppedFrames, TARGET_FPS});
+        m_renderer->SetOverlayData({m_config.render.overlayEnabled, m_config.render.overlayPosition, m_performanceMetrics.frameTimeMs, 0.0f, 0.0f, 0.0f, static_cast<uint32>(m_droppedFrames), TARGET_FPS, m_audioRms, m_audioPeak, m_audioBass, m_audioMids, m_audioHighs});
     }
     m_prevF1Pressed = f1;
     
@@ -540,9 +543,32 @@ void Application::Update(float32 deltaTime) {
             if (m_aiConductor) m_aiConductor->AnalyzeAudioFrame(frame);
             #endif
         }
-        
+        std::vector<float32> waveform;
+        m_audioEngine->GetWaveform(waveform);
+        if (!waveform.empty()) {
+            double sumSq = 0.0;
+            float32 peak = 0.0f;
+            for (auto v : waveform) { sumSq += static_cast<double>(v) * static_cast<double>(v); peak = std::max(peak, std::abs(v)); }
+            float32 rms = static_cast<float32>(std::sqrt(sumSq / static_cast<double>(waveform.size())));
+            m_audioPeak = std::clamp(peak, 0.0f, 1.0f);
+            m_audioRms = std::clamp(rms / 0.25f, 0.0f, 1.0f);
+        }
         Spectrum spectrum;
         if (m_audioEngine->GetSpectrum(spectrum) == Result::Success) {
+            float32 bassSum = 0.0f, midsSum = 0.0f, highsSum = 0.0f;
+            uint32 bassCount = 0, midsCount = 0, highsCount = 0;
+            float32 binHz = spectrum.frequencyResolution;
+            for (uint32 i = 0; i < spectrum.binCount; ++i) {
+                float32 freq = binHz * static_cast<float32>(i);
+                float32 mag = spectrum.magnitudes[i];
+                if (freq < 200.0f) { bassSum += mag; bassCount++; }
+                else if (freq < 2000.0f) { midsSum += mag; midsCount++; }
+                else { highsSum += mag; highsCount++; }
+            }
+            auto avgf = [](float32 s, uint32 c){ return c ? (s / static_cast<float32>(c)) : 0.0f; };
+            m_audioBass = std::clamp(avgf(bassSum, bassCount), 0.0f, 1.0f);
+            m_audioMids = std::clamp(avgf(midsSum, midsCount), 0.0f, 1.0f);
+            m_audioHighs = std::clamp(avgf(highsSum, highsCount), 0.0f, 1.0f);
             #if NEONGLYPH_HAVE_ONNXRUNTIME
             if (m_aiConductor) m_aiConductor->AnalyzeSpectrum(spectrum);
             #endif
@@ -651,7 +677,7 @@ void Application::Render() {
             }
         }
         if (m_vulkanContext && m_vulkanContext->GetSwapchain() != VK_NULL_HANDLE) {
-            m_renderer->SetOverlayData({m_config.render.overlayEnabled, m_config.render.overlayPosition, m_performanceMetrics.frameTimeMs, 0.0f, 0.0f, 0.0f, m_droppedFrames, TARGET_FPS});
+            m_renderer->SetOverlayData({m_config.render.overlayEnabled, m_config.render.overlayPosition, m_performanceMetrics.frameTimeMs, 0.0f, 0.0f, 0.0f, static_cast<uint32>(m_droppedFrames), TARGET_FPS, m_audioRms, m_audioPeak, m_audioBass, m_audioMids, m_audioHighs});
             m_renderer->UpdateOverlay();
             VkExtent2D ex = m_vulkanContext->GetSwapchainExtent();
             auto pixels = m_renderer->ComposeFramePixels(ex.width, ex.height);

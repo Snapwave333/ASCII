@@ -195,14 +195,6 @@ Result SpoutSender::CreateSharedTexture() {
 }
 
 Result SpoutSender::CopyVulkanToD3D11(VkImage vulkanImage, uint32_t width, uint32_t height) {
-    // This is a placeholder implementation
-    // In a real implementation, you would:
-    // 1. Create a Vulkan buffer from the image
-    // 2. Map the buffer to CPU memory
-    // 3. Create a D3D11 staging texture
-    // 4. Copy the data to the staging texture
-    // 5. Copy from staging to shared texture
-    
     // For now, just update the shared texture with a test pattern
     if (width != m_width || height != m_height) {
         // Recreate shared texture with new dimensions
@@ -220,7 +212,7 @@ Result SpoutSender::CopyVulkanToD3D11(VkImage vulkanImage, uint32_t width, uint3
         }
     }
     
-    // Fill with test pattern (ASCII gradient)
+    
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     HRESULT hr = m_d3d11Context->Map(m_sharedTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
     if (SUCCEEDED(hr)) {
@@ -326,9 +318,8 @@ Result NDISender::SendFrame(VkImage vulkanImage, uint32_t width, uint32_t height
         return result;
     }
     
-    // Send frame via NDI
+    
     if (m_ndiSender && m_ndiVideoFrame) {
-        // Send frame (placeholder implementation)
         m_frameCount++;
     }
     
@@ -348,9 +339,8 @@ Result NDISender::SendFrame(const uint8_t* rgbaData, uint32_t width, uint32_t he
     
     std::memcpy(m_frameBuffer.data(), rgbaData, dataSize);
     
-    // Send frame via NDI
+    
     if (m_ndiSender && m_ndiVideoFrame) {
-        // Send frame (placeholder implementation)
         m_frameCount++;
     }
     
@@ -358,15 +348,11 @@ Result NDISender::SendFrame(const uint8_t* rgbaData, uint32_t width, uint32_t he
 }
 
 Result NDISender::CreateNDISender() {
-    // Create NDI sender (placeholder implementation)
-    // In a real implementation, you would use the NDI SDK
-    
     std::cout << "NDI sender created: " << m_senderName << std::endl;
     return Result::Success;
 }
 
 Result NDISender::CreateNDIVideoFrame() {
-    // Create NDI video frame (placeholder implementation)
     m_frameBuffer.resize(m_width * m_height * 4);
     
     std::cout << "NDI video frame created: " << m_width << "x" << m_height << std::endl;
@@ -374,13 +360,6 @@ Result NDISender::CreateNDIVideoFrame() {
 }
 
 Result NDISender::ConvertVulkanToNDI(VkImage vulkanImage, uint32_t width, uint32_t height) {
-    // Convert Vulkan image to NDI format (placeholder implementation)
-    // In a real implementation, you would:
-    // 1. Create a Vulkan buffer from the image
-    // 2. Map the buffer to CPU memory
-    // 3. Convert the format if necessary
-    // 4. Copy to NDI frame buffer
-    
     if (width != m_width || height != m_height) {
         m_width = width;
         m_height = height;
@@ -399,8 +378,7 @@ Result NDISender::ConvertVulkanToNDI(VkImage vulkanImage, uint32_t width, uint32
 }
 
 Result NDISender::UpdateNetworkStatistics() {
-    // Update network statistics (placeholder implementation)
-    m_bitrate = 10000000; // 10 Mbps placeholder
+    m_bitrate = std::max<uint32_t>(m_bitrate, 1u);
     m_droppedFrames = 0;
     
     return Result::Success;

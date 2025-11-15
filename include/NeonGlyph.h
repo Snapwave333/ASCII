@@ -262,6 +262,11 @@ struct OverlayData {
     float32 jitter = 0.0f;
     uint32 droppedFrames = 0;
     uint32 fps = TARGET_FPS;
+    float32 audioRms = 0.0f;
+    float32 audioPeak = 0.0f;
+    float32 audioBass = 0.0f;
+    float32 audioMids = 0.0f;
+    float32 audioHighs = 0.0f;
 };
 
 class ConfigManager {

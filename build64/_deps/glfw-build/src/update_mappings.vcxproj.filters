@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\b7dd4348d4bf8ca0bcf65b61e2742878\update_mappings.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\glfw-src\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\glfw-src\src\mappings.h.in">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\glfw-src\CMake\GenerateMappings.cmake" />
+    <None Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\glfw-build\src\CMakeFiles\update_mappings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{53AE581F-E70B-38A8-9851-B967FE42A517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{CBF54262-9208-393A-909A-0BB1A99A67FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

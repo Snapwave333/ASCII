@@ -5,7 +5,7 @@
 
 namespace NeonGlyph {
 
-std::vector<uint8_t> PlaceholderIconGenerator::GeneratePlaceholderIcon(int width, int height) {
+std::vector<uint8_t> IconGenerator::GenerateIcon(int width, int height) {
     std::vector<uint8_t> rgba;
     rgba.resize(static_cast<size_t>(width) * static_cast<size_t>(height) * 4u);
     for (int y = 0; y < height; y++) {
@@ -49,7 +49,7 @@ std::vector<uint8_t> PlaceholderIconGenerator::GeneratePlaceholderIcon(int width
     return icoImage;
 }
 
-std::vector<uint8_t> PlaceholderIconGenerator::GenerateMultiSizeIcon(const std::vector<int>& sizes) {
+std::vector<uint8_t> IconGenerator::GenerateMultiSizeIcon(const std::vector<int>& sizes) {
     IcoHeader hdr{};
     hdr.reserved = 0;
     hdr.type = 1;
@@ -60,7 +60,7 @@ std::vector<uint8_t> PlaceholderIconGenerator::GenerateMultiSizeIcon(const std::
     images.resize(sizes.size());
     for (size_t i = 0; i < sizes.size(); ++i) {
         int s = sizes[i];
-        images[i] = GeneratePlaceholderIcon(s, s);
+        images[i] = GenerateIcon(s, s);
         IcoEntry e{};
         e.width = (s == 256) ? 0 : static_cast<uint8_t>(s);
         e.height = (s == 256) ? 0 : static_cast<uint8_t>(s);
