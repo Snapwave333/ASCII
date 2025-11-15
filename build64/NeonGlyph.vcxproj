@@ -347,7 +347,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\AudioEngine.h" />
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ComputePipelines.h" />
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ConfigManager.h" />
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorClient.h" />
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorCommand.h" />
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorTypes.h" />
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\IconGenerator.h" />
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\Logger.h" />
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\MusicAnalyzer.h" />
