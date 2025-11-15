@@ -22,6 +22,9 @@
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ConfigManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\DirectorClientTcp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\IconGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

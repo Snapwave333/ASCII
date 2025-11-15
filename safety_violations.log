@@ -700,3 +700,447 @@ Sat Nov 15 13:07:17 2025
 : [Heartbeat] No heartbeat in 5s
 Sat Nov 15 13:07:23 2025
 : [Heartbeat] No heartbeat in 5s
+Sat Nov 15 13:54:57 2025
+: [Performance] Frame time exceeded threshold: 17.252924ms
+Sat Nov 15 13:54:57 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:57 2025
+: [Performance] Frame time exceeded threshold: 18.771599ms
+Sat Nov 15 13:54:57 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:57 2025
+: [Performance] Frame time exceeded threshold: 20.005350ms
+Sat Nov 15 13:54:57 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:57 2025
+: [Performance] Frame time exceeded threshold: 21.991781ms
+Sat Nov 15 13:54:57 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:57 2025
+: [Performance] Frame time exceeded threshold: 22.111124ms
+Sat Nov 15 13:54:57 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 23.070078ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 23.464514ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 23.801100ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 23.894045ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 24.080812ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 24.296139ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 24.492189ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 24.284544ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 25.040062ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 24.942711ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 25.062784ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 25.482775ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 25.446060ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 26.026196ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 26.431297ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 28.164808ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 28.533487ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 29.854807ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 30.508787ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 31.183931ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 31.011148ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 30.749289ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 31.117523ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 31.258162ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 31.658405ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:58 2025
+: [Performance] Frame time exceeded threshold: 32.119873ms
+Sat Nov 15 13:54:58 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 33.363312ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 33.728497ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 34.261826ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 34.657745ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 34.801704ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 35.480381ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 36.000126ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 36.258587ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 36.418598ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 36.769825ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 36.852139ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 37.627243ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 38.499207ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 38.823555ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 38.951061ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 39.263664ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 39.336670ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:54:59 2025
+: [Performance] Frame time exceeded threshold: 39.461037ms
+Sat Nov 15 13:54:59 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:00 2025
+: [Performance] Frame time exceeded threshold: 40.473877ms
+Sat Nov 15 13:55:00 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:00 2025
+: [Performance] Frame time exceeded threshold: 40.474430ms
+Sat Nov 15 13:55:00 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 17.687649ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 22.802734ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 26.179852ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 26.629282ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 27.956467ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.055099ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.183388ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.444590ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.303211ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 29.071209ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.658808ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.710600ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.367901ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.780388ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:02 2025
+: [Performance] Frame time exceeded threshold: 28.343239ms
+Sat Nov 15 13:55:02 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 28.328060ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 28.435991ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 28.701708ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 28.756802ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 29.626139ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 29.262373ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 29.280924ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 30.168030ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 30.388744ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 30.525133ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 31.110935ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 31.259001ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.503166ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.687752ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.622028ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.830906ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.577137ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.826832ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.537518ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.231331ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 32.977634ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 33.864838ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 33.877937ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 34.057587ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 33.904861ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:03 2025
+: [Performance] Frame time exceeded threshold: 33.975979ms
+Sat Nov 15 13:55:03 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 33.951847ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.069118ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.107964ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.113171ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.016258ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.264801ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.456306ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.581215ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 34.894386ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 35.246426ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 35.502178ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 35.954288ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 36.030800ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 36.022572ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 35.949532ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 35.995396ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 36.075912ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 36.340797ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded
+Sat Nov 15 13:55:04 2025
+: [Performance] Frame time exceeded threshold: 36.673885ms
+Sat Nov 15 13:55:04 2025
+: [General] Performance threshold exceeded

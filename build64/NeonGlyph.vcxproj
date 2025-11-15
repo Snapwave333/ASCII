@@ -384,6 +384,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\AudioEngine.cpp" />
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp" />
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ConfigManager.cpp" />
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\DirectorClientTcp.cpp" />
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\IconGenerator.cpp" />
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Logger.cpp" />
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\MusicAnalyzer.cpp" />

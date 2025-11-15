@@ -60,19 +60,19 @@ The filename, directory name, or volume label syntax is incorrect.
 [ASCIIConverter] Compute pipeline created successfully
 PASS: font atlas fallback
 Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
-vkDestroyDevice(): Object Tracking - For VkDevice 0x211974b4d90, VkBuffer 0x100000000010 has not been destroyed.
+vkDestroyDevice(): Object Tracking - For VkDevice 0x25237758fe0, VkBuffer 0x100000000010 has not been destroyed.
 The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
 Objects: 1
     [0] VkBuffer 0x100000000010
 
 Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
-vkDestroyDevice(): Object Tracking - For VkDevice 0x211974b4d90, VkDeviceMemory 0x110000000011 has not been destroyed.
+vkDestroyDevice(): Object Tracking - For VkDevice 0x25237758fe0, VkDeviceMemory 0x110000000011 has not been destroyed.
 The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
 Objects: 1
     [0] VkDeviceMemory 0x110000000011
 
 Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
-vkDestroyDevice(): Object Tracking - For VkDevice 0x211974b4d90, VkDescriptorSetLayout 0x90000000009 has not been destroyed.
+vkDestroyDevice(): Object Tracking - For VkDevice 0x25237758fe0, VkDescriptorSetLayout 0x90000000009 has not been destroyed.
 The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
 Objects: 1
     [0] VkDescriptorSetLayout 0x90000000009
