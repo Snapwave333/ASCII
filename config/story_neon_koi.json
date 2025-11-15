@@ -1,0 +1,178 @@
+{
+  "set_id": "neonglyph_koi_set_01",
+  "total_duration_sec": 3600,
+  "default_palette": "deep_navy_base",
+  "default_motif": "koi_spirit_silhouette",
+  "acts": [
+    {
+      "id": "act_1_arrival",
+      "title": "Arrival in Neon Koi City",
+      "time_range_sec": [0, 900],
+      "theme_family": ["city_grid", "canals", "koi_spirits", "neon_reflections"],
+      "arc_shape": "slow_rise",
+      "base_transition_duration_ms": 3000.0,
+      "scenes": [
+        {
+          "id": "scene_1_distant_glow",
+          "title": "Distant Glow on the Horizon",
+          "relative_range": [0.0, 0.25],
+          "allowed_motifs": ["city_grid_far", "reflections_soft", "horizon_lines", "distant_neon"],
+          "banned_motifs": ["full_koi_closeup", "bright_flashes", "fast_movement"],
+          "intensity_curve": "0.2->0.4",
+          "dominant_palettes": ["deep_navy", "amber_sparks", "distant_cyan"],
+          "transition_speed": 1.5
+        },
+        {
+          "id": "scene_2_first_koi",
+          "title": "First Koi Spirit Appears",
+          "relative_range": [0.25, 0.55],
+          "allowed_motifs": ["koi_silhouette", "canal_ripples", "neon_reflections", "gentle_flow"],
+          "banned_motifs": ["city_grid_close", "harsh_lines", "rapid_changes"],
+          "intensity_curve": "0.4->0.6",
+          "dominant_palettes": ["koi_amber", "cyan_neon", "soft_white"],
+          "transition_speed": 1.2
+        },
+        {
+          "id": "scene_3_city_reveal",
+          "title": "The City Reveals Itself",
+          "relative_range": [0.55, 0.85],
+          "allowed_motifs": ["city_grid_emerges", "koi_swarm", "canal_network", "neon_bloom"],
+          "banned_motifs": ["isolated_elements", "dark_voids"],
+          "intensity_curve": "0.6->0.8",
+          "dominant_palettes": ["bright_neon", "electric_blue", "amber_glow"],
+          "transition_speed": 0.8
+        },
+        {
+          "id": "scene_4_immersion",
+          "title": "Full Immersion in the Neon World",
+          "relative_range": [0.85, 1.0],
+          "allowed_motifs": ["full_cityscape", "koi_dance", "light_trails", "energy_flow"],
+          "banned_motifs": ["minimal_elements", "static_scenes"],
+          "intensity_curve": "0.8->1.0",
+          "dominant_palettes": ["full_spectrum", "white_hot", "electric_purple"],
+          "transition_speed": 0.6
+        }
+      ]
+    },
+    {
+      "id": "act_2_exploration",
+      "title": "Exploring the Neon Canals",
+      "time_range_sec": [900, 1800],
+      "theme_family": ["underwater_neon", "koi_schools", "liquid_light", "flowing_patterns"],
+      "arc_shape": "plateau_with_peaks",
+      "base_transition_duration_ms": 2500.0,
+      "scenes": [
+        {
+          "id": "scene_5_underwater_entry",
+          "title": "Diving Below the Surface",
+          "relative_range": [0.0, 0.3],
+          "allowed_motifs": ["underwater_distortion", "koi_closeup", "bubble_trails", "submerged_neon"],
+          "banned_motifs": ["sharp_edges", "dry_elements", "above_surface"],
+          "intensity_curve": "0.8->0.7",
+          "dominant_palettes": ["deep_teal", "submerged_gold", "bubble_white"],
+          "transition_speed": 1.3
+        },
+        {
+          "id": "scene_6_koi_dance",
+          "title": "The Koi Dance in Liquid Light",
+          "relative_range": [0.3, 0.7],
+          "allowed_motifs": ["koi_schools", "flowing_curves", "liquid_geometry", "bioluminescent_trails"],
+          "banned_motifs": ["angular_patterns", "static_forms", "harsh_contrasts"],
+          "intensity_curve": "0.7->0.9",
+          "dominant_palettes": ["flowing_rainbow", "liquid_silver", "deep_ocean"],
+          "transition_speed": 0.9
+        },
+        {
+          "id": "scene_7_neon_depths",
+          "title": "The Deepest Neon Depths",
+          "relative_range": [0.7, 1.0],
+          "allowed_motifs": ["abstract_depths", "koi_transformation", "pure_light", "geometric_flow"],
+          "banned_motifs": ["representational", "surface_references"],
+          "intensity_curve": "0.9->0.95",
+          "dominant_palettes": ["pure_light", "geometric_white", "depth_black"],
+          "transition_speed": 0.7
+        }
+      ]
+    },
+    {
+      "id": "act_3_transformation",
+      "title": "Transformation and Revelation",
+      "time_range_sec": [1800, 2700],
+      "theme_family": ["koi_metamorphosis", "ascending_light", "geometric_evolution", "pure_energy"],
+      "arc_shape": "sharp_peak",
+      "base_transition_duration_ms": 2000.0,
+      "scenes": [
+        {
+          "id": "scene_8_metamorphosis_begin",
+          "title": "The Koi Begin to Transform",
+          "relative_range": [0.0, 0.4],
+          "allowed_motifs": ["koi_fragmentation", "ascending_particles", "geometric_breakdown", "light_separation"],
+          "banned_motifs": ["coherent_forms", "downward_motion", "darkness"],
+          "intensity_curve": "0.9->1.0",
+          "dominant_palettes": ["ascending_gold", "fragmentation_white", "transformation_blue"],
+          "transition_speed": 0.5
+        },
+        {
+          "id": "scene_9_pure_energy",
+          "title": "Becoming Pure Energy",
+          "relative_range": [0.4, 0.8],
+          "allowed_motifs": ["pure_geometry", "light_beams", "energy_patterns", "abstract_ascension"],
+          "banned_motifs": ["organic_forms", "earthly_references", "descent"],
+          "intensity_curve": "1.0->1.0",
+          "dominant_palettes": ["pure_white", "energy_gold", "ascension_blue"],
+          "transition_speed": 0.3
+        },
+        {
+          "id": "scene_10_revelation",
+          "title": "The Final Revelation",
+          "relative_range": [0.8, 1.0],
+          "allowed_motifs": ["ultimate_geometry", "pure_ascension", "eternal_light", "transcendent_patterns"],
+          "banned_motifs": ["temporal_forms", "imperfection", "descent"],
+          "intensity_curve": "1.0->0.9",
+          "dominant_palettes": ["transcendent_white", "eternal_gold", "infinite_blue"],
+          "transition_speed": 0.4
+        }
+      ]
+    },
+    {
+      "id": "act_4_resolution",
+      "title": "Return and Resolution",
+      "time_range_sec": [2700, 3600],
+      "theme_family": ["gentle_return", "peaceful_resolution", "soft_ending", "graceful_fade"],
+      "arc_shape": "gentle_decline",
+      "base_transition_duration_ms": 4000.0,
+      "scenes": [
+        {
+          "id": "scene_11_gentle_return",
+          "title": "Gentle Return to the Surface",
+          "relative_range": [0.0, 0.5],
+          "allowed_motifs": ["soft_ascension", "gentle_curves", "peaceful_forms", "calm_waters"],
+          "banned_motifs": ["harsh_transitions", "rapid_changes", "angular_patterns"],
+          "intensity_curve": "0.8->0.5",
+          "dominant_palettes": ["soft_blue", "gentle_gold", "peaceful_white"],
+          "transition_speed": 1.8
+        },
+        {
+          "id": "scene_12_final_farewell",
+          "title": "Final Farewell to the Koi",
+          "relative_range": [0.5, 0.9],
+          "allowed_motifs": ["koi_silhouette_fade", "gentle_goodbye", "soft_parting", "peaceful_resolution"],
+          "banned_motifs": ["sudden_disappearance", "harsh_ending", "abrupt_cut"],
+          "intensity_curve": "0.5->0.3",
+          "dominant_palettes": ["farewell_amber", "resolution_blue", "peaceful_fade"],
+          "transition_speed": 2.0
+        },
+        {
+          "id": "scene_13_peaceful_end",
+          "title": "Peaceful Ending",
+          "relative_range": [0.9, 1.0],
+          "allowed_motifs": ["gentle_darkness", "soft_close", "peaceful_void", "graceful_exit"],
+          "banned_motifs": ["sudden_blackout", "harsh_finality", "abrupt_termination"],
+          "intensity_curve": "0.3->0.1",
+          "dominant_palettes": ["peaceful_dark", "soft_close", "gentle_end"],
+          "transition_speed": 3.0
+        }
+      ]
+    }
+  ]
+}

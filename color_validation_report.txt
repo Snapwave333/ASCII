@@ -1,0 +1,2 @@
+mode=unknown tc=0 ansi=0 esc=NO
+missing one or more modes

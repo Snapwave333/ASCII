@@ -1,0 +1,96 @@
+#version 450
+
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+// Input spectrum data
+layout(binding = 0) buffer SpectrumBuffer {
+    float magnitudes[];
+} spectrum;
+
+// Beat detection parameters
+layout(binding = 1) uniform BeatParams {
+    uint spectrumSize;
+    float threshold;
+    float sensitivity;
+    uint historySize;
+} params;
+
+// Beat detection output
+layout(binding = 2) buffer BeatOutput {
+    uint isBeat;
+    float bpm;
+    float energy;
+    uint timestamp;
+} output;
+
+// Energy history for adaptive threshold
+layout(binding = 3) buffer EnergyHistory {
+    float energies[];
+} history;
+
+// Utility functions
+float calculateEnergy(float[] magnitudes, uint size) {
+    float energy = 0.0;
+    for (uint i = 0; i < size; i++) {
+        energy += magnitudes[i] * magnitudes[i];
+    }
+    return sqrt(energy / float(size));
+}
+
+float calculateAverageEnergy(float[] energies, uint size) {
+    float sum = 0.0;
+    for (uint i = 0; i < size; i++) {
+        sum += energies[i];
+    }
+    return sum / float(size);
+}
+
+float calculateVariance(float[] values, uint size, float mean) {
+    float variance = 0.0;
+    for (uint i = 0; i < size; i++) {
+        float diff = values[i] - mean;
+        variance += diff * diff;
+    }
+    return variance / float(size);
+}
+
+void main() {
+    uint globalID = gl_GlobalInvocationID.x;
+    
+    // Only process on the first thread
+    if (globalID != 0) {
+        return;
+    }
+    
+    // Calculate current energy
+    float currentEnergy = calculateEnergy(spectrum.magnitudes, params.spectrumSize);
+    
+    // Calculate average energy from history
+    float avgEnergy = calculateAverageEnergy(history.energies, params.historySize);
+    float variance = calculateVariance(history.energies, params.historySize, avgEnergy);
+    float stdDev = sqrt(variance);
+    
+    // Adaptive threshold
+    float threshold = avgEnergy + params.sensitivity * stdDev;
+    
+    // Beat detection
+    bool isBeat = currentEnergy > threshold;
+    
+    // Update output
+    output.isBeat = isBeat ? 1u : 0u;
+    output.energy = currentEnergy;
+    output.timestamp = uint(gl_GlobalInvocationID.x);
+    
+    // Simple BPM estimation (placeholder)
+    if (isBeat) {
+        output.bpm = 120.0; // This would be calculated from beat intervals
+    } else {
+        output.bpm = 0.0;
+    }
+    
+    // Update energy history (shift and add new)
+    for (uint i = params.historySize - 1; i > 0; i--) {
+        history.energies[i] = history.energies[i - 1];
+    }
+    history.energies[0] = currentEnergy;
+}

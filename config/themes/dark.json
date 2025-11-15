@@ -1,0 +1,11 @@
+{
+  "name": "dark",
+  "palette": {
+    "foreground": "#F2F2F2FF",
+    "background": "#0D0D0DFF",
+    "accent": "#FF4D67FF"
+  },
+  "brightness": -0.05,
+  "contrast": 1.1,
+  "glyph_map": "bold_ascii"
+}

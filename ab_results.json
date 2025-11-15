@@ -1,0 +1,104 @@
+{
+  "endpoint_a": "http://localhost:18000",
+  "endpoint_b": "http://localhost:18000",
+  "model": "llama3",
+  "ts": 1763109499,
+  "results": [
+    {
+      "scenario": "EN Drop",
+      "control": {
+        "has_canvas": false,
+        "has_style": false,
+        "has_layers": false,
+        "has_color": false,
+        "color_mode_ok": false,
+        "color_keys_ok": false,
+        "keys_present": 0,
+        "latency_ms_client": 2029
+      },
+      "treatment": {
+        "has_canvas": true,
+        "has_style": true,
+        "has_layers": true,
+        "has_color": true,
+        "color_mode_ok": true,
+        "color_keys_ok": true,
+        "keys_present": 6,
+        "latency_ms_client": 2015
+      },
+      "improved": true
+    },
+    {
+      "scenario": "ES Puente",
+      "control": {
+        "has_canvas": false,
+        "has_style": false,
+        "has_layers": false,
+        "has_color": false,
+        "color_mode_ok": false,
+        "color_keys_ok": false,
+        "keys_present": 0,
+        "latency_ms_client": 2024
+      },
+      "treatment": {
+        "has_canvas": true,
+        "has_style": true,
+        "has_layers": true,
+        "has_color": true,
+        "color_mode_ok": true,
+        "color_keys_ok": true,
+        "keys_present": 6,
+        "latency_ms_client": 2016
+      },
+      "improved": true
+    },
+    {
+      "scenario": "JA Verse",
+      "control": {
+        "has_canvas": false,
+        "has_style": false,
+        "has_layers": false,
+        "has_color": false,
+        "color_mode_ok": false,
+        "color_keys_ok": false,
+        "keys_present": 0,
+        "latency_ms_client": 2016
+      },
+      "treatment": {
+        "has_canvas": true,
+        "has_style": true,
+        "has_layers": true,
+        "has_color": true,
+        "color_mode_ok": true,
+        "color_keys_ok": true,
+        "keys_present": 6,
+        "latency_ms_client": 2025
+      },
+      "improved": true
+    },
+    {
+      "scenario": "AR Bridge",
+      "control": {
+        "has_canvas": false,
+        "has_style": false,
+        "has_layers": false,
+        "has_color": false,
+        "color_mode_ok": false,
+        "color_keys_ok": false,
+        "keys_present": 0,
+        "latency_ms_client": 2016
+      },
+      "treatment": {
+        "has_canvas": true,
+        "has_style": true,
+        "has_layers": true,
+        "has_color": true,
+        "color_mode_ok": true,
+        "color_keys_ok": true,
+        "keys_present": 6,
+        "latency_ms_client": 2006
+      },
+      "improved": true
+    }
+  ]
+}

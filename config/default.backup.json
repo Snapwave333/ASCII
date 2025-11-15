@@ -1,0 +1,61 @@
+{
+    "window": {
+        "width": 1920,
+        "height": 1080,
+        "fullscreen": false,
+        "vsync": false,
+        "targetFPS": 144
+    },
+    "audio": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferSize": 1024,
+        "deviceId": "default"
+    },
+    "ascii": {
+        "charset": "@%#*+=-:. ",
+        "fontSize": 12,
+        "brightness": 1.0,
+        "contrast": 1.0,
+        "invert": false
+    },
+    "ai": {
+        "enabled": true,
+        "sensitivity": 0.5,
+        "modelPath": "models/genre_classifier.onnx"
+    },
+    "safety": {
+        "photosensitiveMode": true,
+        "luminanceThreshold": 0.3,
+        "nsfwFilter": true,
+        "crashRecovery": true
+    },
+    "output": {
+        "spoutEnabled": true,
+        "ndiEnabled": false,
+        "spoutName": "NeonGlyph",
+        "ndiName": "NeonGlyph Output"
+    },
+    "llm": {
+        "enabled": true,
+        "endpoint": "http://localhost:11434",
+        "model": "llama3",
+        "maxLatencyMs": 12,
+        "liveIntervalMs": 200,
+        "safeEpilepsy": true
+    },
+    "palettes": {
+        "cyberpunk": {
+            "colors": ["#00ff00", "#008000", "#004000", "#002000", "#001000", "#000800"]
+        },
+        "vaporwave": {
+            "colors": ["#ff00ff", "#00ffff", "#ff69b4", "#4169e1", "#9370db", "#ff1493"]
+        },
+        "matrix": {
+            "colors": ["#00ff00", "#32cd32", "#228b22", "#006400", "#004000", "#002000"]
+        },
+        "noir": {
+            "colors": ["#ffffff", "#cccccc", "#999999", "#666666", "#333333", "#000000"]
+        }
+    }
+}

@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+; Vulkan Multi-GPU Fix Registry Settings
+; This forces single GPU usage and disables problematic features
+
+[HKEY_CURRENT_USER\Software\Khronos\Vulkan\Settings]
+"VK_ICD_FILENAMES"="C:\Windows\System32\DriverStore\FileRepository\nvami.inf_amd64_f6ed7dd5d89ca48a\nv-vk64.json"
+"disable_optimus"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Khronos\Vulkan\ImplicitLayers]
+"disable_all"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Settings]
+"VK_ICD_FILENAMES"="C:\Windows\System32\DriverStore\FileRepository\nvami.inf_amd64_f6ed7dd5d89ca48a\nv-vk64.json"
+"SingleGpuMode"=dword:00000001
+"DisableMultiGPU"=dword:00000001

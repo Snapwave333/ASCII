@@ -1,0 +1,28 @@
+{
+    "charsets": {
+        "dense": {
+            "characters": "@%#*+=-:. "
+        },
+        "blocks": {
+            "characters": "█▉▊▋▌▍▎▏ "
+        },
+        "ascii": {
+            "characters": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        },
+        "symbols": {
+            "characters": "◆●■▲▼◀▶♠♣♥♦"
+        },
+        "minimal": {
+            "characters": "█▓▒░ "
+        },
+        "dots": {
+            "characters": "⣿⣷⣶⣴⣄⡀ "
+        },
+        "lines": {
+            "characters": "┃┣┫┗┛┏┓━"
+        },
+        "binary": {
+            "characters": "10 "
+        }
+    }
+}

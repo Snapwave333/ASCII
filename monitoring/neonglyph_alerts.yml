@@ -1,0 +1,279 @@
+# NeonGlyph Alert Rules
+# Comprehensive alerting rules for production monitoring
+
+groups:
+  - name: neonglyph.critical
+    interval: 30s
+    rules:
+      # Critical application errors
+      - alert: NeonGlyphCriticalError
+        expr: increase(neonglyph_errors_total{severity="CRITICAL"}[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: engineering
+          component: application
+        annotations:
+          summary: "NeonGlyph critical error detected"
+          description: "Critical error occurred in NeonGlyph application: {{ $labels.error_type }} - {{ $labels.error_message }}"
+          runbook_url: "https://wiki.company.com/runbooks/neonglyph-critical-error"
+          dashboard_url: "https://grafana.company.com/d/neonglyph/errors"
+
+      # Vulkan initialization failures
+      - alert: VulkanInitializationFailed
+        expr: increase(neonglyph_vulkan_init_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: graphics
+          component: vulkan
+        annotations:
+          summary: "Vulkan initialization failed"
+          description: "Vulkan graphics initialization failed {{ $value }} times in the last 5 minutes"
+          runbook_url: "https://wiki.company.com/runbooks/vulkan-init-failure"
+
+      # Memory usage critical
+      - alert: HighMemoryUsage
+        expr: (neonglyph_memory_usage_bytes / neonglyph_memory_limit_bytes) > 0.9
+        for: 2m
+        labels:
+          severity: critical
+          team: engineering
+          component: memory
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value | humanizePercentage }} of limit"
+
+      # Application crash detection
+      - alert: ApplicationCrash
+        expr: increase(neonglyph_app_crashes_total[1m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: engineering
+          component: application
+        annotations:
+          summary: "Application crash detected"
+          description: "NeonGlyph application crashed {{ $value }} times in the last minute"
+
+  - name: neonglyph.performance
+    interval: 15s
+    rules:
+      # High response time
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(neonglyph_request_duration_seconds_bucket[5m])) > 2.0
+        for: 3m
+        labels:
+          severity: warning
+          team: engineering
+          component: performance
+        annotations:
+          summary: "High response time detected"
+          description: "95th percentile response time is {{ $value }}s"
+
+      # ASCII conversion performance degradation
+      - alert: ASCIIConversionSlow
+        expr: rate(neonglyph_ascii_conversion_duration_seconds_sum[5m]) / rate(neonglyph_ascii_conversion_duration_seconds_count[5m]) > 5.0
+        for: 5m
+        labels:
+          severity: warning
+          team: graphics
+          component: ascii
+        annotations:
+          summary: "ASCII conversion performance degraded"
+          description: "Average ASCII conversion time is {{ $value }}s"
+
+      # Queue buildup
+      - alert: QueueBacklog
+        expr: neonglyph_queue_size > 100
+        for: 2m
+        labels:
+          severity: warning
+          team: engineering
+          component: queue
+        annotations:
+          summary: "Queue backlog detected"
+          description: "Queue size is {{ $value }} items"
+
+      # CPU usage high
+      - alert: HighCPUUsage
+        expr: rate(neonglyph_cpu_usage_seconds_total[5m]) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+          component: cpu
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value | humanizePercentage }}"
+
+  - name: neonglyph.availability
+    interval: 30s
+    rules:
+      # Service availability
+      - alert: ServiceDown
+        expr: up{job="neonglyph-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: engineering
+          component: availability
+        annotations:
+          summary: "NeonGlyph service is down"
+          description: "NeonGlyph service has been down for more than 1 minute"
+
+      # Health check failures
+      - alert: HealthCheckFailed
+        expr: increase(neonglyph_health_check_failures_total[5m]) > 2
+        for: 0m
+        labels:
+          severity: warning
+          team: engineering
+          component: health
+        annotations:
+          summary: "Health check failures detected"
+          description: "{{ $value }} health check failures in the last 5 minutes"
+
+      # Database connectivity issues
+      - alert: DatabaseConnectionFailed
+        expr: increase(neonglyph_db_connection_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: database
+          component: database
+        annotations:
+          summary: "Database connection failed"
+          description: "Database connection failed {{ $value }} times in the last 5 minutes"
+
+  - name: neonglyph.error_rates
+    interval: 60s
+    rules:
+      # Error rate threshold
+      - alert: HighErrorRate
+        expr: rate(neonglyph_errors_total[5m]) / rate(neonglyph_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+          component: errors
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }}"
+
+      # Specific error types
+      - alert: StringConversionErrors
+        expr: increase(neonglyph_errors_total{error_type="string_conversion"}[5m]) > 5
+        for: 2m
+        labels:
+          severity: warning
+          team: engineering
+          component: errors
+        annotations:
+          summary: "String conversion errors detected"
+          description: "{{ $value }} string conversion errors in the last 5 minutes"
+
+      # Memory access violations
+      - alert: MemoryAccessViolations
+        expr: increase(neonglyph_errors_total{error_type="memory_access"}[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: engineering
+          component: memory
+        annotations:
+          summary: "Memory access violations detected"
+          description: "{{ $value }} memory access violations in the last 5 minutes"
+
+  - name: neonglyph.security
+    interval: 30s
+    rules:
+      # Security audit events
+      - alert: SecurityAuditCritical
+        expr: increase(neonglyph_security_audit_events_total{severity="CRITICAL"}[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: security
+          component: security
+        annotations:
+          summary: "Critical security event detected"
+          description: "Critical security audit event: {{ $labels.event_type }}"
+
+      # Rate limiting triggered
+      - alert: RateLimitTriggered
+        expr: increase(neonglyph_rate_limit_violations_total[5m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          team: security
+          component: rate_limiting
+        annotations:
+          summary: "Rate limiting violations detected"
+          description: "{{ $value }} rate limiting violations in the last 5 minutes"
+
+      # Suspicious activity
+      - alert: SuspiciousActivity
+        expr: increase(neonglyph_suspicious_activity_total[5m]) > 3
+        for: 2m
+        labels:
+          severity: warning
+          team: security
+          component: security
+        annotations:
+          summary: "Suspicious activity detected"
+          description: "{{ $value }} suspicious activities in the last 5 minutes"
+
+  - name: neonglyph.deployment
+    interval: 60s
+    rules:
+      # Deployment failures
+      - alert: DeploymentFailed
+        expr: increase(neonglyph_deployment_failures_total[10m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: devops
+          component: deployment
+        annotations:
+          summary: "Deployment failed"
+          description: "Deployment failed {{ $value }} times in the last 10 minutes"
+
+      # Validation failures
+      - alert: ValidationFailed
+        expr: increase(neonglyph_validation_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+          team: engineering
+          component: validation
+        annotations:
+          summary: "Validation failed"
+          description: "{{ $value }} validation failures in the last 5 minutes"
+
+  - name: neonglyph.business_logic
+    interval: 30s
+    rules:
+      # Business logic errors
+      - alert: BusinessLogicError
+        expr: increase(neonglyph_business_logic_errors_total[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          team: engineering
+          component: business_logic
+        annotations:
+          summary: "Business logic errors detected"
+          description: "{{ $value }} business logic errors in the last 5 minutes"
+
+      # Data integrity issues
+      - alert: DataIntegrityViolation
+        expr: increase(neonglyph_data_integrity_violations_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: engineering
+          component: data_integrity
+        annotations:
+          summary: "Data integrity violation detected"
+          description: "{{ $value }} data integrity violations in the last 5 minutes"

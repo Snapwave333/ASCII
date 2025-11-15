@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="ng-tray-grad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0FF0FC"/>
+      <stop offset="100%" stop-color="#FF4D67"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="6" fill="#0D0D0D" stroke="url(#ng-tray-grad)" stroke-width="1"/>
+  <text x="16" y="24" font-family="Consolas, monospace" font-size="18" fill="url(#ng-tray-grad)" text-anchor="middle">@</text>
+</svg>
