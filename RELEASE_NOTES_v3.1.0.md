@@ -31,6 +31,12 @@ This release addresses **critical stability issues** that caused the application
 - **Files:** `include/NeonGlyph.h` lines 94-95
 - **Impact:** Incorrect error handling and debugging
 
+### 4. **Fixed Missing Staging Buffer Creation** (CRITICAL)
+- **Issue:** Black screen despite window and swapchain being created correctly
+- **Root Cause:** `CreateFrameResources()` was never called after swapchain creation, so staging buffer remained `VK_NULL_HANDLE`
+- **Files:** `src/Application.cpp` lines 234-239 (added)
+- **Impact:** `UpdateFramePixels()` returned `InitializationFailed` silently, no pixels ever copied to swapchain, only clear color displayed
+
 ---
 
 ## Build System Improvements
@@ -134,6 +140,7 @@ No performance regressions. Frame timing remains consistent at target FPS (144 F
 |------|---------|
 | `CMakeLists.txt` | Version bump to 3.1.0, enabled GLFW, fixed library linking |
 | `src/VulkanContext.cpp` | Fixed semaphore indexing, improved SDK discovery |
+| `src/Application.cpp` | Added missing CreateFrameResources() call for staging buffer creation |
 | `src/ComputePipelines.cpp` | Improved SDK discovery |
 | `src/ASCIIConverter.cpp` | Platform-specific font paths |
 | `include/NeonGlyph.h` | Fixed duplicate error codes, added new codes |

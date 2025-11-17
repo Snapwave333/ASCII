@@ -231,8 +231,14 @@ Result Application::InitializeVulkan() {
             std::cerr << "[Application] Failed to create image views" << std::endl;
             return result;
         }
+        std::cout << "[Application] Creating frame resources (staging buffer)..." << std::endl;
+        result = m_vulkanContext->CreateFrameResources();
+        if (result != Result::Success) {
+            std::cerr << "[Application] Failed to create frame resources" << std::endl;
+            return result;
+        }
     }
-    
+
     std::cout << "[Application] Vulkan initialization completed successfully" << std::endl;
     NeonGlyph::Logger::LogLine("Startup Vulkan initialized");
 #else
