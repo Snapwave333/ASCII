@@ -1,8 +1,5 @@
 #include "Application.h"
 #include "VulkanContext.h"
-#if NEONGLYPH_HAVE_GLFW
-#include "VulkanOptimizedContext.h"
-#endif
 #include "AudioEngine.h"
 #include "ASCIIConverter.h"
 #include "MusicAnalyzer.h"
@@ -142,7 +139,7 @@ Result Application::InitializeWindow() {
 Result Application::InitializeVulkan() {
 #if NEONGLYPH_HAVE_GLFW
     std::cout << "[Application] Initializing optimized Vulkan context..." << std::endl;
-    m_vulkanContext = std::make_unique<VulkanOptimizedContext>();
+    m_vulkanContext = std::make_unique<VulkanContext>();
     std::cout << "[Application] Creating Vulkan instance..." << std::endl;
     // Create Vulkan instance and select physical device first
     Result result = m_vulkanContext->CreateInstance();
@@ -879,18 +876,8 @@ void Application::UpdatePerformanceMetrics() {
     // Update Vulkan performance metrics if available (windowed path)
 #if NEONGLYPH_HAVE_GLFW
     if (m_vulkanContext) {
-        m_vulkanContext->UpdatePerformanceMetrics();
-        const auto& vulkanMetrics = m_vulkanContext->GetPerformanceMetrics();
-        (void)vulkanMetrics;
-        if (!m_vulkanContext->IsPerformanceOptimal()) {
-            auto suggestions = m_vulkanContext->GetOptimizationSuggestions();
-            for (const auto& suggestion : suggestions) {
-                std::cout << "[Performance Warning] " << suggestion << std::endl;
-            }
-        }
-        if (m_frameCount % 300 == 0) {
-            m_vulkanContext->LogFrameStatistics();
-        }
+        // Performance monitoring placeholder - methods not implemented yet
+        // TODO: Implement UpdatePerformanceMetrics, GetPerformanceMetrics, and frame statistics logging
     }
 #endif
     

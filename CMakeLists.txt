@@ -57,10 +57,30 @@ file(GLOB_RECURSE SOURCES
     src/*.h
     include/*.h
 )
+# Exclude all chaos files except IocpMetrics.cpp which is needed by DirectorClientTcp.cpp
 list(FILTER SOURCES EXCLUDE REGEX ".*/src/chaos/.*")
+# Specifically include only IocpMetrics.cpp
+list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/IocpMetrics.cpp)
+# Remove other chaos files that might have been added
+list(REMOVE_ITEM SOURCES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/AutomatedRecoverySystem.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/ChaosEngineeringDemo.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/ChaosEngineeringReport.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/ChaosExperimentEngine.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/CircuitBreaker.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/ExecutiveSummaryReport.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/FailureModeAnalysis.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/LoadTestingFramework.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/PerformanceAnalyzer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/RedundancyManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/ResilienceDashboard.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/SecurityStressGenerator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chaos/SecurityStressTesting.cpp)
+# Re-enabled for windowed rendering functionality
+# Note: VulkanOptimizedContext.cpp and AIConductor.cpp excluded due to compilation errors - need proper implementation
 list(FILTER SOURCES EXCLUDE REGEX ".*/src/VulkanOptimizedContext.cpp$")
 list(FILTER SOURCES EXCLUDE REGEX ".*/src/AIConductor.cpp$")
-list(FILTER SOURCES EXCLUDE REGEX ".*/src/DirectorClientTcp.cpp$")
+# list(FILTER SOURCES EXCLUDE REGEX ".*/src/DirectorClientTcp.cpp$")
 
 # Add Windows integration source files
 option(WINDOWS_INTEGRATION "Enable Windows integration components" OFF)
@@ -133,7 +153,7 @@ target_link_libraries(NeonGlyph
 
 # Conditional linking
 target_link_libraries(NeonGlyph glfw)
-target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=0)
+target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=1)
 target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_DIRECTOR=0)
 target_include_directories(NeonGlyph PRIVATE ${CMAKE_BINARY_DIR}/_deps/glfw-src/include)
 if(glfw_SOURCE_DIR)

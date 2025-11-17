@@ -208,6 +208,52 @@ FetchContent_Declare(glfw ...)
 FetchContent_Declare(nlohmann_json ...)
 ```
 
+### Windowed Rendering Setup
+
+To enable windowed rendering, ensure the GLFW flag and link target are configured:
+
+- `NEONGLYPH_HAVE_GLFW=1` is set via `target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=1)` in `CMakeLists.txt`.
+- Link the CMake `glfw` target provided by `FetchContent` rather than hardcoding vcpkg library paths:
+
+```cmake
+# Fetch GLFW if not found
+find_package(glfw3 QUIET)
+include(FetchContent)
+if(NOT glfw3_FOUND)
+  set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+  set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+  set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+  FetchContent_Declare(
+    glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG 3.3.9
+  )
+  FetchContent_MakeAvailable(glfw)
+endif()
+
+target_link_libraries(NeonGlyph glfw)
+target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=1)
+```
+
+Verification steps for windowed mode:
+
+```powershell
+$env:NG_LOG_ONLY="0"
+$env:NG_METRICS_PATH="build64\\Release\\staging_run.log"
+$p = Start-Process -FilePath "build64\\Release\\NeonGlyph.exe" -PassThru
+Start-Sleep -Seconds 5
+Stop-Process -Id $p.Id -Force
+Get-Content build64\\Release\\staging_run.log | Select-Object -Last 20
+```
+
+Expected log lines indicating successful window and Vulkan initialization:
+
+- `Window Create start`
+- `Startup Window+GLFW initialized`
+- `Window CreateVulkanSurfaceMs=...`
+- `Startup Vulkan initialized`
+
 ### Custom Build Options
 ```powershell
 # Build with specific toolchain

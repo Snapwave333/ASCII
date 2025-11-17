@@ -13,11 +13,11 @@ namespace NeonGlyph {
 class VulkanOptimizedContext : public VulkanContext {
 public:
     VulkanOptimizedContext();
-    ~VulkanOptimizedContext() override;
+    ~VulkanOptimizedContext();
     
     // Enhanced initialization with performance monitoring
-    Result Initialize(const Config& config) override;
-    void Shutdown() override;
+    Result Initialize(const Config& config);
+    void Shutdown();
     
     // Performance-optimized resource management
     Result CreateOptimizedSwapchain();
