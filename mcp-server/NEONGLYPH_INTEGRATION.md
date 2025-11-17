@@ -227,8 +227,8 @@ This server prevents:
 
 - [MCP Server Overview](README.md)
 - [Agent Prompts](AGENT_PROMPTS.md)
-- [Documentation Style Guide](../.trae/documents/DOCUMENTATION_STYLE_GUIDE.md)
-- [Documentation Index](../.trae/documents/DOCUMENTATION_INDEX.md)
+- [Documentation Style Guide](../docs/meta/documentation-style-guide.md)
+- [Documentation Index](../docs/meta/documentation-index.md)
 
 ## Change History
 

@@ -174,33 +174,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\AudioTest.vcxproj">
-      <Project>{7562F242-2624-3F07-99D6-61476B15546C}</Project>
-      <Name>AudioTest</Name>
-    </ProjectReference>
     <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\NeonGlyph.vcxproj">
       <Project>{41306A42-2D11-36D4-8C1F-440300846168}</Project>
       <Name>NeonGlyph</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\ascii_font_atlas_test.vcxproj">
-      <Project>{7AB2D289-9A3B-3E48-A9CF-D45D1DE054E9}</Project>
-      <Name>ascii_font_atlas_test</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\e2e_test.vcxproj">
-      <Project>{43F8BA92-DD86-37B6-B478-BBE3B33A9B2E}</Project>
-      <Name>e2e_test</Name>
-    </ProjectReference>
     <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\glfw-build\src\glfw.vcxproj">
       <Project>{50C00A76-7FD3-3291-9CF2-F251E0037C53}</Project>
       <Name>glfw</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\gpu_pipeline_test.vcxproj">
-      <Project>{8251E4D7-8C48-31D1-B57E-AB8ECD6CFA2B}</Project>
-      <Name>gpu_pipeline_test</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build64\runtime_logic_tests.vcxproj">
-      <Project>{2BF568D7-AEE7-31E9-A81D-410273C0191E}</Project>
-      <Name>runtime_logic_tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

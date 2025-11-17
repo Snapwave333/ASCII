@@ -19,7 +19,8 @@ Window::Window()
     , m_title("NeonGlyph - AI-Driven ASCII Visual Synthesis Engine")
     , m_shouldClose(false)
     , m_borderless(false)
-    , m_fullscreen(false) {
+    , m_fullscreen(false)
+    , m_minimized(false) {
 }
 
 Window::~Window() {
@@ -35,30 +36,100 @@ Result Window::Create(const Config& config) {
     std::cout << "[Window] Starting window creation..." << std::endl;
     NeonGlyph::Logger::LogLine("Window Create start");
     
+    // Enhanced error detection and logging
     std::cout << "[Window] Initializing GLFW..." << std::endl;
     if (!glfwInit()) {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
+        std::cerr << "[Window] CRITICAL: Failed to initialize GLFW" << std::endl;
+        std::cerr << "[Window] This may indicate missing GLFW libraries or display server issues" << std::endl;
+        
+        // Log detailed error information
+        NeonGlyph::Logger::LogLine("Window Create failed: GLFW initialization failed");
+        
+        // Check for common issues
+        #ifdef _WIN32
+        std::cerr << "[Window] Windows: Check if Microsoft Visual C++ Redistributables are installed" << std::endl;
+        #elif __linux__
+        std::cerr << "[Window] Linux: Check if X11/Wayland display server is running" << std::endl;
+        std::cerr << "[Window] Linux: Try running with DISPLAY=:0 or use --headless mode" << std::endl;
+        #elif __APPLE__
+        std::cerr << "[Window] macOS: Check if Quartz display services are available" << std::endl;
+        #endif
+        
         return Result::InitializationFailed;
     }
     std::cout << "[Window] GLFW initialized successfully" << std::endl;
 
+    // Set window hints for better compatibility
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
+    glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+    
+    // Enhanced error detection for headless environments
+    if (config.headless.enabled) {
+        std::cout << "[Window] Headless mode detected, creating invisible window for Vulkan surface..." << std::endl;
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    }
 
     m_width = config.window.width;
     m_height = config.window.height;
     m_title = "NeonGlyph - AI-Driven ASCII Visual Synthesis Engine";
 
     std::cout << "[Window] Creating GLFW window (" << m_width << "x" << m_height << ")..." << std::endl;
-    m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
+    
+    // Enhanced window creation with better error handling
+    GLFWmonitor* monitor = nullptr;
+    if (config.window.fullscreen) {
+        monitor = glfwGetPrimaryMonitor();
+        if (!monitor) {
+            std::cerr << "[Window] WARNING: No primary monitor detected, falling back to windowed mode" << std::endl;
+            monitor = nullptr;
+        }
+    }
+    
+    m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), monitor, nullptr);
     if (!m_window) {
-        std::cerr << "Failed to create GLFW window" << std::endl;
+        std::cerr << "[Window] CRITICAL: Failed to create GLFW window" << std::endl;
+        
+        // Enhanced error detection and reporting
+        const char* error_description;
+        int error_code = glfwGetError(&error_description);
+        
+        std::cerr << "[Window] GLFW Error Code: " << error_code << std::endl;
+        if (error_description) {
+            std::cerr << "[Window] GLFW Error Description: " << error_description << std::endl;
+        }
+        
+        // Platform-specific error analysis
+        #ifdef _WIN32
+        std::cerr << "[Window] Windows-specific diagnostics:" << std::endl;
+        std::cerr << "[Window] - Check if running in Remote Desktop session" << std::endl;
+        std::cerr << "[Window] - Verify graphics drivers are installed and up to date" << std::endl;
+        std::cerr << "[Window] - Check if Windows Display Driver Model (WDDM) is available" << std::endl;
+        #elif __linux__
+        std::cerr << "[Window] Linux-specific diagnostics:" << std::endl;
+        std::cerr << "[Window] - Check if DISPLAY environment variable is set" << std::endl;
+        std::cerr << "[Window] - Verify X11 server is running (try 'echo $DISPLAY')" << std::endl;
+        std::cerr << "[Window] - Check if Wayland compositor is available" << std::endl;
+        std::cerr << "[Window] - Verify OpenGL libraries are installed" << std::endl;
+        #elif __APPLE__
+        std::cerr << "[Window] macOS-specific diagnostics:" << std::endl;
+        std::cerr << "[Window] - Check if running in SSH session without X11 forwarding" << std::endl;
+        std::cerr << "[Window] - Verify Quartz display services are available" << std::endl;
+        #endif
+        
+        std::cerr << "[Window] RECOMMENDATION: Use --headless mode for environments without display" << std::endl;
+        
         glfwTerminate();
+        NeonGlyph::Logger::LogLine("Window Create failed: GLFW window creation failed");
         return Result::InitializationFailed;
     }
+    
     auto t1 = std::chrono::high_resolution_clock::now();
     double ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
     NeonGlyph::Logger::LogEvent("Window", "Create", ms);
+    std::cout << "[Window] GLFW window created successfully in " << ms << "ms" << std::endl;
 
     glfwSetWindowUserPointer(m_window, this);
 
@@ -74,6 +145,26 @@ Result Window::Create(const Config& config) {
         auto appWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
         if (appWindow) {
             appWindow->m_shouldClose = true;
+        }
+    });
+
+    // Set up window iconify (minimize) callback
+    glfwSetWindowIconifyCallback(m_window, [](GLFWwindow* window, int iconified) {
+        auto appWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (appWindow) {
+            appWindow->m_minimized = (iconified == GLFW_TRUE);
+        }
+    });
+
+    // Set up window maximize callback to handle restoration
+    glfwSetWindowMaximizeCallback(m_window, [](GLFWwindow* window, int maximized) {
+        auto appWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (appWindow) {
+            // When restored from minimized state, ensure we're not marked as minimized
+            if (maximized == GLFW_FALSE) {
+                // Check actual iconified state
+                appWindow->m_minimized = (glfwGetWindowAttrib(window, GLFW_ICONIFIED) == GLFW_TRUE);
+            }
         }
     });
 
@@ -118,6 +209,16 @@ bool Window::ShouldClose() const {
     int v = m_window ? glfwWindowShouldClose(m_window) : 1;
     NeonGlyph::Logger::LogLine(std::string("Window ShouldClose=") + std::to_string(v));
     return m_shouldClose || v;
+}
+
+bool Window::IsMinimized() const {
+    if (!m_window) return false;
+    return glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) == GLFW_TRUE;
+}
+
+bool Window::IsVisible() const {
+    if (!m_window) return false;
+    return glfwGetWindowAttrib(m_window, GLFW_VISIBLE) == GLFW_TRUE && !IsMinimized();
 }
 
 Result Window::CreateVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) {

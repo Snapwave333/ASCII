@@ -1,4 +1,5 @@
 #include "AIConductor.h"
+#include "DirectorTypes.h"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -644,6 +645,71 @@ void AIConductor::LogInferenceTime(float32 timeMs) {
 void AIConductor::AcknowledgeEvent() {
     m_eventTriggered = false;
     m_eventType = "";
+}
+
+void AIConductor::ApplyDirective(const DirectorDirective& directive) {
+    std::cout << "[AIConductor] Applying directive: " << directive.sceneIdentity << std::endl;
+    
+    // Apply scene identity changes
+    if (!directive.sceneIdentity.empty() && directive.sceneIdentity != "maintain") {
+        std::cout << "[AIConductor] Scene identity changed to: " << directive.sceneIdentity << std::endl;
+        // Store in context for scene generation
+        UpdateContext("director_scene_identity", directive.sceneIdentity);
+    }
+    
+    // Apply motion preset changes
+    if (!directive.motionPreset.empty() && directive.motionPreset != "maintain") {
+        std::cout << "[AIConductor] Motion preset changed to: " << directive.motionPreset << std::endl;
+        UpdateContext("director_motion_preset", directive.motionPreset);
+    }
+    
+    // Apply palette shifts
+    if (!directive.paletteShifts.empty()) {
+        std::cout << "[AIConductor] Palette shifts applied: " << directive.paletteShifts.size() << " shifts" << std::endl;
+        for (const auto& shift : directive.paletteShifts) {
+            std::cout << "  - " << shift << std::endl;
+        }
+        UpdateContext("director_palette_shifts", "active");
+    }
+    
+    // Apply intensity changes
+    if (directive.intensity >= 0.0f && directive.intensity <= 1.0f) {
+        std::cout << "[AIConductor] Intensity set to: " << directive.intensity << std::endl;
+        // Scale energy level based on intensity
+        m_energyLevel = directive.intensity;
+        UpdateContext("director_intensity", std::to_string(directive.intensity));
+    }
+    
+    // Apply mood changes
+    if (!directive.mood.empty() && directive.mood != "maintain") {
+        std::cout << "[AIConductor] Mood overridden to: " << directive.mood << std::endl;
+        m_currentMood = directive.mood;
+        UpdateContext("director_mood", directive.mood);
+    }
+    
+    // Process micro-events
+    for (const auto& event : directive.microEvents) {
+        std::cout << "[AIConductor] Triggering micro-event: " << event.type << std::endl;
+        if (event.type == "flash") {
+            // Trigger visual flash event
+            m_eventTriggered = true;
+            m_eventType = "director_flash";
+        } else if (event.type == "shake") {
+            // Trigger screen shake event
+            m_eventTriggered = true;
+            m_eventType = "director_shake";
+        } else if (event.type == "glitch") {
+            // Trigger glitch effect
+            m_eventTriggered = true;
+            m_eventType = "director_glitch";
+        } else if (event.type == "color_burst") {
+            // Trigger color burst
+            m_eventTriggered = true;
+            m_eventType = "director_color_burst";
+        }
+    }
+    
+    std::cout << "[AIConductor] Directive application complete" << std::endl;
 }
 
 } // namespace NeonGlyph

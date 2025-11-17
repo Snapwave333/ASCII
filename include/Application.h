@@ -1,10 +1,18 @@
 #pragma once
 
 #include "NeonGlyph.h"
+#include "DirectorClient.h"
+#include "DirectorTypes.h"
+#if NEONGLYPH_HAVE_GLFW
+#include "VulkanOptimizedContext.h"
+#endif
 #include <fstream>
 #include <memory>
 #include <string>
 #include <vector>
+#include <thread>
+#include <queue>
+#include <mutex>
 
 namespace NeonGlyph {
 
@@ -15,6 +23,7 @@ public:
 
     Result Run();
     void RequestExit();
+    Result ParseCommandLineArgs(int argc, char* argv[]);
 
 private:
     std::unique_ptr<class Window> m_window;
@@ -28,10 +37,23 @@ private:
     std::unique_ptr<class ConfigManager> m_configManager;
     std::unique_ptr<class SafetyManager> m_safetyManager;
     std::unique_ptr<class OutputManager> m_outputManager;
+    std::unique_ptr<DirectorClient> m_directorClient;
+    NeonGlyph::DirectorDirective m_lastDirective;
+    std::thread m_directorWorkerThread;
+    std::queue<DirectorStateSnapshot> m_stateSnapshotQueue;
+    std::mutex m_snapshotQueueMutex;
+    std::atomic<bool> m_directorEnabled{false};
 
     std::atomic<bool> m_shouldExit;
     std::atomic<bool> m_isRunning;
     std::chrono::steady_clock::time_point m_startTime;
+
+    // Headless mode configuration
+    bool m_headlessMode = false;
+    bool m_forceHeadless = false;
+    bool m_fallbackEnabled = true;
+    std::string m_headlessReason;
+    std::chrono::steady_clock::time_point m_headlessActivationTime;
 
     PerformanceMetrics m_performanceMetrics;
     std::vector<float32> m_frameTimeHistory;
@@ -54,6 +76,14 @@ private:
     Result InitializeAI();
     Result InitializeConfig();
     Result InitializeSafety();
+
+    // Enhanced initialization methods
+    Result InitializeWindowWithFallback();
+    Result InitializeHeadlessMode();
+    void LogHeadlessModeActivation(const std::string& reason);
+    bool ShouldUseHeadlessMode() const;
+    bool IsHeadlessRequested() const { return m_forceHeadless || m_config.headless.enabled; }
+    bool IsHeadlessActive() const { return m_headlessMode; }
 
     void MainLoop();
     void ProcessInput();
@@ -79,6 +109,13 @@ private:
 
     void HandleError(Result result, const std::string& message);
     bool ShouldContinueAfterError(Result result);
+
+    // Director integration
+    void InitializeDirector();
+    void ShutdownDirector();
+    void DirectorWorkerLoop();
+    void SendStateToDirector();
+    void ProcessDirectorDirectives();
 
     bool m_morphSequenceActive = false;
     size_t m_morphIndex = 0;

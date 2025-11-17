@@ -46,10 +46,10 @@ All services communicate through Docker's bridge network with the following conf
 
 ### Step 1: Environment Preparation
 
-1. **Clone Repository**
+1. **Open Project Root**
    ```powershell
-   git clone https://github.com/your-repo/NeonGlyph.git
-   cd NeonGlyph
+   # Ensure you are in the NeonGlyph project root
+   cd <project-root>
    ```
 
 2. **Verify Docker Installation**
@@ -403,9 +403,9 @@ docker run --rm -v prometheus_data:/data -v $(pwd):/backup alpine tar czf /backu
 - [Grafana Documentation](https://grafana.com/docs/)
 - [cAdvisor Documentation](https://github.com/google/cadvisor)
 - [Docker Compose Reference](https://docs.docker.com/compose/)
-- [NeonGlyph Build Guide](../.trae/documents/build-guide.md)
-- [Documentation Index](../.trae/documents/DOCUMENTATION_INDEX.md)
-- [Supabase Integration](Supabase.md)
+- [NeonGlyph Build Guide](./guides/build-guide.md)
+- [Documentation Index](./meta/documentation-index.md)
+- [Supabase Integration](./guides/supabase.md)
 
 ## Change History
 

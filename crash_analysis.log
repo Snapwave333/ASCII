@@ -1,0 +1,137 @@
+{
+  "timestamp": "2025-11-16T00:12:41.337538",
+  "existing_crashes": {
+    "total_sequences": 1,
+    "successful_runs": 0,
+    "crashes_detected": 1,
+    "crash_rate": 1.0,
+    "incomplete_sequences": [
+      {
+        "sequence_id": 1,
+        "total_lines": 6,
+        "has_startup": true,
+        "has_vulkan": true,
+        "has_rendering": false,
+        "complete": false,
+        "first_line": "TS=1763277109229 Version 3.0.1 Startup",
+        "last_line": ""
+      }
+    ]
+  },
+  "stress_test_results": {
+    "total_runs": 8,
+    "successful_runs": 8,
+    "crashed_runs": 0,
+    "crash_rate": 0.0,
+    "average_progress": 2.0,
+    "detailed_results": [
+      {
+        "run_id": 1,
+        "duration": 3.0902371406555176,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 2,
+        "duration": 3.102125406265259,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 3,
+        "duration": 3.0917866230010986,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 4,
+        "duration": 3.0853872299194336,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 5,
+        "duration": 3.0929477214813232,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 6,
+        "duration": 3.086179256439209,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 7,
+        "duration": 3.0739190578460693,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      },
+      {
+        "run_id": 8,
+        "duration": 3.0762264728546143,
+        "status": "success",
+        "return_code": 0,
+        "crashed": false,
+        "log_analysis": {
+          "has_startup": true,
+          "has_vulkan": true,
+          "has_rendering": false,
+          "progress": 2
+        }
+      }
+    ]
+  },
+  "recommendations": [
+    "High crash rate detected - investigate initialization sequence"
+  ]
+}

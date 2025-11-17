@@ -95,6 +95,7 @@ private:
     VkBuffer m_charsetBuffer;
     VkDeviceMemory m_charsetMemory;
     VkImageView m_inputImageView;
+    VkImage m_lastInputImage;
     
     // Parameters
     struct ConversionParams {

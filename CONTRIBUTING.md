@@ -8,9 +8,9 @@
 
 ## Overview
 - Use GitHub pull requests for all changes.
-- Follow the [Documentation Style Guide](.trae/documents/DOCUMENTATION_STYLE_GUIDE.md) for any docs updates.
+- Follow the [Documentation Style Guide](docs/meta/documentation-style-guide.md) for any docs updates.
 - Keep code changes consistent with existing patterns and Config structures.
-- Refer to the [Documentation Index](.trae/documents/DOCUMENTATION_INDEX.md) for cross-references and document locations.
+- Refer to the [Documentation Index](docs/meta/documentation-index.md) for cross-references and document locations.
 
 ## Workflow
 - Fork the repository and create a feature branch.

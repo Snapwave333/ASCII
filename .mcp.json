@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "win-build-mcp": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["tools/mcp/win_build_mcp.py"]
+    }
+  }
+}

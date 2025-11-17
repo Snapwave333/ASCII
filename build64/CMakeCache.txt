@@ -383,6 +383,9 @@ JSON_MultipleHeaders:BOOL=ON
 //Include as system headers (skip for clang-tidy).
 JSON_SystemInclude:BOOL=OFF
 
+//Build test executables
+NEONGLYPH_BUILD_TESTS:BOOL=OFF
+
 //Value Computed by CMake
 NeonGlyph_BINARY_DIR:STATIC=C:/Users/chrom/Documents/trae_projects/ASCIi/build64
 

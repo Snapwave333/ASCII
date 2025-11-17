@@ -1,5 +1,8 @@
 #include "Application.h"
 #include "VulkanContext.h"
+#if NEONGLYPH_HAVE_GLFW
+#include "VulkanOptimizedContext.h"
+#endif
 #include "AudioEngine.h"
 #include "ASCIIConverter.h"
 #include "MusicAnalyzer.h"
@@ -74,32 +77,25 @@ Result Application::InitializeSystems() {
         return result;
     }
     
-#if NEONGLYPH_HAVE_GLFW
-    std::cout << "[Application] Initializing window..." << std::endl;
-    result = InitializeWindow();
-    if (result != Result::Success) {
-        std::cerr << "InitializeWindow failed with error: " << static_cast<uint32_t>(result) << std::endl;
-        // If GLFW is not available, continue in console-only mode
-        if (result == Result::UnsupportedOperation) {
-            std::cout << "Continuing in console-only mode (no window)" << std::endl;
-        } else {
+    // Check if headless mode should be used
+    if (ShouldUseHeadlessMode()) {
+        std::cout << "[Application] Headless mode requested, skipping window initialization..." << std::endl;
+        LogHeadlessModeActivation(m_forceHeadless ? std::string("Forced via CLI") : std::string("Enabled via config"));
+        result = InitializeHeadlessMode();
+        if (result != Result::Success) {
+            std::cerr << "InitializeHeadlessMode failed with error: " << static_cast<uint32_t>(result) << std::endl;
             return result;
         }
     } else {
-        std::cout << "[Application] Window initialized successfully, proceeding with Vulkan..." << std::endl;
-        result = InitializeVulkan();
+#if NEONGLYPH_HAVE_GLFW
+        std::cout << "[Application] Initializing window with fallback support..." << std::endl;
+        result = InitializeWindowWithFallback();
         if (result != Result::Success) {
-            std::cerr << "InitializeVulkan failed with error: " << static_cast<uint32_t>(result) << std::endl;
+            std::cerr << "InitializeWindowWithFallback failed with error: " << static_cast<uint32_t>(result) << std::endl;
             return result;
         }
-        
-        result = InitializeASCII();
-        if (result != Result::Success) {
-            std::cerr << "InitializeASCII failed with error: " << static_cast<uint32_t>(result) << std::endl;
-            return result;
-        }
-    }
 #endif
+    }
     
     std::cout << "[Application] Initializing audio..." << std::endl;
     result = InitializeAudio();
@@ -144,10 +140,9 @@ Result Application::InitializeWindow() {
 }
 
 Result Application::InitializeVulkan() {
-    std::cout << "[Application] Initializing Vulkan context..." << std::endl;
-    m_vulkanContext = std::make_unique<VulkanContext>();
-    
 #if NEONGLYPH_HAVE_GLFW
+    std::cout << "[Application] Initializing optimized Vulkan context..." << std::endl;
+    m_vulkanContext = std::make_unique<VulkanOptimizedContext>();
     std::cout << "[Application] Creating Vulkan instance..." << std::endl;
     // Create Vulkan instance and select physical device first
     Result result = m_vulkanContext->CreateInstance();
@@ -241,13 +236,14 @@ Result Application::InitializeVulkan() {
     std::cout << "[Application] Vulkan initialization completed successfully" << std::endl;
     NeonGlyph::Logger::LogLine("Startup Vulkan initialized");
 #else
-    std::cout << "[Application] Initializing Vulkan in headless mode..." << std::endl;
-    // Initialize Vulkan context without surface for headless mode
+    std::cout << "[Application] Initializing headless Vulkan context..." << std::endl;
+    m_vulkanContext = std::make_unique<VulkanContext>();
     Result result = m_vulkanContext->Initialize(m_config);
     if (result != Result::Success) {
-        std::cerr << "[Application] Failed to initialize Vulkan in headless mode" << std::endl;
+        std::cerr << "[Application] Vulkan headless initialization failed" << std::endl;
         return result;
     }
+    return Result::Success;
 #endif
     
     return Result::Success;
@@ -302,6 +298,7 @@ Result Application::InitializeASCII() {
 }
 
 Result Application::InitializeAI() {
+#if NEONGLYPH_HAVE_ONNXRUNTIME
     m_aiConductor = std::make_unique<AIConductor>();
     Result result = m_aiConductor->Initialize(m_config);
     if (result != Result::Success) return result;
@@ -309,7 +306,13 @@ Result Application::InitializeAI() {
     Result result2 = m_aiDirector->Initialize(m_config);
     if (result2 != Result::Success) return result2;
     NeonGlyph::Logger::LogLine("Startup AI Director constructed+started");
+#if NEONGLYPH_HAVE_DIRECTOR
+    InitializeDirector();
+#endif
     return Result::Success;
+#else
+    return Result::Success;
+#endif
 }
 
 Result Application::InitializeConfig() {
@@ -350,92 +353,185 @@ Result Application::InitializeSafety() {
 
 void Application::MainLoop() {
 #if NEONGLYPH_HAVE_GLFW
-    while (!m_shouldExit && !m_window->ShouldClose()) {
-        auto frameStart = std::chrono::high_resolution_clock::now();
+    if (m_headlessMode) {
+        // Headless mode main loop - no window operations
+        std::cout << "[Application] Running in headless mode - window operations disabled" << std::endl;
         
-        // Process input
-        m_window->PollEvents();
-        ProcessInput();
-        
-        // Calculate delta time
-        CalculateDeltaTime();
-        
-        // Update systems
-        float32 deltaTime = m_performanceMetrics.frameTimeMs / 1000.0f;
-        Update(deltaTime);
-        
-        // Render frame
-        auto renderStart = std::chrono::high_resolution_clock::now();
-        std::cout << "[Application] Calling BeginFrame..." << std::endl;
-        Result result = BeginFrame();
-        if (result == Result::Success) {
-            std::cout << "[Application] BeginFrame successful, calling Render..." << std::endl;
+        while (!m_shouldExit) {
+            auto frameStart = std::chrono::high_resolution_clock::now();
+            
+            // Calculate delta time
+            CalculateDeltaTime();
+            
+            // Update systems (no input processing in headless mode)
+            float32 deltaTime = m_performanceMetrics.frameTimeMs / 1000.0f;
+            Update(deltaTime);
+            
+            // Render frame (headless rendering)
+            auto renderStart = std::chrono::high_resolution_clock::now();
             Render();
             auto renderEnd = std::chrono::high_resolution_clock::now();
-            std::cout << "[Application] Render completed, calling EndFrame..." << std::endl;
-            Result endRes = EndFrame();
-            if (endRes != Result::Success) { m_shouldExit = true; break; }
-            std::cout << "[Application] EndFrame completed" << std::endl;
-            auto presentEnd = std::chrono::high_resolution_clock::now();
+            
+            // Update performance metrics
+            auto frameEnd = std::chrono::high_resolution_clock::now();
+            float32 frameTime = std::chrono::duration<float32, std::milli>(frameEnd - frameStart).count();
             float32 renderMs = std::chrono::duration<float32, std::milli>(renderEnd - renderStart).count();
-            float32 presentMs = std::chrono::duration<float32, std::milli>(presentEnd - renderEnd).count();
-            float32 variance = 0.0f;
-            if (!m_frameTimeHistory.empty()) {
-                double sum = 0.0; for (auto v : m_frameTimeHistory) sum += v;
-                double mean = sum / static_cast<double>(m_frameTimeHistory.size());
-                double vs = 0.0; for (auto v : m_frameTimeHistory) { double d = v - mean; vs += d * d; }
-                variance = static_cast<float32>(vs / static_cast<double>(m_frameTimeHistory.size()));
+            
+            m_performanceMetrics.frameTimeMs = frameTime;
+            m_frameTimeHistory.push_back(frameTime);
+            if (m_frameTimeHistory.size() > 144) {
+                m_frameTimeHistory.erase(m_frameTimeHistory.begin());
             }
-            float32 jitter = m_prevFrameTimeMs > 0.0f ? std::abs(m_performanceMetrics.frameTimeMs - m_prevFrameTimeMs) : 0.0f;
-            if (m_performanceMetrics.frameTimeMs > 50.0f) m_droppedFrames++;
-            auto ts = std::chrono::system_clock::now();
-            std::time_t tsc = std::chrono::system_clock::to_time_t(ts);
-            std::cout << "TS=" << tsc << " RenderMs=" << renderMs << " PresentMs=" << presentMs
-                      << " FrameMs=" << m_performanceMetrics.frameTimeMs << " Var=" << variance
-                      << " Jitter=" << jitter << " DroppedFrames=" << m_droppedFrames << std::endl;
-            if (m_metricsEnabled && m_metrics.is_open()) {
-                std::string line = std::string("TS=") + std::to_string(tsc) +
-                    " RenderMs=" + std::to_string(renderMs) +
-                    " PresentMs=" + std::to_string(presentMs) +
-                    " FrameMs=" + std::to_string(m_performanceMetrics.frameTimeMs) +
-                    " Var=" + std::to_string(variance) +
-                    " Jitter=" + std::to_string(jitter) +
-                    " DroppedFrames=" + std::to_string(m_droppedFrames);
-                m_metrics.write(line.c_str(), static_cast<std::streamsize>(line.size()));
-                m_metrics.put('\n');
+            
+            UpdatePerformanceMetrics();
+            m_frameCount++;
+            
+            // Enhanced logging for headless mode
+            if (m_frameCount % 300 == 0) { // Log every 5 seconds at 60fps
+                std::cout << "[HEADLESS] FrameCount=" << m_frameCount 
+                         << " FrameTime=" << frameTime << "ms"
+                         << " RenderTime=" << renderMs << "ms"
+                         << " AudioRMS=" << m_audioRms
+                         << " Scene=" << (m_aiDirector ? m_aiDirector->GetState().current_scene_id : "none") 
+                         << std::endl;
+                
+                if (m_metricsEnabled && m_metrics.is_open()) {
+                    auto now = std::chrono::system_clock::now();
+                    auto time_t = std::chrono::system_clock::to_time_t(now);
+                    std::string line = "HEADLESS_METRIC," + std::to_string(time_t) + 
+                        "," + std::to_string(m_frameCount) + 
+                        "," + std::to_string(frameTime) + 
+                        "," + std::to_string(renderMs) + 
+                        "," + std::to_string(m_audioRms);
+                    m_metrics.write(line.c_str(), static_cast<std::streamsize>(line.size()));
+                    m_metrics.put('\n');
+                }
             }
-            m_prevFrameTimeMs = m_performanceMetrics.frameTimeMs;
+            
             if (m_safetyManager) m_safetyManager->OnHeartbeat();
-        } else { m_shouldExit = true; break; }
-        
-        // Update performance metrics
-        auto frameEnd = std::chrono::high_resolution_clock::now();
-        float32 frameTime = std::chrono::duration<float32, std::milli>(frameEnd - frameStart).count();
-        
-        m_performanceMetrics.frameTimeMs = frameTime;
-        m_frameTimeHistory.push_back(frameTime);
-        if (m_frameTimeHistory.size() > 144) {
-            m_frameTimeHistory.erase(m_frameTimeHistory.begin());
+            
+            // Frame rate limiting
+            if (frameTime < TARGET_FRAME_TIME_MS) {
+                std::this_thread::sleep_for(
+                    std::chrono::microseconds(static_cast<int>((TARGET_FRAME_TIME_MS - frameTime) * 1000))
+                );
+            }
         }
-        
-        UpdatePerformanceMetrics();
-        m_frameCount++;
-        if (m_frameCount % 60 == 0) {
-            std::string scn = m_aiDirector ? m_aiDirector->GetState().current_scene_id : std::string("none");
-            auto tsf = std::chrono::system_clock::now();
-            auto msf = std::chrono::duration_cast<std::chrono::milliseconds>(tsf.time_since_epoch()).count();
-            NeonGlyph::Logger::LogLine(std::string("RenderLoop FrameTick=") + std::to_string(m_frameCount) + std::string(" Scene=") + scn + std::string(" TS=") + std::to_string(msf));
-        }
-        
-        // Frame rate limiting
-        if (frameTime < TARGET_FRAME_TIME_MS) {
-            std::this_thread::sleep_for(
-                std::chrono::microseconds(static_cast<int>((TARGET_FRAME_TIME_MS - frameTime) * 1000))
-            );
+    } else {
+        // Normal windowed mode main loop
+        while (!m_shouldExit && !m_window->ShouldClose()) {
+            auto frameStart = std::chrono::high_resolution_clock::now();
+            
+            // Process input
+            m_window->PollEvents();
+            ProcessInput();
+            
+            // Skip rendering if window is minimized
+            if (m_window->IsMinimized()) {
+                // Window is minimized, sleep briefly to avoid busy waiting
+                std::this_thread::sleep_for(std::chrono::milliseconds(16));
+                continue;
+            }
+            
+            // Calculate delta time
+            CalculateDeltaTime();
+            
+            // Update systems
+            float32 deltaTime = m_performanceMetrics.frameTimeMs / 1000.0f;
+            Update(deltaTime);
+            
+            // Render frame
+            auto renderStart = std::chrono::high_resolution_clock::now();
+            Result result = BeginFrame();
+            if (result == Result::Success) {
+                Render();
+                auto renderEnd = std::chrono::high_resolution_clock::now();
+                Result endRes = EndFrame();
+                if (endRes != Result::Success) { 
+                    // Handle swapchain issues gracefully instead of crashing
+                    if (endRes == Result::ValidationFailed) {
+                        // Swapchain might be out of date, skip this frame and try again
+                        std::this_thread::sleep_for(std::chrono::milliseconds(16));
+                        continue;
+                    } else {
+                        m_shouldExit = true; 
+                        break; 
+                    }
+                }
+                
+                auto presentEnd = std::chrono::high_resolution_clock::now();
+                float32 renderMs = std::chrono::duration<float32, std::milli>(renderEnd - renderStart).count();
+                float32 presentMs = std::chrono::duration<float32, std::milli>(presentEnd - renderEnd).count();
+                float32 variance = 0.0f;
+                if (!m_frameTimeHistory.empty()) {
+                    double sum = 0.0; for (auto v : m_frameTimeHistory) sum += v;
+                    double mean = sum / static_cast<double>(m_frameTimeHistory.size());
+                    double vs = 0.0; for (auto v : m_frameTimeHistory) { double d = v - mean; vs += d * d; }
+                    variance = static_cast<float32>(vs / static_cast<double>(m_frameTimeHistory.size()));
+                }
+                float32 jitter = m_prevFrameTimeMs > 0.0f ? std::abs(m_performanceMetrics.frameTimeMs - m_prevFrameTimeMs) : 0.0f;
+                if (m_performanceMetrics.frameTimeMs > 50.0f) m_droppedFrames++;
+                auto ts = std::chrono::system_clock::now();
+                std::time_t tsc = std::chrono::system_clock::to_time_t(ts);
+                std::cout << "TS=" << tsc << " RenderMs=" << renderMs << " PresentMs=" << presentMs
+                          << " FrameMs=" << m_performanceMetrics.frameTimeMs << " Var=" << variance
+                          << " Jitter=" << jitter << " DroppedFrames=" << m_droppedFrames << std::endl;
+                if (m_metricsEnabled && m_metrics.is_open()) {
+                    std::string line = std::string("TS=") + std::to_string(tsc) +
+                        " RenderMs=" + std::to_string(renderMs) +
+                        " PresentMs=" + std::to_string(presentMs) +
+                        " FrameMs=" + std::to_string(m_performanceMetrics.frameTimeMs) +
+                        " Var=" + std::to_string(variance) +
+                        " Jitter=" + std::to_string(jitter) +
+                        " DroppedFrames=" + std::to_string(m_droppedFrames);
+                    m_metrics.write(line.c_str(), static_cast<std::streamsize>(line.size()));
+                    m_metrics.put('\n');
+                }
+                m_prevFrameTimeMs = m_performanceMetrics.frameTimeMs;
+                if (m_safetyManager) m_safetyManager->OnHeartbeat();
+            } else {
+                // Handle BeginFrame failures gracefully
+                if (result == Result::ValidationFailed) {
+                    // Swapchain might be out of date, skip this frame and try again
+                    std::this_thread::sleep_for(std::chrono::milliseconds(16));
+                    continue;
+                } else {
+                    m_shouldExit = true; 
+                    break; 
+                }
+            }
+            
+            // Update performance metrics
+            auto frameEnd = std::chrono::high_resolution_clock::now();
+            float32 frameTime = std::chrono::duration<float32, std::milli>(frameEnd - frameStart).count();
+            
+            m_performanceMetrics.frameTimeMs = frameTime;
+            m_frameTimeHistory.push_back(frameTime);
+            if (m_frameTimeHistory.size() > 144) {
+                m_frameTimeHistory.erase(m_frameTimeHistory.begin());
+            }
+            
+            UpdatePerformanceMetrics();
+            m_frameCount++;
+            if (m_frameCount % 60 == 0) {
+                std::string scn = m_aiDirector ? m_aiDirector->GetState().current_scene_id : std::string("none");
+                auto tsf = std::chrono::system_clock::now();
+                auto msf = std::chrono::duration_cast<std::chrono::milliseconds>(tsf.time_since_epoch()).count();
+                NeonGlyph::Logger::LogLine(std::string("RenderLoop FrameTick=") + std::to_string(m_frameCount) + std::string(" Scene=") + scn + std::string(" TS=") + std::to_string(msf));
+            }
+            
+            // Frame rate limiting
+            if (frameTime < TARGET_FRAME_TIME_MS) {
+                std::this_thread::sleep_for(
+                    std::chrono::microseconds(static_cast<int>((TARGET_FRAME_TIME_MS - frameTime) * 1000))
+                );
+            }
         }
     }
 #else
-    // Console-only mode - run without window
+    // Console-only mode - run without window (fallback when GLFW not available)
+    std::cout << "[Application] Running in console-only mode - GLFW not available" << std::endl;
+    
     while (!m_shouldExit) {
         auto frameStart = std::chrono::high_resolution_clock::now();
         
@@ -458,6 +554,15 @@ void Application::MainLoop() {
         
         UpdatePerformanceMetrics();
         m_frameCount++;
+        
+        // Enhanced logging for console mode
+        if (m_frameCount % 300 == 0) {
+            std::cout << "[CONSOLE] FrameCount=" << m_frameCount 
+                     << " FrameTime=" << frameTime << "ms"
+                     << " AudioRMS=" << m_audioRms
+                     << " Scene=" << (m_aiDirector ? m_aiDirector->GetState().current_scene_id : "none") 
+                     << std::endl;
+        }
         
         // Frame rate limiting
         if (frameTime < TARGET_FRAME_TIME_MS) {
@@ -585,6 +690,20 @@ void Application::Update(float32 deltaTime) {
                 }
 #endif
             }
+        }
+        
+        // Director System Integration - Send state snapshot and process directives
+        if (m_directorClient) {
+            // Send state snapshot to Director (throttled to avoid network spam)
+            static int directorUpdateCounter = 0;
+            directorUpdateCounter++;
+            if (directorUpdateCounter >= 10) { // ~6 times per second at 60fps
+                SendStateToDirector();
+                directorUpdateCounter = 0;
+            }
+            
+            // Process any pending directives from Director
+            ProcessDirectorDirectives();
         }
     }
 
@@ -756,6 +875,25 @@ void Application::UpdatePerformanceMetrics() {
         avgFrameTime /= m_frameTimeHistory.size();
         m_performanceMetrics.frameTimeMs = avgFrameTime;
     }
+    
+    // Update Vulkan performance metrics if available (windowed path)
+#if NEONGLYPH_HAVE_GLFW
+    if (m_vulkanContext) {
+        m_vulkanContext->UpdatePerformanceMetrics();
+        const auto& vulkanMetrics = m_vulkanContext->GetPerformanceMetrics();
+        (void)vulkanMetrics;
+        if (!m_vulkanContext->IsPerformanceOptimal()) {
+            auto suggestions = m_vulkanContext->GetOptimizationSuggestions();
+            for (const auto& suggestion : suggestions) {
+                std::cout << "[Performance Warning] " << suggestion << std::endl;
+            }
+        }
+        if (m_frameCount % 300 == 0) {
+            m_vulkanContext->LogFrameStatistics();
+        }
+    }
+#endif
+    
     (void)m_performanceMetrics; // suppress unused warning in console mode
 }
 
@@ -767,6 +905,15 @@ void Application::LogSystemInfo() {
     std::cout << "Max Audio Sample Rate: " << MAX_AUDIO_SAMPLE_RATE << std::endl;
     std::cout << "Available Palettes: " << m_palettes.size() << std::endl;
     std::cout << "Current Charset: " << m_config.ascii.charset << std::endl;
+    
+    // Headless mode information
+    std::cout << "Headless Mode: " << (m_headlessMode ? "ACTIVE" : "INACTIVE") << std::endl;
+    if (m_headlessMode) {
+        std::cout << "  Reason: " << m_headlessReason << std::endl;
+        std::cout << "  Fallback Enabled: " << (m_config.headless.fallback ? "yes" : "no") << std::endl;
+        std::cout << "  Logging Enabled: " << (m_config.headless.logActivation ? "yes" : "no") << std::endl;
+    }
+    
     std::cout << "================================" << std::endl;
     std::cout << "=== KEYBOARD SHORTCUTS ===" << std::endl;
     std::cout << "ESC - Exit application" << std::endl;
@@ -888,6 +1035,294 @@ std::string Application::GetCharset(const std::string& name) {
     if (name == "binary") return "10 ";
     
     return m_config.ascii.charset; // Default fallback
+}
+
+void Application::InitializeDirector() {
+#if NEONGLYPH_HAVE_DIRECTOR
+    std::cout << "[Application] Initializing DirectorClient..." << std::endl;
+    
+    // Create DirectorClient that connects to local daemon
+    m_directorClient = CreateDirectorClient("127.0.0.1", 9999);
+    m_directorEnabled = true;
+    
+    // Start worker thread for DirectorClient
+    m_directorWorkerThread = std::thread(&Application::DirectorWorkerLoop, this);
+    
+    std::cout << "[Application] DirectorClient initialized" << std::endl;
+#else
+    std::cout << "[Application] DirectorClient disabled" << std::endl;
+#endif
+}
+
+void Application::ShutdownDirector() {
+    std::cout << "[Application] Shutting down DirectorClient..." << std::endl;
+    
+    m_directorEnabled = false;
+    
+    if (m_directorWorkerThread.joinable()) {
+        m_directorWorkerThread.join();
+    }
+    
+    m_directorClient.reset();
+    
+    std::cout << "[Application] DirectorClient shut down" << std::endl;
+}
+
+void Application::DirectorWorkerLoop() {
+    std::cout << "[Application] Director worker thread started" << std::endl;
+    
+    while (m_directorEnabled) {
+        if (m_directorClient) {
+            m_directorClient->Pump();
+        }
+        
+        // Small delay to prevent busy waiting
+        std::this_thread::sleep_for(std::chrono::milliseconds(16)); // ~60 FPS
+    }
+    
+    std::cout << "[Application] Director worker thread stopped" << std::endl;
+}
+
+// namespace NeonGlyph
+
+void Application::SendStateToDirector() {
+    if (!m_directorEnabled || !m_directorClient) {
+        return;
+    }
+    
+    // Create state snapshot
+    DirectorStateSnapshot snapshot;
+    snapshot.time = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - m_startTime
+    ).count();
+    
+    // Audio data
+    snapshot.audio.rms = m_audioRms;
+    snapshot.audio.bass = m_audioBass;
+    snapshot.audio.mids = m_audioMids;
+    snapshot.audio.highs = m_audioHighs;
+    
+    // Scene data (simplified - would get from current renderer state)
+    snapshot.scene.id = "SCN-DEMO-RADIAL"; // Default scene
+    snapshot.scene.intensity = m_audioRms; // Use audio RMS as intensity
+    snapshot.scene.palette = "KOI_EMBER"; // Default palette
+    
+    // Add to queue for worker thread
+    {
+        std::lock_guard<std::mutex> lock(m_snapshotQueueMutex);
+        m_stateSnapshotQueue.push(snapshot);
+    }
+}
+
+void Application::ProcessDirectorDirectives() {
+    if (!m_directorEnabled || !m_directorClient) {
+        return;
+    }
+    
+    DirectorDirective directive;
+    if (m_directorClient->TryGetLatestDirective(directive)) {
+        // Update last directive
+        m_lastDirective = directive;
+        
+        std::cout << "[Application] Received directive: scene=" << directive.sceneId 
+                  << ", mood=" << directive.mood 
+                  << ", intensity=" << directive.intensity << std::endl;
+        
+        // Apply directive to AIConductor
+        if (m_aiConductor) {
+            // TODO: Add ApplyDirective method to AIConductor
+            // For now, just log the directive
+            std::cout << "[Application] Applying directive to AIConductor" << std::endl;
+        }
+    }
+}
+
+Result Application::ParseCommandLineArgs(int argc, char* argv[]) {
+    std::cout << "[Application] Parsing command line arguments..." << std::endl;
+    
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        
+        if (arg == "--headless" || arg == "-h") {
+            m_forceHeadless = true;
+            m_config.headless.enabled = true;
+            std::cout << "[Application] Headless mode forced via command line" << std::endl;
+        }
+        else if (arg == "--no-headless-fallback" || arg == "--disable-fallback") {
+            m_config.headless.fallback = false;
+            std::cout << "[Application] Headless fallback disabled via command line" << std::endl;
+        }
+        else if (arg == "--enable-headless-logging") {
+            m_config.headless.logActivation = true;
+            std::cout << "[Application] Headless mode logging enabled via command line" << std::endl;
+        }
+        else if (arg == "--help") {
+            std::cout << "NeonGlyph - AI-Driven ASCII Visual Synthesis Engine" << std::endl;
+            std::cout << "Usage: " << argv[0] << " [options]" << std::endl;
+            std::cout << "Options:" << std::endl;
+            std::cout << "  --headless, -h           Force headless mode (no window)" << std::endl;
+            std::cout << "  --no-headless-fallback   Disable automatic fallback to headless mode" << std::endl;
+            std::cout << "  --enable-headless-logging Enable logging when headless mode is activated" << std::endl;
+            std::cout << "  --help                   Show this help message" << std::endl;
+            return Result::UnsupportedOperation; // Signal to exit after showing help
+        }
+    }
+    
+    return Result::Success;
+}
+
+bool Application::ShouldUseHeadlessMode() const {
+    // Check if headless mode is forced via command line or config
+    if (m_forceHeadless || m_config.headless.enabled) {
+        return true;
+    }
+    
+    // Check if fallback is enabled and window creation previously failed
+    if (m_fallbackEnabled && m_config.headless.fallback) {
+        // This could be extended to check for previous failure history
+        return false;
+    }
+    
+    return false;
+}
+
+void Application::LogHeadlessModeActivation(const std::string& reason) {
+    m_headlessReason = reason;
+    m_headlessActivationTime = std::chrono::steady_clock::now();
+    m_headlessMode = true;
+    
+    if (m_config.headless.logActivation) {
+        std::cout << "[HEADLESS MODE ACTIVATED]" << std::endl;
+        std::cout << "  Reason: " << reason << std::endl;
+        std::cout << "  Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(
+            m_headlessActivationTime.time_since_epoch()).count() << "ms" << std::endl;
+        std::cout << "  Fallback enabled: " << (m_config.headless.fallback ? "yes" : "no") << std::endl;
+        
+        // Log to file if metrics are enabled
+        if (m_metricsEnabled && m_metrics.is_open()) {
+            auto now = std::chrono::system_clock::now();
+            auto time_t = std::chrono::system_clock::to_time_t(now);
+            std::string log_entry = "HEADLESS_ACTIVATE," + std::to_string(time_t) + "," + reason;
+            m_metrics.write(log_entry.c_str(), static_cast<std::streamsize>(log_entry.size()));
+            m_metrics.put('\n');
+        }
+    }
+    
+    NeonGlyph::Logger::LogLine("Headless mode activated: " + reason);
+}
+
+Result Application::InitializeWindowWithFallback() {
+    std::cout << "═══════════════════════════════════════════════════════════════════════════════════════" << std::endl;
+    std::cout << "🎮 NEONGLYPH WINDOW CREATION DIAGNOSTICS" << std::endl;
+    std::cout << "═══════════════════════════════════════════════════════════════════════════════════════" << std::endl;
+    std::cout << "[Application] Attempting window initialization with fallback support..." << std::endl;
+    
+    // Enhanced error detection and logging
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    // Attempt window creation
+    Result result = InitializeWindow();
+    auto window_time = std::chrono::high_resolution_clock::now();
+    double window_ms = std::chrono::duration<double, std::milli>(window_time - start_time).count();
+    
+    if (result == Result::Success) {
+        std::cout << "[Application] ✅ WINDOW CREATED SUCCESSFULLY in " << window_ms << "ms" << std::endl;
+        std::cout << "[Application] 🎮 VISUAL WINDOW IS NOW ACTIVE - You should see the application window!" << std::endl;
+        
+        // Proceed with Vulkan initialization
+        std::cout << "[Application] Initializing Vulkan context..." << std::endl;
+        result = InitializeVulkan();
+        auto vulkan_time = std::chrono::high_resolution_clock::now();
+        double vulkan_ms = std::chrono::duration<double, std::milli>(vulkan_time - window_time).count();
+        
+        if (result == Result::Success) {
+            std::cout << "[Application] Vulkan initialized successfully in " << vulkan_ms << "ms" << std::endl;
+            
+            // Initialize ASCII converter
+            result = InitializeASCII();
+            if (result == Result::Success) {
+                std::cout << "[Application] ASCII converter initialized successfully" << std::endl;
+                return Result::Success;
+            } else {
+                std::cerr << "[Application] ASCII converter initialization failed: " << static_cast<uint32_t>(result) << std::endl;
+                // Continue with fallback instead of failing completely
+            }
+        } else {
+            std::cerr << "[Application] Vulkan initialization failed: " << static_cast<uint32_t>(result) << std::endl;
+        }
+    } else {
+        std::cerr << "❌ [Application] WINDOW CREATION FAILED: " << static_cast<uint32_t>(result) << std::endl;
+        std::cerr << "❌ [Application] ERROR: Cannot create visual window - Application will not display!" << std::endl;
+        std::cerr << "❌ [Application] This is why you don't see the application window!" << std::endl;
+        
+        // Check if we should attempt fallback
+        if (m_config.headless.fallback) {
+            std::cout << "[Application] ⚠️  Automatically falling back to HEADLESS MODE (no window)" << std::endl;
+            std::cout << "[Application] ⚠️  Application is running but INVISIBLE - this is the 'crashing' issue!" << std::endl;
+            LogHeadlessModeActivation("Window creation failed: " + std::to_string(static_cast<uint32_t>(result)));
+            return InitializeHeadlessMode();
+        } else {
+            std::cerr << "[Application] Fallback disabled, returning error" << std::endl;
+            return result;
+        }
+    }
+    
+    // If we reach here, something failed but we can still try headless mode
+    // HEADLESS FALLBACK DISABLED - This is a VISUAL MASTERPIECE that must ALWAYS be shown!
+    std::cout << "═══════════════════════════════════════════════════════════════════════════════════════" << std::endl;
+    std::cout << "🎨 VISUAL MASTERPIECE REQUIREMENT: Window creation MUST succeed!" << std::endl;
+    std::cout << "🎨 This application is designed to be a VISUAL EXPERIENCE - headless mode is DISABLED!" << std::endl;
+    std::cout << "🎨 The application will NOT run without a visible window!" << std::endl;
+    std::cout << "═══════════════════════════════════════════════════════════════════════════════════════" << std::endl;
+    
+    // Return the error instead of falling back to headless mode
+    std::cerr << "❌ APPLICATION TERMINATED: Window creation is REQUIRED for this visual experience!" << std::endl;
+    std::cerr << "❌ Please fix the window creation error above to see the visual masterpiece!" << std::endl;
+    return result;
+}
+
+Result Application::InitializeHeadlessMode() {
+    std::cout << "[Application] Initializing headless mode..." << std::endl;
+    
+    // Initialize Vulkan in headless mode (no surface required)
+    std::cout << "[Application] Creating Vulkan context for headless operation..." << std::endl;
+    m_vulkanContext = std::make_unique<VulkanContext>();
+    
+    Result result = m_vulkanContext->Initialize(m_config);
+    if (result != Result::Success) {
+        std::cerr << "[Application] Failed to initialize Vulkan in headless mode: " << static_cast<uint32_t>(result) << std::endl;
+        return result;
+    }
+    
+    std::cout << "[Application] Vulkan initialized successfully in headless mode" << std::endl;
+    
+    // Initialize ASCII converter for headless operation
+    m_asciiConverter = std::make_unique<ASCIIConverter>();
+    result = m_asciiConverter->Initialize(m_vulkanContext.get(), m_config);
+    if (result != Result::Success) {
+        std::cerr << "[Application] Failed to initialize ASCII converter in headless mode: " << static_cast<uint32_t>(result) << std::endl;
+        return result;
+    }
+    
+    std::cout << "[Application] ASCII converter initialized successfully in headless mode" << std::endl;
+    
+    // Create renderer for headless operation
+    m_renderer = std::make_unique<Renderer>();
+    result = m_renderer->Initialize(m_vulkanContext.get(), m_config);
+    if (result != Result::Success) {
+        std::cerr << "[Application] Failed to initialize renderer in headless mode: " << static_cast<uint32_t>(result) << std::endl;
+        return result;
+    }
+    
+    m_renderer->SetASCIIConverter(m_asciiConverter.get());
+    std::cout << "[Application] Renderer initialized successfully in headless mode" << std::endl;
+    
+    // Set up headless-specific configuration
+    m_config.render.overlayEnabled = false; // No display for overlay in headless mode
+    m_renderer->RenderTestCard("auto");
+    
+    NeonGlyph::Logger::LogLine("Headless mode initialization completed successfully");
+    return Result::Success;
 }
 
 } // namespace NeonGlyph

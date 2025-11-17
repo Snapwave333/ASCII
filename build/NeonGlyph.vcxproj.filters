@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\AIDirector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,10 +52,19 @@
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\VulkanContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\VulkanPerformanceMetrics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\WinIntegration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\cache\CacheMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\cache\RedisClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\main.cpp">
@@ -68,6 +74,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\NamingConventions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\PerfMonitorRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\PerformanceOptimizationTracker.cpp">
@@ -108,7 +117,13 @@
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ConfigManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\IconGenerator.h">
@@ -153,6 +168,12 @@
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\VulkanContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\VulkanOptimizedContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\VulkanPerformanceMetrics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\WinIntegration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,10 +183,31 @@
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\WindowsIntegration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\cache\CacheMonitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\cache\RedisClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\cache\SegmentedLRUCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\chaos\IocpMetrics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\concurrency\LockFreeRingBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\concurrency\WorkStealingThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\LivePerformanceSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\NamingConventions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\PerfMonitorRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\PerformanceManagementSystem.h">

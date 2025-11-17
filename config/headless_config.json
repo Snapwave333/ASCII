@@ -1,0 +1,66 @@
+{
+    "window": {
+        "width": 1920,
+        "height": 1080,
+        "fullscreen": false,
+        "borderless": false,
+        "vsync": false,
+        "targetFPS": 144,
+        "disableTray": false
+    },
+    "audio": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferSize": 1024,
+        "deviceId": "default"
+    },
+    "ascii": {
+        "charset": "@%#*+=-:. ",
+        "fontSize": 12,
+        "brightness": 1.0,
+        "contrast": 1.0,
+        "invert": false
+    },
+    "ai": {
+        "enabled": true,
+        "sensitivity": 0.5,
+        "modelPath": "models/genre_classifier.onnx"
+    },
+    "safety": {
+        "photosensitiveMode": true,
+        "luminanceThreshold": 0.3,
+        "nsfwFilter": true,
+        "crashRecovery": true
+    },
+    "output": {
+        "spoutEnabled": true,
+        "ndiEnabled": false,
+        "spoutName": "NeonGlyph",
+        "ndiName": "NeonGlyph Output"
+    },
+    "llm": {
+        "enabled": false,
+        "endpoint": "http://host.docker.internal:11434",
+        "model": "llama3",
+        "maxLatencyMs": 12,
+        "liveIntervalMs": 200,
+        "safeEpilepsy": true
+    },
+    "startup": {
+        "autoStart": false,
+        "minimizeToTray": true,
+        "startMinimized": false
+    },
+    "headless": {
+        "enabled": false,
+        "fallback": true,
+        "logActivation": true,
+        "activationReason": ""
+    },
+    "render": {
+        "startupBgColor": 4278190080,
+        "blackStartup": true,
+        "overlayEnabled": true,
+        "overlayPosition": "top_left"
+    }
+}

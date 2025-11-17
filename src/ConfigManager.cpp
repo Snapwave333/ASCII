@@ -156,7 +156,15 @@ Result ConfigManager::LoadDefaultConfig(Config& config) {
     }
     
     std::cout << "[ConfigManager] Loading configuration from: " << configPath << std::endl;
-    return LoadConfig(configPath, config);
+    Result r = LoadConfig(configPath, config);
+    if (r != Result::Success) return r;
+    std::string msg;
+    Result vr = ValidateConfig(config, msg);
+    if (vr != Result::Success) {
+        std::cerr << std::string("[ConfigManager] Invalid configuration: ") + msg << std::endl;
+        return vr;
+    }
+    return Result::Success;
 }
 
 Result ConfigManager::ParseConfigFile(const std::string& content, Config& config) {
@@ -492,6 +500,27 @@ std::vector<ColorPalette> ConfigManager::GetDefaultPalettes() {
             0xFF000000  // Black
         }}
     };
+}
+
+Result ConfigManager::ValidateConfig(const Config& config, std::string& message) {
+    if (config.headless.enabled && (config.window.fullscreen || config.window.borderless)) {
+        message = "Headless enabled with fullscreen/borderless window";
+        return Result::ValidationFailed;
+    }
+    if (config.window.width == 0 || config.window.height == 0) {
+        message = "Window dimensions must be non-zero";
+        return Result::ValidationFailed;
+    }
+    if (config.window.width > MAX_TEXTURE_SIZE || config.window.height > MAX_TEXTURE_SIZE) {
+        message = "Window dimensions exceed limits";
+        return Result::ValidationFailed;
+    }
+    if (config.ascii.fontSize == 0) {
+        message = "ASCII fontSize must be > 0";
+        return Result::ValidationFailed;
+    }
+    message.clear();
+    return Result::Success;
 }
 
 } // namespace NeonGlyph

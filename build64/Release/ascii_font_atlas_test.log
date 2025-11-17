@@ -59,21 +59,18 @@ The filename, directory name, or volume label syntax is incorrect.
 [ASCIIConverter] Failed to create compute pipeline
 [ASCIIConverter] Compute pipeline created successfully
 PASS: font atlas fallback
-Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
-vkDestroyDevice(): Object Tracking - For VkDevice 0x25237758fe0, VkBuffer 0x100000000010 has not been destroyed.
-The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
-Objects: 1
-    [0] VkBuffer 0x100000000010
+[VulkanContext] Tracked: buffers=0 memory=0 imageViews=0 layouts=1
+Validation Error: [ VUID-vkDestroyDescriptorSetLayout-descriptorSetLayout-parameter ] | MessageID = 0x78f350ea
+vkDestroyDescriptorSetLayout(): descriptorSetLayout Invalid VkDescriptorSetLayout Object 0x90000000009.
+The Vulkan spec states: If descriptorSetLayout is not VK_NULL_HANDLE, descriptorSetLayout must be a valid VkDescriptorSetLayout handle (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/descriptorsets.html#VUID-vkDestroyDescriptorSetLayout-descriptorSetLayout-parameter)
 
-Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
-vkDestroyDevice(): Object Tracking - For VkDevice 0x25237758fe0, VkDeviceMemory 0x110000000011 has not been destroyed.
-The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
+Validation Error: [ UNASSIGNED-Threading-Info ] | MessageID = 0x5d6b67e2
+vkDestroyDescriptorSetLayout(): Couldn't find VkDescriptorSetLayout Object 0x90000000009. This should not happen and may indicate a bug in the application.
 Objects: 1
-    [0] VkDeviceMemory 0x110000000011
+    [0] VkDescriptorSetLayout 0x90000000009
 
-Validation Error: [ VUID-vkDestroyDevice-device-05137 ] | MessageID = 0x4872eaa0
-vkDestroyDevice(): Object Tracking - For VkDevice 0x25237758fe0, VkDescriptorSetLayout 0x90000000009 has not been destroyed.
-The Vulkan spec states: All child objects created on device that can be destroyed or freed must have been destroyed or freed prior to destroying device (https://vulkan.lunarg.com/doc/view/1.4.328.1/windows/antora/spec/latest/chapters/devsandqueues.html#VUID-vkDestroyDevice-device-05137)
+Validation Error: [ UNASSIGNED-Threading-Info ] | MessageID = 0x5d6b67e2
+vkDestroyDescriptorSetLayout(): Couldn't find VkDescriptorSetLayout Object 0x90000000009. This should not happen and may indicate a bug in the application.
 Objects: 1
     [0] VkDescriptorSetLayout 0x90000000009
 

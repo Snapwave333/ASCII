@@ -42,6 +42,11 @@ public:
 
     uint32_t GetWidth() const { return m_width; }
     uint32_t GetHeight() const { return m_height; }
+    
+    // Window state management
+    bool IsMinimized() const;
+    bool IsVisible() const;
+    
 #if NEONGLYPH_HAVE_GLFW
     GLFWwindow* GetHandle() const { return m_window; }
 #else
@@ -60,6 +65,7 @@ private:
     bool m_shouldClose;
     bool m_borderless;
     bool m_fullscreen;
+    bool m_minimized;
     KeyboardCallback m_keyboardCallback;
 };
 

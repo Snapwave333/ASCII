@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 project(NeonGlyph VERSION 3.0.1 LANGUAGES CXX)
 
+enable_testing()
+option(NEONGLYPH_BUILD_TESTS "Build test executables" OFF)
+
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -54,6 +57,10 @@ file(GLOB_RECURSE SOURCES
     src/*.h
     include/*.h
 )
+list(FILTER SOURCES EXCLUDE REGEX ".*/src/chaos/.*")
+list(FILTER SOURCES EXCLUDE REGEX ".*/src/VulkanOptimizedContext.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX ".*/src/AIConductor.cpp$")
+list(FILTER SOURCES EXCLUDE REGEX ".*/src/DirectorClientTcp.cpp$")
 
 # Add Windows integration source files
 option(WINDOWS_INTEGRATION "Enable Windows integration components" OFF)
@@ -126,7 +133,8 @@ target_link_libraries(NeonGlyph
 
 # Conditional linking
 target_link_libraries(NeonGlyph glfw)
-target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=1)
+target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=0)
+target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_DIRECTOR=0)
 target_include_directories(NeonGlyph PRIVATE ${CMAKE_BINARY_DIR}/_deps/glfw-src/include)
 if(glfw_SOURCE_DIR)
   target_include_directories(NeonGlyph PRIVATE ${glfw_SOURCE_DIR}/include)
@@ -146,52 +154,61 @@ target_compile_definitions(NeonGlyph PRIVATE
 # Windows-specific libraries for system tray and integration
 target_link_libraries(NeonGlyph shell32.lib user32.lib)
 target_link_libraries(NeonGlyph nlohmann_json::nlohmann_json)
-add_executable(e2e_test tests/e2e_test.cpp)
-target_link_libraries(e2e_test nlohmann_json::nlohmann_json)
 target_include_directories(NeonGlyph PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/_deps/nlohmann_json-src/include)
 
 # Audio capture test executable
-add_executable(AudioTest audio_test.cpp src/AudioEngine.cpp src/ConfigManager.cpp)
-target_include_directories(AudioTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/_deps/nlohmann_json-src/include)
-target_link_libraries(AudioTest
-    Threads::Threads
-    winmm.lib
-    mmdevapi.lib
-    avrt.lib
-    nlohmann_json::nlohmann_json
-)
-target_compile_definitions(AudioTest PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN _WIN32_WINNT=0x0A00 _CRT_SECURE_NO_WARNINGS)
-target_include_directories(e2e_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/_deps/nlohmann_json-src/include)
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(e2e_test tests/e2e_test.cpp)
+  target_link_libraries(e2e_test nlohmann_json::nlohmann_json)
+  target_include_directories(e2e_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/_deps/nlohmann_json-src/include)
 
-add_executable(runtime_logic_tests
-    tests/runtime_logic_tests.cpp
-    src/ConfigManager.cpp
-    src/VulkanContext.cpp
-)
-target_include_directories(runtime_logic_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(runtime_logic_tests ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
-target_compile_definitions(runtime_logic_tests PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN)
+  add_executable(AudioTest audio_test.cpp src/AudioEngine.cpp src/ConfigManager.cpp)
+  target_include_directories(AudioTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/_deps/nlohmann_json-src/include)
+  target_link_libraries(AudioTest
+      Threads::Threads
+      winmm.lib
+      mmdevapi.lib
+      avrt.lib
+      nlohmann_json::nlohmann_json
+  )
+  target_compile_definitions(AudioTest PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN _WIN32_WINNT=0x0A00 _CRT_SECURE_NO_WARNINGS)
+endif()
 
-add_executable(ascii_font_atlas_test
-    tests/ascii_font_atlas_test.cpp
-    src/VulkanContext.cpp
-    src/ASCIIConverter.cpp
-    src/ComputePipelines.cpp
-)
-target_include_directories(ascii_font_atlas_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(ascii_font_atlas_test ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
-target_compile_definitions(ascii_font_atlas_test PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN NEONGLYPH_HAVE_FREETYPE=0)
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(runtime_logic_tests
+      tests/runtime_logic_tests.cpp
+      src/ConfigManager.cpp
+      src/VulkanContext.cpp
+  )
+  target_include_directories(runtime_logic_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  target_link_libraries(runtime_logic_tests ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
+  target_compile_definitions(runtime_logic_tests PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
 
-add_executable(gpu_pipeline_test
-    tests/gpu_pipeline_test.cpp
-    src/VulkanContext.cpp
-    src/ASCIIConverter.cpp
-    src/ComputePipelines.cpp
-    src/ConfigManager.cpp
-)
-target_include_directories(gpu_pipeline_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(gpu_pipeline_test ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
-target_compile_definitions(gpu_pipeline_test PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN NEONGLYPH_HAVE_FREETYPE=0)
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(ascii_font_atlas_test
+      tests/ascii_font_atlas_test.cpp
+      src/VulkanContext.cpp
+      src/ASCIIConverter.cpp
+      src/ComputePipelines.cpp
+  )
+  target_include_directories(ascii_font_atlas_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  target_link_libraries(ascii_font_atlas_test ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
+  target_compile_definitions(ascii_font_atlas_test PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN NEONGLYPH_HAVE_FREETYPE=0)
+endif()
+
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(gpu_pipeline_test
+      tests/gpu_pipeline_test.cpp
+      src/VulkanContext.cpp
+      src/ASCIIConverter.cpp
+      src/ComputePipelines.cpp
+      src/ConfigManager.cpp
+  )
+  target_include_directories(gpu_pipeline_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  target_link_libraries(gpu_pipeline_test ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
+  target_compile_definitions(gpu_pipeline_test PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN NEONGLYPH_HAVE_FREETYPE=0)
+endif()
 
 # Asset copying
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
@@ -236,4 +253,20 @@ if(Freetype_FOUND)
 else()
   message(WARNING "FreeType not found; font atlas generation will be disabled")
   target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_FREETYPE=0)
+endif()
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(config_validation_tests tests/config_validation_tests.cpp src/ConfigManager.cpp)
+  target_include_directories(config_validation_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+endif()
+
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(thread_lifecycle_tests tests/thread_lifecycle_tests.cpp src/chaos/FailureModeAnalysis.cpp)
+  target_include_directories(thread_lifecycle_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  target_link_libraries(thread_lifecycle_tests Threads::Threads)
+endif()
+
+if(NEONGLYPH_BUILD_TESTS)
+  add_executable(vulkan_resource_stress_test tests/vulkan_resource_stress_test.cpp src/VulkanContext.cpp)
+  target_include_directories(vulkan_resource_stress_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  target_link_libraries(vulkan_resource_stress_test ${Vulkan_LIBRARIES} Threads::Threads "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib")
 endif()

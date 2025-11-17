@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonGlyph Visual Testing Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #444;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #00ff88;
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .summary-card {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            color: #00ff88;
+        }
+        .summary-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .passed { color: #00ff88; }
+        .failed { color: #ff4444; }
+        .test-results {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-result {
+            border-left: 4px solid #444;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #3a3a3a;
+            border-radius: 4px;
+        }
+        .test-result.passed { border-left-color: #00ff88; }
+        .test-result.failed { border-left-color: #ff4444; }
+        .test-result h4 {
+            margin: 0 0 10px 0;
+            color: #ffffff;
+        }
+        .details {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .performance-chart {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .ascii-art {
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #00ff88;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid #00ff88;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #444;
+            color: #888;
+        }
+        .timestamp { color: #00ff88; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 NEONGLYPH VISUAL TESTING REPORT</h1>
+            <p>Advanced Playwright E2E Testing Suite</p>
+            <p class="timestamp">Generated: 2025-11-16T00:13:55.236837</p>
+        </div>
+        
+        <div class="summary">
+            <div class="summary-card">
+                <h3>Overall Result</h3>
+                <div class="value failed">
+                    UNKNOWN
+                </div>
+            </div>
+            <div class="summary-card">
+                <h3>Total Tests</h3>
+                <div class="value">4</div>
+            </div>
+            <div class="summary-card">
+                <h3>Passed</h3>
+                <div class="value passed">3</div>
+            </div>
+            <div class="summary-card">
+                <h3>Failed</h3>
+                <div class="value failed">1</div>
+            </div>
+        </div>
+        
+        <div class="performance-chart">
+            <h3>📊 Performance Summary</h3>
+            
+        <div class="details">
+            <strong>Frame Performance:</strong><br>
+            Average Frame Time: 0.00ms<br>
+            Maximum Frame Time: 0.00ms<br>
+            Minimum Frame Time: 0.00ms<br>
+            Standard Deviation: 0.00ms<br>
+            Total Frames Rendered: 0<br>
+            <br>
+            <strong>Performance Status:</strong> ❌ NEEDS IMPROVEMENT
+        </div>
+        
+        </div>
+        
+        <div class="test-results">
+            <h3>🔍 Detailed Test Results</h3>
+            
+            <div class="test-result passed">
+                <h4>Visual Rendering Pipeline - PASSED</h4>
+                <p><strong>Duration:</strong> 2025-11-16T00:13:55.237610 to 2025-11-16T00:14:18.402111</p>
+                
+                <div class="details">Details: {
+  "analysis": {
+    "frame_metrics_found": true,
+    "color_modes_detected": [
+      "mono",
+      "truecolor",
+      "ansi"
+    ],
+    "ascii_content_detected": true,
+    "animations_detected": false,
+    "performance_metrics": {
+      "TS": 1763277235536,
+      "CreateVulkanSurfaceMs": 7.8184
+    },
+    "visual_effects": []
+  },
+  "animation_events": 30,
+  "performance_consistent": true
+}</div>
+            </div>
+            
+            <div class="test-result passed">
+                <h4>Performance Metrics - PASSED</h4>
+                <p><strong>Duration:</strong> 2025-11-16T00:14:18.402591 to 2025-11-16T00:14:26.501374</p>
+                
+                
+            </div>
+            
+            <div class="test-result passed">
+                <h4>Animation Detection - PASSED</h4>
+                <p><strong>Duration:</strong> 2025-11-16T00:14:26.501671 to 2025-11-16T00:14:40.630048</p>
+                
+                
+            </div>
+            
+            <div class="test-result failed">
+                <h4>Visual Regression - FAILED</h4>
+                <p><strong>Duration:</strong> 2025-11-16T00:14:40.630462 to 2025-11-16T00:14:40.689699</p>
+                <div class="details">Error: NeonGlyph logo not detected</div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="ascii-art">
+            <h3>🎨 Visual Content Summary</h3>
+            <pre>
+    ╔══════════════════════════════════════════════════════════════╗
+    ║                    NEONGLYPH VISUAL TEST                   ║
+    ╠══════════════════════════════════════════════════════════════╣
+    ║  ✅ ASCII Content: DETECTED                                 ║
+    ║  🎨 Color Modes: mono, truecolor, ansi              ║
+    ║  📺 Animations: NOT DETECTED                              ║
+
+    ╚══════════════════════════════════════════════════════════════╝
+</pre>
+        </div>
+        
+        <div class="footer">
+            <p>NeonGlyph Advanced Visual Testing Suite</p>
+            <p>Test Duration: 30 seconds</p>
+        </div>
+    </div>
+</body>
+</html>

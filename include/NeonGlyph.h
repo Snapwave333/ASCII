@@ -91,11 +91,13 @@ enum class Result : uint32 {
     Timeout = 5,
     DeviceLost = 6,
     InitializationFailed = 7,
+    AlreadyInitialized = 8,
     FileNotFound = 8,
     PermissionDenied = 9,
     NetworkError = 10,
     ValidationFailed = 11,
-    UnsupportedOperation = 12
+    UnsupportedOperation = 12,
+    NotInitialized = 13
 };
 
 // Log levels
@@ -246,7 +248,13 @@ struct Config {
         bool startMinimized = false;
     } startup;
     struct {
-        uint32 startupBgColor = 0x000000FFu;
+        bool enabled = false;           // Force headless mode
+        bool fallback = true;           // Enable automatic fallback to headless
+        bool logActivation = true;    // Log when headless mode is activated
+        std::string activationReason;   // Reason for headless activation
+    } headless;
+    struct {
+        uint32 startupBgColor = 0x00000000u;
         bool blackStartup = true;
         bool overlayEnabled = true;
         std::string overlayPosition = "top_left";
@@ -277,6 +285,7 @@ public:
     Result LoadPaletteConfig(const std::string& filename, std::vector<ColorPalette>& palettes);
     Result SavePaletteConfig(const std::string& filename, const std::vector<ColorPalette>& palettes);
     std::vector<ColorPalette> GetDefaultPalettes();
+    Result ValidateConfig(const Config& config, std::string& message);
 private:
     Result ParseConfigFile(const std::string& content, Config& config);
     std::string SerializeConfig(const Config& config);

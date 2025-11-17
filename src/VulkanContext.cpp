@@ -100,7 +100,16 @@ void VulkanContext::Shutdown() {
     
     vkDeviceWaitIdle(m_device);
     
+    LogTrackedResourceDiagnostics();
+
     // Cleanup in reverse order
+    for (auto iv : m_swapchainImageViews) {
+        if (iv != VK_NULL_HANDLE) {
+            vkDestroyImageView(m_device, iv, nullptr);
+            UnregisterImageView(iv);
+        }
+    }
+    m_swapchainImageViews.clear();
     if (m_descriptorPool != VK_NULL_HANDLE) {
         vkDestroyDescriptorPool(m_device, m_descriptorPool, nullptr);
     }
@@ -112,6 +121,9 @@ void VulkanContext::Shutdown() {
     if (m_computePipelineLayout != VK_NULL_HANDLE) {
         vkDestroyPipelineLayout(m_device, m_computePipelineLayout, nullptr);
     }
+    if (m_computeDescriptorSetLayout != VK_NULL_HANDLE) {
+        vkDestroyDescriptorSetLayout(m_device, m_computeDescriptorSetLayout, nullptr);
+    }
     
     // Cleanup synchronization objects
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
@@ -121,10 +133,13 @@ void VulkanContext::Shutdown() {
         if (m_imageAvailableSemaphores[i] != VK_NULL_HANDLE) {
             vkDestroySemaphore(m_device, m_imageAvailableSemaphores[i], nullptr);
         }
-        if (m_renderFinishedSemaphores[i] != VK_NULL_HANDLE) {
-            vkDestroySemaphore(m_device, m_renderFinishedSemaphores[i], nullptr);
+    }
+    for (auto s : m_renderFinishedSemaphores) {
+        if (s != VK_NULL_HANDLE) {
+            vkDestroySemaphore(m_device, s, nullptr);
         }
     }
+    m_renderFinishedSemaphores.clear();
     
     // Cleanup command buffers and pools
     if (m_commandPool != VK_NULL_HANDLE) {
@@ -135,6 +150,16 @@ void VulkanContext::Shutdown() {
         vkDestroyCommandPool(m_device, m_computeCommandPool, nullptr);
     }
     
+    if (m_stagingBuffer != VK_NULL_HANDLE) {
+        UnregisterBuffer(m_stagingBuffer);
+        vkDestroyBuffer(m_device, m_stagingBuffer, nullptr);
+        m_stagingBuffer = VK_NULL_HANDLE;
+    }
+    if (m_stagingMemory != VK_NULL_HANDLE) {
+        UnregisterMemory(m_stagingMemory);
+        vkFreeMemory(m_device, m_stagingMemory, nullptr);
+        m_stagingMemory = VK_NULL_HANDLE;
+    }
     // Cleanup swapchain
     if (m_swapchain != VK_NULL_HANDLE) {
         vkDestroySwapchainKHR(m_device, m_swapchain, nullptr);
@@ -144,6 +169,32 @@ void VulkanContext::Shutdown() {
     if (m_surface != VK_NULL_HANDLE) {
         vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
     }
+    
+    // Final safety sweep for any remaining tracked resources prior to device destroy
+    for (auto iv : m_trackedImageViews) {
+        if (iv != VK_NULL_HANDLE) {
+            vkDestroyImageView(m_device, iv, nullptr);
+        }
+    }
+    m_trackedImageViews.clear();
+    for (auto buf : m_trackedBuffers) {
+        if (buf != VK_NULL_HANDLE) {
+            vkDestroyBuffer(m_device, buf, nullptr);
+        }
+    }
+    m_trackedBuffers.clear();
+    for (auto mem : m_trackedMemory) {
+        if (mem != VK_NULL_HANDLE) {
+            vkFreeMemory(m_device, mem, nullptr);
+        }
+    }
+    m_trackedMemory.clear();
+    for (auto dl : m_trackedDescriptorLayouts) {
+        if (dl != VK_NULL_HANDLE) {
+            vkDestroyDescriptorSetLayout(m_device, dl, nullptr);
+        }
+    }
+    m_trackedDescriptorLayouts.clear();
     
     // Cleanup device
     if (m_device != VK_NULL_HANDLE) {
@@ -575,6 +626,88 @@ Result VulkanContext::CreateSyncObjects() {
     return Result::Success;
 }
 
+VkCommandBuffer VulkanContext::GetComputeCommandBuffer() {
+    VkCommandBuffer cb = m_computeCommandBuffers[m_currentFrame];
+    vkResetCommandBuffer(cb, 0);
+    VkCommandBufferBeginInfo bi{};
+    bi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    vkBeginCommandBuffer(cb, &bi);
+    return cb;
+}
+
+Result VulkanContext::FinalizeComputeCommandBuffer(VkCommandBuffer cb, bool wait) {
+    if (vkEndCommandBuffer(cb) != VK_SUCCESS) return Result::Error;
+    Result r = SubmitComputeWorkWithFence(cb, wait);
+    if (r != Result::Success) return r;
+    return Result::Success;
+}
+
+Result VulkanContext::WaitComputeIdle() {
+    VkResult res = vkQueueWaitIdle(m_computeQueue);
+    return res == VK_SUCCESS ? Result::Success : Result::Error;
+}
+
+void VulkanContext::LogTrackedResourceDiagnostics() const {
+    std::cout << "[VulkanContext] Tracked: buffers=" << m_trackedBuffers.size()
+              << " memory=" << m_trackedMemory.size()
+              << " imageViews=" << m_trackedImageViews.size()
+              << " layouts=" << m_trackedDescriptorLayouts.size() << std::endl;
+}
+
+void VulkanContext::RegisterBuffer(VkBuffer buffer) {
+    if (buffer != VK_NULL_HANDLE) m_trackedBuffers.insert(buffer);
+}
+
+void VulkanContext::UnregisterBuffer(VkBuffer buffer) {
+    if (buffer != VK_NULL_HANDLE) m_trackedBuffers.erase(buffer);
+}
+
+void VulkanContext::RegisterMemory(VkDeviceMemory memory) {
+    if (memory != VK_NULL_HANDLE) m_trackedMemory.insert(memory);
+}
+
+void VulkanContext::UnregisterMemory(VkDeviceMemory memory) {
+    if (memory != VK_NULL_HANDLE) m_trackedMemory.erase(memory);
+}
+
+
+Result VulkanContext::SubmitComputeWorkWithFence(VkCommandBuffer commandBuffer, bool wait) {
+    if (m_device == VK_NULL_HANDLE || m_computeQueue == VK_NULL_HANDLE || commandBuffer == VK_NULL_HANDLE) {
+        return Result::InitializationFailed;
+    }
+    VkFence fence = m_computeSubmitFences[m_currentFrame];
+    if (fence == VK_NULL_HANDLE) return Result::InitializationFailed;
+    vkResetFences(m_device, 1, &fence);
+    VkSubmitInfo submitInfo{};
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &commandBuffer;
+    VkResult sr = vkQueueSubmit(m_computeQueue, 1, &submitInfo, fence);
+    if (sr != VK_SUCCESS) return Result::Error;
+    if (wait) {
+        VkResult wr = vkWaitForFences(m_device, 1, &fence, VK_TRUE, UINT64_MAX);
+        if (wr != VK_SUCCESS) return Result::Error;
+    }
+    return Result::Success;
+}
+
+void VulkanContext::RegisterImageView(VkImageView view) {
+    if (view != VK_NULL_HANDLE) m_trackedImageViews.insert(view);
+}
+
+void VulkanContext::UnregisterImageView(VkImageView view) {
+    if (view != VK_NULL_HANDLE) m_trackedImageViews.erase(view);
+}
+
+void VulkanContext::RegisterDescriptorSetLayout(VkDescriptorSetLayout layout) {
+    if (layout != VK_NULL_HANDLE) m_trackedDescriptorLayouts.insert(layout);
+}
+
+void VulkanContext::UnregisterDescriptorSetLayout(VkDescriptorSetLayout layout) {
+    if (layout != VK_NULL_HANDLE) m_trackedDescriptorLayouts.erase(layout);
+}
+
 Result VulkanContext::CreateComputePipeline() {
     // Create descriptor set layout
     VkDescriptorSetLayoutBinding layoutBindings[] = {
@@ -604,6 +737,7 @@ Result VulkanContext::CreateComputePipeline() {
     if (vkCreateDescriptorSetLayout(m_device, &layoutInfo, nullptr, &m_computeDescriptorSetLayout) != VK_SUCCESS) {
         return Result::InitializationFailed;
     }
+    RegisterDescriptorSetLayout(m_computeDescriptorSetLayout);
     
     // Create pipeline layout
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
@@ -782,7 +916,7 @@ Result VulkanContext::BeginFrame() {
     }
     
     if (m_swapchain != VK_NULL_HANDLE) {
-        VkResult acquire = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame], VK_NULL_HANDLE, &m_currentImageIndex);
+    VkResult acquire = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame], VK_NULL_HANDLE, &m_currentImageIndex);
         if (acquire == VK_SUCCESS) {
         } else if (acquire == VK_ERROR_OUT_OF_DATE_KHR || acquire == VK_SUBOPTIMAL_KHR) {
             return Result::ValidationFailed;
@@ -828,6 +962,7 @@ Result VulkanContext::BeginFrame() {
         float g = ((rgba >> 8) & 0xFFu) / 255.0f;
         float b = (rgba & 0xFFu) / 255.0f;
         float a = ((rgba >> 24) & 0xFFu) / 255.0f;
+        std::cout << "[VulkanContext] ClearColor RGBA=" << r << "," << g << "," << b << "," << a << std::endl;
         clear.float32[0] = r; clear.float32[1] = g; clear.float32[2] = b; clear.float32[3] = a;
         VkImageSubresourceRange range{};
         range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -848,6 +983,8 @@ Result VulkanContext::BeginFrame() {
             copy.imageOffset = {0, 0, 0};
             copy.imageExtent = { m_swapchainExtent.width, m_swapchainExtent.height, 1 };
             vkCmdCopyBufferToImage(m_commandBuffers[m_currentFrame], m_stagingBuffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
+            std::cout << "[VulkanContext] Copied staging buffer to swapchain image: extent="
+                      << m_swapchainExtent.width << "x" << m_swapchainExtent.height << std::endl;
         }
         VkImageMemoryBarrier barrier2{};
         barrier2.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -926,7 +1063,7 @@ Result VulkanContext::EndFrame() {
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &m_commandBuffers[m_currentFrame];
     submitInfo.signalSemaphoreCount = m_swapchain != VK_NULL_HANDLE ? 1u : 0u;
-    submitInfo.pSignalSemaphores = m_swapchain != VK_NULL_HANDLE ? &m_renderFinishedSemaphores[m_currentFrame] : nullptr;
+    submitInfo.pSignalSemaphores = m_swapchain != VK_NULL_HANDLE ? &m_renderFinishedSemaphores[m_currentImageIndex] : nullptr;
     VkResult submitResult = vkQueueSubmit(m_graphicsQueue, 1, &submitInfo, m_inFlightFences[m_currentFrame]);
     if (submitResult != VK_SUCCESS) {
         std::cerr << "[VulkanContext] Error: Failed to submit command buffer in EndFrame" << std::endl;
@@ -936,7 +1073,7 @@ Result VulkanContext::EndFrame() {
         VkPresentInfoKHR presentInfo{};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = &m_renderFinishedSemaphores[m_currentFrame];
+        presentInfo.pWaitSemaphores = &m_renderFinishedSemaphores[m_currentImageIndex];
         presentInfo.swapchainCount = 1;
         presentInfo.pSwapchains = &m_swapchain;
         presentInfo.pImageIndices = &m_currentImageIndex;
@@ -1229,7 +1366,7 @@ Result VulkanContext::CreateSwapchain() {
     createInfo.imageColorSpace = surfaceFormat.colorSpace;
     createInfo.imageExtent = extent;
     createInfo.imageArrayLayers = 1;
-    createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+    createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
     uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
     if (indices.graphicsFamily != indices.presentFamily) {
         createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
@@ -1253,6 +1390,7 @@ Result VulkanContext::CreateSwapchain() {
     vkGetSwapchainImagesKHR(m_device, m_swapchain, &count, nullptr);
     m_swapchainImages.resize(count);
     vkGetSwapchainImagesKHR(m_device, m_swapchain, &count, m_swapchainImages.data());
+    ValidatePixelFormat();
     return Result::Success;
 }
 
@@ -1274,6 +1412,7 @@ Result VulkanContext::CreateImageViews() {
         viewInfo.subresourceRange.baseArrayLayer = 0;
         viewInfo.subresourceRange.layerCount = 1;
         if (vkCreateImageView(m_device, &viewInfo, nullptr, &m_swapchainImageViews[i]) != VK_SUCCESS) return Result::InitializationFailed;
+        RegisterImageView(m_swapchainImageViews[i]);
     }
     return Result::Success;
 }
@@ -1296,6 +1435,8 @@ Result VulkanContext::CreateFrameResources() {
     ai.memoryTypeIndex = FindMemoryType(mr.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
     if (vkAllocateMemory(m_device, &ai, nullptr, &m_stagingMemory) != VK_SUCCESS) return Result::OutOfMemory;
     vkBindBufferMemory(m_device, m_stagingBuffer, m_stagingMemory, 0);
+    RegisterBuffer(m_stagingBuffer);
+    RegisterMemory(m_stagingMemory);
     return Result::Success;
 }
 
@@ -1307,6 +1448,7 @@ Result VulkanContext::UpdateFramePixels(const void* data, size_t size) {
     std::memcpy(dst, data, size);
     vkUnmapMemory(m_device, m_stagingMemory);
     m_hasPendingFrame = true;
+    std::cout << "[VulkanContext] UpdateFramePixels size=" << size << std::endl;
     return Result::Success;
 }
 
@@ -1346,6 +1488,15 @@ VkExtent2D VulkanContext::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capab
     extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
     extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
     return extent;
+}
+
+void VulkanContext::ValidatePixelFormat() {
+    if (m_swapchainFormat != VK_FORMAT_B8G8R8A8_UNORM) {
+        std::cout << "[VulkanContext] Warning: Swapchain format=" << static_cast<int>(m_swapchainFormat)
+                  << " differs from expected VK_FORMAT_B8G8R8A8_UNORM; verify pixel packing." << std::endl;
+    } else {
+        std::cout << "[VulkanContext] Swapchain format is BGRA8 UNORM; pixel packing should be BGRA." << std::endl;
+    }
 }
 
 } // namespace NeonGlyph

@@ -17,6 +17,10 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <winhttp.h>
+#include "cache/SegmentedLRUCache.h"
+#include "cache/RedisClient.h"
+#include "cache/CacheMonitor.h"
+#include "cache/SegmentedLRUCache.h"
 #pragma comment(lib, "winhttp.lib")
 #endif
 
@@ -650,7 +654,21 @@ void AIDirector::AIWorkerLoop() {
         auto t0 = std::chrono::steady_clock::now();
         std::string resp;
         std::string body = BuildLLMRequest(m);
-        if (QueryLLM(body, resp)) {
+        static NeonGlyph::Cache::SegmentedLRUCache<std::string, std::string> llmCache(2048, 32, std::chrono::seconds(30));
+        static NeonGlyph::Cache::RedisClientPool redisPool;
+        static bool redisInit = false;
+        if (!redisInit) {
+            const char* rep = std::getenv("NG_REDIS_ENDPOINT");
+            redisPool.init(rep ? rep : "127.0.0.1:6379", 4);
+            redisPool.subscribe("cache_invalidate", [&](const std::string& msg){ llmCache.invalidate(msg); });
+            redisInit = true;
+        }
+        if (auto cached = llmCache.get(body)) { resp = *cached; }
+        if (!resp.size() && redisInit) {
+            auto rds = redisPool.get(body);
+            if (rds.has_value()) { resp = *rds; }
+        }
+        if (!resp.size() && QueryLLM(body, resp)) {
             DirectorCommand out;
             out.timestamp_ms = static_cast<int64>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count());
             out.scene_id = m_state.current_scene_id;
@@ -702,6 +720,9 @@ void AIDirector::AIWorkerLoop() {
                 }
             }
             auto t1 = std::chrono::steady_clock::now();
+            llmCache.set(body, resp);
+            if (redisInit) { redisPool.set(body, resp); }
+            NeonGlyph::Cache::CacheMonitor::Update("ai_llm", llmCache.hits(), llmCache.misses());
             auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
             if (ms <= m_config.llm.maxLatencyMs) {
                 m_latestLLMCmd = out;

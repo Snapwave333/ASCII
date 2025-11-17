@@ -2,7 +2,7 @@
 
 **Document Type**: Project Overview
 **Version**: 3.0.1
-**Last Updated**: 2025-11-14
+**Last Updated**: 2025-11-16
 **Status**: Approved
 **Author**: NeonGlyph Development Team
 
@@ -111,37 +111,54 @@ WASAPI Loopback → Spectrum → SLM Context → Density Map → Spout/NDI
 
 ### Prerequisites
 - Visual Studio 2022 with C++ development tools
-- Vulkan SDK (latest version)
+- Vulkan SDK 1.4.328.1 (set `VULKAN_SDK` and ensure `C:/VulkanSDK/1.4.328.1` is present)
 - CMake 3.20 or higher
 - Windows 10 or later
 
 ### Build Instructions
 1. Clone the repository
-2. Open Visual Studio 2022 Developer Command Prompt
-3. Run `build.bat` in the project root
-4. Launch `build64\Release\NeonGlyph.exe`
+2. Open the "x64 Native Tools Command Prompt for VS 2022" (Developer Command Prompt)
+3. Ensure `VULKAN_SDK` is set (e.g., `set VULKAN_SDK=C:\VulkanSDK\1.4.328.1`)
+4. Run `build.bat` in the project root
+5. Launch `build64\Release\NeonGlyph.exe`
 
-For detailed build instructions, see [Build Guide](.trae/documents/build-guide.md)
+For detailed build instructions, see [Build Guide](docs/guides/build-guide.md)
+
+## Dependencies & Requirements
+
+- `Vulkan SDK 1.4.328.1` — core graphics API; linked via `vulkan-1.lib`
+- `GLFW 3.3.9` — windowing/input; auto-fetched if not available
+- `nlohmann_json 3.11.2` — configuration and tests; fetched via CMake
+- `Threads` — standard threading library
+- `Windows system libs` — `winmm`, `mmdevapi`, `avrt`, `propsys`, `d3d11`, `dxgi`, `d3dcompiler`, `shell32`, `user32`
+- Optional: `FreeType` — font atlas generation (disabled if not found)
+- Optional: `ONNX Runtime` — AI Director acceleration (disabled with warning if missing)
+- Optional: `Spout`/`NDI` — output broadcasting framework implemented; external SDK integration is configurable
 
 ## Documentation
 
-- [Documentation Index](.trae/documents/DOCUMENTATION_INDEX.md) - Central navigation and cross-references
-- [Documentation Style Guide](.trae/documents/DOCUMENTATION_STYLE_GUIDE.md) - Standards for structure, tone, and terminology
-- [Build Guide](.trae/documents/build-guide.md) - Comprehensive build instructions
-- [Architecture Overview](.trae/documents/architecture-overview.md) - System architecture details
-- [API Reference](.trae/documents/api-reference.md) - API documentation
-- [Configuration Guide](.trae/documents/configuration-guide.md) - Configuration options
-- [Timeline & Milestones](docs/NEXT_STEPS.md) - Weekly milestones and success metrics
-- [Process Completion Report](docs/PROCESS_REPORT.md) - Verification evidence and audit
+- [Documentation Index](docs/meta/documentation-index.md) - Central navigation and cross-references
+- [Documentation Style Guide](docs/meta/documentation-style-guide.md) - Standards for structure, tone, and terminology
+- [Build Guide](docs/guides/build-guide.md) - Comprehensive build instructions
+- [Architecture Overview](docs/reference/architecture-overview.md) - System architecture details
+- [API Reference](docs/reference/api-reference.md) - API documentation
+- [Configuration Guide](docs/reference/configuration-guide.md) - Configuration options
+- [Timeline & Milestones](docs/planning/next-steps.md) - Weekly milestones and success metrics
+- [Process Completion Report](docs/meta/process-report.md) - Verification evidence and audit
 
 ## What’s New (3.0.1)
 
-- GPU conversion pipeline with runtime SPIR-V compilation
-- Scene weighting and adaptive TTL for content prioritization and timing
-- Spout/NDI CPU frame streaming integrated via OutputManager
-- Color parsing and BGRA packing fixes to eliminate startup blue tint
-- AI orchestrator threads prioritized for faster startup
-- Playwright e2e test added; verification auto-updates on build
+### Added
+- GPU conversion pipeline with runtime GLSL→SPIR-V compilation
+- Scene weighting system and adaptive TTL for content prioritization
+- Spout/NDI CPU frame streaming framework via `OutputManager`
+- Playwright-based end-to-end test and automated verification updates
+
+### Fixed
+- Color parsing and BGRA packing to eliminate startup blue tint
+
+### Changed
+- AI orchestrator thread priorities for faster startup responsiveness
 
 ## Contributing
 

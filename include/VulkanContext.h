@@ -6,6 +6,7 @@
 #include <optional>
 #include <array>
 #include <memory>
+#include <unordered_set>
 
 namespace NeonGlyph {
 
@@ -56,6 +57,20 @@ public:
     Result BeginFrame();
     Result EndFrame();
     Result SubmitComputeWork(VkCommandBuffer commandBuffer);
+    Result SubmitComputeWorkWithFence(VkCommandBuffer commandBuffer, bool wait);
+    VkCommandBuffer GetComputeCommandBuffer();
+    Result FinalizeComputeCommandBuffer(VkCommandBuffer cb, bool wait);
+    Result WaitComputeIdle();
+
+    void RegisterBuffer(VkBuffer buffer);
+    void UnregisterBuffer(VkBuffer buffer);
+    void RegisterMemory(VkDeviceMemory memory);
+    void UnregisterMemory(VkDeviceMemory memory);
+    void RegisterImageView(VkImageView view);
+    void UnregisterImageView(VkImageView view);
+    void RegisterDescriptorSetLayout(VkDescriptorSetLayout layout);
+    void UnregisterDescriptorSetLayout(VkDescriptorSetLayout layout);
+    void LogTrackedResourceDiagnostics() const;
     
     // Buffer management
     Result CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, 
@@ -103,6 +118,7 @@ private:
     std::vector<VkSemaphore> m_imageAvailableSemaphores;
     std::vector<VkSemaphore> m_renderFinishedSemaphores;
     std::vector<VkFence> m_inFlightFences;
+    std::vector<VkFence> m_computeSubmitFences;
     uint32_t m_currentFrame;
     VkQueue m_presentQueue;
     
@@ -114,6 +130,10 @@ private:
     
     // Memory management
     VkPhysicalDeviceMemoryProperties m_memoryProperties;
+    std::unordered_set<VkBuffer> m_trackedBuffers;
+    std::unordered_set<VkDeviceMemory> m_trackedMemory;
+    std::unordered_set<VkImageView> m_trackedImageViews;
+    std::unordered_set<VkDescriptorSetLayout> m_trackedDescriptorLayouts;
     
     // Configuration
     Config m_config;
@@ -130,6 +150,7 @@ public:
     Result CreateCommandPools();
     Result CreateCommandBuffers();
     Result CreateSyncObjects();
+    Result CreatePresentSemaphores();
     Result CreateComputePipeline();
     Result CreateDescriptorPool();
     
@@ -148,6 +169,7 @@ private:
     VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
     VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+    void ValidatePixelFormat();
     
     // Shader management
     Result CreateShaderModule(const std::vector<uint32_t>& code, VkShaderModule& shaderModule);

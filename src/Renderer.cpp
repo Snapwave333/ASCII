@@ -9,6 +9,8 @@
 #include <cmath>
 #include <exception>
 #include "Logger.h"
+#include "cache/SegmentedLRUCache.h"
+#include <chrono>
 
 namespace NeonGlyph {
 
@@ -231,20 +233,28 @@ std::vector<uint8> Renderer::ComposeFramePixels(uint32 outWidth, uint32 outHeigh
     std::vector<uint8> pixels(static_cast<size_t>(outWidth) * outHeight * 4);
     static bool loggedPack = false;
     if (!loggedPack) { NeonGlyph::Logger::LogLine("PixelPack BGRA 8-8-8-8"); loggedPack = true; }
+    std::vector<uint32> sy_map(outHeight);
+    std::vector<uint32> sx_map(outWidth);
+    for (uint32 y = 0; y < outHeight; ++y) sy_map[y] = (y * ch) / outHeight;
+    for (uint32 x = 0; x < outWidth; ++x) sx_map[x] = (x * cw) / outWidth;
+    const char* canvas = m_canvas.empty() ? nullptr : m_canvas.data();
+    const uint32* fgcol = m_fgColor.empty() ? nullptr : m_fgColor.data();
+    uint8* outp = pixels.data();
     for (uint32 y = 0; y < outHeight; ++y) {
-        uint32 sy = (y * ch) / outHeight;
+        uint32 sy = sy_map[y];
+        size_t rowBase = static_cast<size_t>(y) * outWidth * 4;
         for (uint32 x = 0; x < outWidth; ++x) {
-            uint32 sx = (x * cw) / outWidth;
+            uint32 sx = sx_map[x];
             size_t sidx = static_cast<size_t>(sy) * cw + sx;
-            char c = m_canvas.empty() ? ' ' : m_canvas[sidx];
-            uint32 fg = m_fgColor.empty() ? 0xFFFFFFFFu : m_fgColor[sidx];
-            uint32 rgba = (c == ' ') ? m_config.render.startupBgColor : (0xFF000000u | (fg & 0x00FFFFFFu));
+            char c = canvas ? canvas[sidx] : ' ';
+            uint32 fg = fgcol ? fgcol[sidx] : 0xFFFFFFFFu;
+            uint32 rgba = (c == ' ') ? 0xFF000000u : (0xFF000000u | (fg & 0x00FFFFFFu));
             if (((rgba >> 24) & 0xFFu) == 0u) rgba |= 0xFF000000u;
-            size_t didx = (static_cast<size_t>(y) * outWidth + x) * 4;
-            pixels[didx + 0] = static_cast<uint8>(rgba & 0xFFu);
-            pixels[didx + 1] = static_cast<uint8>((rgba >> 8) & 0xFFu);
-            pixels[didx + 2] = static_cast<uint8>((rgba >> 16) & 0xFFu);
-            pixels[didx + 3] = static_cast<uint8>((rgba >> 24) & 0xFFu);
+            uint8* p = outp + rowBase + static_cast<size_t>(x) * 4;
+            p[0] = static_cast<uint8>(rgba & 0xFFu);
+            p[1] = static_cast<uint8>((rgba >> 8) & 0xFFu);
+            p[2] = static_cast<uint8>((rgba >> 16) & 0xFFu);
+            p[3] = static_cast<uint8>((rgba >> 24) & 0xFFu);
         }
     }
     return pixels;
@@ -284,36 +294,48 @@ void Renderer::DrawMazeGrid(const std::vector<std::vector<int>>& grid) {
 }
 
 void Renderer::ComposeFrameString() {
+    auto t0 = std::chrono::steady_clock::now();
     std::string s;
     s.reserve(static_cast<size_t>(m_canvasWidth + 10) * m_canvasHeight);
     uint32 prev = 0xFFFFFFFFu;
+    static NeonGlyph::Cache::SegmentedLRUCache<uint32, std::string> colorCache(1024);
     for (uint32 y = 0; y < m_canvasHeight; ++y) {
         for (uint32 x = 0; x < m_canvasWidth; ++x) {
             size_t idx = static_cast<size_t>(y) * m_canvasWidth + x;
             uint32 c = m_fgColor.empty() ? 0xFFFFFFFFu : m_fgColor[idx];
             if (c != prev) {
-                if (c == 0xFFFFFFFFu) {
-                    s.append("\x1B[0m");
-                } else if (m_colorMode == "truecolor") {
-                    uint32 r = (c >> 16) & 0xFFu;
-                    uint32 g = (c >> 8) & 0xFFu;
-                    uint32 b = c & 0xFFu;
-                    s.append("\x1B[38;2;");
-                    s.append(std::to_string(r));
-                    s.push_back(';');
-                    s.append(std::to_string(g));
-                    s.push_back(';');
-                    s.append(std::to_string(b));
-                    s.append("m");
-                } else if (m_colorMode == "ansi") {
-                    int idxAnsi = static_cast<int>(c & 0xFFu);
-                    int base = idxAnsi < 8 ? 30 : 90;
-                    int code = base + (idxAnsi % 8);
-                    s.append("\x1B[");
-                    s.append(std::to_string(code));
-                    s.append("m");
+                auto cached = colorCache.get(c);
+                if (cached) {
+                    s.append(*cached);
                 } else {
-                    s.append("\x1B[0m");
+                    std::string code;
+                    if (c == 0xFFFFFFFFu) {
+                        code = "\x1B[0m";
+                    } else if (m_colorMode == "truecolor") {
+                        uint32 r = (c >> 16) & 0xFFu;
+                        uint32 g = (c >> 8) & 0xFFu;
+                        uint32 b = c & 0xFFu;
+                        code.reserve(20);
+                        code.append("\x1B[38;2;");
+                        code.append(std::to_string(r));
+                        code.push_back(';');
+                        code.append(std::to_string(g));
+                        code.push_back(';');
+                        code.append(std::to_string(b));
+                        code.append("m");
+                    } else if (m_colorMode == "ansi") {
+                        int idxAnsi = static_cast<int>(c & 0xFFu);
+                        int base = idxAnsi < 8 ? 30 : 90;
+                        int codeVal = base + (idxAnsi % 8);
+                        code.reserve(8);
+                        code.append("\x1B[");
+                        code.append(std::to_string(codeVal));
+                        code.append("m");
+                    } else {
+                        code = "\x1B[0m";
+                    }
+                    colorCache.set(c, code);
+                    s.append(code);
                 }
                 prev = c;
             }
@@ -323,6 +345,9 @@ void Renderer::ComposeFrameString() {
         prev = 0xFFFFFFFFu;
     }
     m_lastFrame = std::move(s);
+    auto t1 = std::chrono::steady_clock::now();
+    float ms = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count() / 1000.0f;
+    m_overlay.renderMs = ms;
 }
 
 void Renderer::DrawOverlayToCanvas() {

@@ -8,6 +8,9 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include "cache/SegmentedLRUCache.h"
+#include "cache/RedisClient.h"
+#include "cache/CacheMonitor.h"
 #include <exception>
 
 namespace NeonGlyph {
@@ -218,6 +221,41 @@ Result ThemeManager::GenerateThemeFromLLM(const std::string& name, const std::st
         if (f.is_open()) { std::ostringstream ss; ss << f.rdbuf(); role = ss.str(); }
     }
     std::string promptText = role.empty() ? prompt.dump() : (role + "\n\n" + prompt.dump());
+    static NeonGlyph::Cache::SegmentedLRUCache<std::string, std::string> respCache(1024, 16, std::chrono::seconds(60));
+    static NeonGlyph::Cache::RedisClientPool redisPool;
+    static bool redisInit = false;
+    if (!redisInit) {
+        const char* rep = std::getenv("NG_REDIS_ENDPOINT");
+        redisPool.init(rep ? rep : "127.0.0.1:6379", 4);
+        redisPool.subscribe("cache_invalidate", [&](const std::string& msg){ respCache.invalidate(msg); });
+        redisInit = true;
+    }
+    if (auto cached = respCache.get(promptText)) {
+        ThemeConfig t;
+        Result r = ParseJSON(*cached, t);
+        if (r == Result::Success) {
+            m_theme = t;
+            std::string path = "config/themes/generated_" + name + ".json";
+            std::ofstream f(path, std::ios::trunc);
+            if (f.is_open()) f << *cached;
+            NeonGlyph::Cache::CacheMonitor::Update("theme_llm", respCache.hits(), respCache.misses());
+            return Result::Success;
+        }
+    }
+    // Check Redis L3
+    if (redisInit) {
+        auto r = redisPool.get(promptText);
+        if (r.has_value()) {
+            try {
+                auto j2 = nlohmann::json::parse(*r, nullptr, false);
+                if (!j2.is_discarded() && j2.contains("response")) {
+                    std::string content2 = j2["response"].get<std::string>();
+                    respCache.set(promptText, content2);
+                    NeonGlyph::Cache::CacheMonitor::Update("theme_llm", respCache.hits(), respCache.misses());
+                }
+            } catch (...) {}
+        }
+    }
     nlohmann::json req;
     req["model"] = m_config.llm.model;
     req["prompt"] = promptText;
@@ -271,6 +309,9 @@ Result ThemeManager::GenerateThemeFromLLM(const std::string& name, const std::st
     auto j = nlohmann::json::parse(resp, nullptr, false);
     if (j.is_discarded() || !j.contains("response")) return Result::ValidationFailed;
     std::string content = j["response"].get<std::string>();
+    respCache.set(promptText, content);
+    if (redisInit) { redisPool.set(promptText, j.dump()); }
+    NeonGlyph::Cache::CacheMonitor::Update("theme_llm", respCache.hits(), respCache.misses());
     ThemeConfig t;
     Result r = ParseJSON(content, t);
     if (r != Result::Success) return r;

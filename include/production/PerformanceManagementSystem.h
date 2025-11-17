@@ -58,6 +58,8 @@ private:
     
     // Current metrics
     PerformanceMetrics current_metrics_;
+    std::map<std::string, std::vector<std::chrono::microseconds>> span_history_;
+    mutable std::mutex span_mutex_;
     
     // Callbacks for threshold violations
     std::vector<std::function<void(const PerformanceMetrics&, const std::string&)>> 
@@ -104,11 +106,15 @@ public:
     // Check if performance is acceptable
     bool IsPerformanceAcceptable() const;
     std::vector<std::string> GetPerformanceIssues() const;
+    void StartSpan(const std::string& name);
+    void EndSpan(const std::string& name);
+    std::map<std::string, std::tuple<double,double,double>> GetPercentiles() const;
     
 private:
     void MonitoringLoop();
     void CheckThresholds(const PerformanceMetrics& metrics);
     void StoreMetrics(const PerformanceMetrics& metrics);
+    static double Percentile(const std::vector<std::chrono::microseconds>& v, double p);
 };
 
 class AutomatedBenchmark {

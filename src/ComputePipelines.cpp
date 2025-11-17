@@ -531,7 +531,8 @@ ASCIIComputePipeline::ASCIIComputePipeline(VulkanContext* context, ComputeShader
     , m_descriptorSetLayout(VK_NULL_HANDLE), m_descriptorPool(VK_NULL_HANDLE)
     , m_parameterBuffer(VK_NULL_HANDLE), m_parameterMemory(VK_NULL_HANDLE)
     , m_charsetBuffer(VK_NULL_HANDLE), m_charsetMemory(VK_NULL_HANDLE)
-    , m_inputImageView(VK_NULL_HANDLE) {
+    , m_inputImageView(VK_NULL_HANDLE)
+    , m_lastInputImage(VK_NULL_HANDLE) {
 }
 
 ASCIIComputePipeline::~ASCIIComputePipeline() {
@@ -571,25 +572,30 @@ Result ASCIIComputePipeline::Initialize(uint32_t maxWidth, uint32_t maxHeight) {
 
 void ASCIIComputePipeline::Shutdown() {
     if (m_inputImageView != VK_NULL_HANDLE) {
+        m_context->UnregisterImageView(m_inputImageView);
         vkDestroyImageView(m_device, m_inputImageView, nullptr);
         m_inputImageView = VK_NULL_HANDLE;
     }
     if (m_charsetMemory != VK_NULL_HANDLE) {
+        m_context->UnregisterMemory(m_charsetMemory);
         vkFreeMemory(m_device, m_charsetMemory, nullptr);
         m_charsetMemory = VK_NULL_HANDLE;
     }
     
     if (m_charsetBuffer != VK_NULL_HANDLE) {
+        m_context->UnregisterBuffer(m_charsetBuffer);
         vkDestroyBuffer(m_device, m_charsetBuffer, nullptr);
         m_charsetBuffer = VK_NULL_HANDLE;
     }
     
     if (m_parameterMemory != VK_NULL_HANDLE) {
+        m_context->UnregisterMemory(m_parameterMemory);
         vkFreeMemory(m_device, m_parameterMemory, nullptr);
         m_parameterMemory = VK_NULL_HANDLE;
     }
     
     if (m_parameterBuffer != VK_NULL_HANDLE) {
+        m_context->UnregisterBuffer(m_parameterBuffer);
         vkDestroyBuffer(m_device, m_parameterBuffer, nullptr);
         m_parameterBuffer = VK_NULL_HANDLE;
     }
@@ -610,6 +616,7 @@ void ASCIIComputePipeline::Shutdown() {
     }
     
     if (m_descriptorSetLayout != VK_NULL_HANDLE) {
+        m_context->UnregisterDescriptorSetLayout(m_descriptorSetLayout);
         vkDestroyDescriptorSetLayout(m_device, m_descriptorSetLayout, nullptr);
         m_descriptorSetLayout = VK_NULL_HANDLE;
     }
@@ -712,6 +719,7 @@ Result ASCIIComputePipeline::CreateDescriptorSetLayout() {
     if (vkCreateDescriptorSetLayout(m_device, &layoutInfo, nullptr, &m_descriptorSetLayout) != VK_SUCCESS) {
         return Result::InitializationFailed;
     }
+    m_context->RegisterDescriptorSetLayout(m_descriptorSetLayout);
     
     return Result::Success;
 }
@@ -802,9 +810,12 @@ Result ASCIIComputePipeline::UpdateDescriptorSets(VkImage inputTexture, VkBuffer
     std::array<VkWriteDescriptorSet, 4> descriptorWrites{};
     
     // Input texture - Note: We need an image view, not just VkImage
-    if (m_inputImageView != VK_NULL_HANDLE) {
-        vkDestroyImageView(m_device, m_inputImageView, nullptr);
-        m_inputImageView = VK_NULL_HANDLE;
+    if (m_lastInputImage != inputTexture) {
+        if (m_inputImageView != VK_NULL_HANDLE) {
+            m_context->UnregisterImageView(m_inputImageView);
+            vkDestroyImageView(m_device, m_inputImageView, nullptr);
+            m_inputImageView = VK_NULL_HANDLE;
+        }
     }
     VkImageViewCreateInfo viewInfo{};
     viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -820,8 +831,12 @@ Result ASCIIComputePipeline::UpdateDescriptorSets(VkImage inputTexture, VkBuffer
     viewInfo.subresourceRange.levelCount = 1;
     viewInfo.subresourceRange.baseArrayLayer = 0;
     viewInfo.subresourceRange.layerCount = 1;
-    if (vkCreateImageView(m_device, &viewInfo, nullptr, &m_inputImageView) != VK_SUCCESS) {
-        return Result::InitializationFailed;
+    if (m_inputImageView == VK_NULL_HANDLE) {
+        if (vkCreateImageView(m_device, &viewInfo, nullptr, &m_inputImageView) != VK_SUCCESS) {
+            return Result::InitializationFailed;
+        }
+        m_context->RegisterImageView(m_inputImageView);
+        m_lastInputImage = inputTexture;
     }
     VkDescriptorImageInfo imageInfo{};
     imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;

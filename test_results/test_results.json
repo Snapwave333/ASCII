@@ -1,0 +1,74 @@
+{
+  "test_start_time": "2025-11-16T00:13:55.236837",
+  "test_duration": 30,
+  "tests_run": [
+    {
+      "test_name": "Visual Rendering Pipeline",
+      "start_time": "2025-11-16T00:13:55.237610",
+      "result": "PASSED",
+      "details": {
+        "analysis": {
+          "frame_metrics_found": true,
+          "color_modes_detected": [
+            "mono",
+            "truecolor",
+            "ansi"
+          ],
+          "ascii_content_detected": true,
+          "animations_detected": false,
+          "performance_metrics": {
+            "TS": 1763277235536,
+            "CreateVulkanSurfaceMs": 7.8184
+          },
+          "visual_effects": []
+        },
+        "animation_events": 30,
+        "performance_consistent": true
+      },
+      "end_time": "2025-11-16T00:14:18.402111"
+    },
+    {
+      "test_name": "Performance Metrics",
+      "start_time": "2025-11-16T00:14:18.402591",
+      "result": "PASSED",
+      "details": {},
+      "end_time": "2025-11-16T00:14:26.501374"
+    },
+    {
+      "test_name": "Animation Detection",
+      "start_time": "2025-11-16T00:14:26.501671",
+      "result": "PASSED",
+      "details": {},
+      "end_time": "2025-11-16T00:14:40.630048"
+    },
+    {
+      "test_name": "Visual Regression",
+      "start_time": "2025-11-16T00:14:40.630462",
+      "result": "FAILED",
+      "details": {},
+      "error": "NeonGlyph logo not detected",
+      "end_time": "2025-11-16T00:14:40.689699"
+    }
+  ],
+  "overall_result": "PARTIAL",
+  "performance_summary": {
+    "TS": 1763277235536,
+    "CreateVulkanSurfaceMs": 7.8184
+  },
+  "visual_content_summary": {
+    "frame_metrics_found": true,
+    "color_modes_detected": [
+      "mono",
+      "truecolor",
+      "ansi"
+    ],
+    "ascii_content_detected": true,
+    "animations_detected": false,
+    "performance_metrics": {
+      "TS": 1763277235536,
+      "CreateVulkanSurfaceMs": 7.8184
+    },
+    "visual_effects": []
+  },
+  "animation_summary": {}
+}

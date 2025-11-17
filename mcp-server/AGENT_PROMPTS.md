@@ -179,7 +179,7 @@ AGENT COORDINATION:
 
 - [Integration Guide](NEONGLYPH_INTEGRATION.md)
 - [MCP Server Overview](README.md)
-- [Documentation Style Guide](../.trae/documents/DOCUMENTATION_STYLE_GUIDE.md)
+- [Documentation Style Guide](../docs/meta/documentation-style-guide.md)
 
 ## Change History
 

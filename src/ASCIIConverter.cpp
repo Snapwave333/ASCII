@@ -105,6 +105,7 @@ void ASCIIConverter::Shutdown() {
     }
     
     if (m_fontAtlasView != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterImageView(m_fontAtlasView);
         vkDestroyImageView(device, m_fontAtlasView, nullptr);
         m_fontAtlasView = VK_NULL_HANDLE;
     }
@@ -115,28 +116,43 @@ void ASCIIConverter::Shutdown() {
     }
     
     if (m_fontAtlasMemory != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterMemory(m_fontAtlasMemory);
         vkFreeMemory(device, m_fontAtlasMemory, nullptr);
         m_fontAtlasMemory = VK_NULL_HANDLE;
     }
     
     if (m_conversionBuffer != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterBuffer(m_conversionBuffer);
         vkDestroyBuffer(device, m_conversionBuffer, nullptr);
         m_conversionBuffer = VK_NULL_HANDLE;
     }
     
     if (m_conversionBufferMemory != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterMemory(m_conversionBufferMemory);
         vkFreeMemory(device, m_conversionBufferMemory, nullptr);
         m_conversionBufferMemory = VK_NULL_HANDLE;
     }
     
     if (m_outputBuffer != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterBuffer(m_outputBuffer);
         vkDestroyBuffer(device, m_outputBuffer, nullptr);
         m_outputBuffer = VK_NULL_HANDLE;
     }
     
     if (m_outputBufferMemory != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterMemory(m_outputBufferMemory);
         vkFreeMemory(device, m_outputBufferMemory, nullptr);
         m_outputBufferMemory = VK_NULL_HANDLE;
+    }
+    if (m_outputReadbackBuffer != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterBuffer(m_outputReadbackBuffer);
+        vkDestroyBuffer(device, m_outputReadbackBuffer, nullptr);
+        m_outputReadbackBuffer = VK_NULL_HANDLE;
+    }
+    if (m_outputReadbackMemory != VK_NULL_HANDLE) {
+        m_vulkanContext->UnregisterMemory(m_outputReadbackMemory);
+        vkFreeMemory(device, m_outputReadbackMemory, nullptr);
+        m_outputReadbackMemory = VK_NULL_HANDLE;
     }
     
     if (m_conversionPipeline != VK_NULL_HANDLE) {
@@ -473,6 +489,7 @@ Result ASCIIConverter::CreateAtlasImage(uint32_t width, uint32_t height, const s
         vkFreeMemory(device, stagingMemory, nullptr);
         return Result::InitializationFailed;
     }
+    m_vulkanContext->RegisterImageView(m_fontAtlasView);
     
     // Create sampler
     VkSamplerCreateInfo samplerInfo{};
@@ -633,6 +650,7 @@ Result ASCIIConverter::ConvertSIMD(const uint8_t* inputTexture, uint32_t width, 
                 __m256 sum = _mm256_setzero_ps();
                 uint32_t i = 0;
                 for (; i < simdCols; i += 8) {
+                    _mm_prefetch((const char*)(inputTexture + idx + (i + 32) * 4), _MM_HINT_T0);
                     __m256 r = _mm256_cvtepi32_ps(_mm256_set_epi32(
                         inputTexture[idx + (i+7)*4 + 0], inputTexture[idx + (i+6)*4 + 0], inputTexture[idx + (i+5)*4 + 0], inputTexture[idx + (i+4)*4 + 0],
                         inputTexture[idx + (i+3)*4 + 0], inputTexture[idx + (i+2)*4 + 0], inputTexture[idx + (i+1)*4 + 0], inputTexture[idx + i*4 + 0]));
@@ -698,19 +716,7 @@ Result ASCIIConverter::ConvertGPU(VkImage inputImage, uint32_t width, uint32_t h
         }
         return Result::Error;
     }
-    VkCommandBuffer cmd;
-    {
-        VkCommandBufferAllocateInfo ai{};
-        ai.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-        ai.commandPool = m_vulkanContext->GetCommandPool();
-        ai.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-        ai.commandBufferCount = 1;
-        if (vkAllocateCommandBuffers(m_vulkanContext->GetDevice(), &ai, &cmd) != VK_SUCCESS) return Result::InitializationFailed;
-    }
-    VkCommandBufferBeginInfo bi{};
-    bi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-    if (vkBeginCommandBuffer(cmd, &bi) != VK_SUCCESS) return Result::Error;
+    VkCommandBuffer cmd = m_vulkanContext->GetComputeCommandBuffer();
     Result r = m_asciiPipeline->Convert(cmd, inputImage, width, height, m_outputBuffer);
     if (r != Result::Success) return r;
     VkBufferCopy bc{};
@@ -718,33 +724,18 @@ Result ASCIIConverter::ConvertGPU(VkImage inputImage, uint32_t width, uint32_t h
     bc.dstOffset = 0;
     bc.size = sizeof(uint32_t) * 80u * 24u;
     vkCmdCopyBuffer(cmd, m_outputBuffer, m_outputReadbackBuffer, 1, &bc);
-    if (vkEndCommandBuffer(cmd) != VK_SUCCESS) return Result::Error;
-    r = m_vulkanContext->SubmitComputeWork(cmd);
+    r = m_vulkanContext->FinalizeComputeCommandBuffer(cmd, true);
     if (r != Result::Success) return r;
     void* data = nullptr;
     if (vkMapMemory(m_vulkanContext->GetDevice(), m_outputReadbackMemory, 0, bc.size, 0, &data) != VK_SUCCESS) return Result::Error;
     if (outputBuffer != VK_NULL_HANDLE) {
-        VkDevice device = m_vulkanContext->GetDevice();
         VkBufferCopy bc2{};
         bc2.srcOffset = 0;
         bc2.dstOffset = 0;
         bc2.size = bc.size;
-        VkCommandBuffer cmd2;
-        VkCommandBufferAllocateInfo ai2{};
-        ai2.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-        ai2.commandPool = m_vulkanContext->GetCommandPool();
-        ai2.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-        ai2.commandBufferCount = 1;
-        if (vkAllocateCommandBuffers(device, &ai2, &cmd2) == VK_SUCCESS) {
-            VkCommandBufferBeginInfo bi2{};
-            bi2.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-            bi2.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-            if (vkBeginCommandBuffer(cmd2, &bi2) == VK_SUCCESS) {
-                vkCmdCopyBuffer(cmd2, m_outputReadbackBuffer, outputBuffer, 1, &bc2);
-                vkEndCommandBuffer(cmd2);
-                m_vulkanContext->SubmitComputeWork(cmd2);
-            }
-        }
+        VkCommandBuffer cmd2 = m_vulkanContext->GetComputeCommandBuffer();
+        vkCmdCopyBuffer(cmd2, m_outputReadbackBuffer, outputBuffer, 1, &bc2);
+        m_vulkanContext->FinalizeComputeCommandBuffer(cmd2, true);
     }
     vkUnmapMemory(m_vulkanContext->GetDevice(), m_outputReadbackMemory);
     outputSize = 80u * 24u;

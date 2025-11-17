@@ -150,6 +150,48 @@ std::vector<std::string> PerformanceMonitor::GetPerformanceIssues() const {
     return issues;
 }
 
+void PerformanceMonitor::StartSpan(const std::string& name) {
+    std::lock_guard<std::mutex> lock(span_mutex_);
+    span_history_[name].push_back(std::chrono::microseconds(0));
+    auto& vec = span_history_[name];
+    vec.back() = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now().time_since_epoch());
+}
+
+void PerformanceMonitor::EndSpan(const std::string& name) {
+    auto now = std::chrono::steady_clock::now();
+    std::lock_guard<std::mutex> lock(span_mutex_);
+    auto it = span_history_.find(name);
+    if (it != span_history_.end() && !it->second.empty()) {
+        auto start = it->second.back();
+        auto dur = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()) - start;
+        it->second.back() = dur;
+    }
+}
+
+static void sort_copy(const std::vector<std::chrono::microseconds>& src, std::vector<std::chrono::microseconds>& dst) {
+    dst = src; std::sort(dst.begin(), dst.end());
+}
+
+double PerformanceMonitor::Percentile(const std::vector<std::chrono::microseconds>& v, double p) {
+    if (v.empty()) return 0.0; std::vector<std::chrono::microseconds> s; sort_copy(v, s);
+    size_t idx = static_cast<size_t>(std::ceil((p / 100.0) * s.size())) - 1; if (idx >= s.size()) idx = s.size() - 1;
+    return static_cast<double>(s[idx].count());
+}
+
+std::map<std::string, std::tuple<double,double,double>> PerformanceMonitor::GetPercentiles() const {
+    std::lock_guard<std::mutex> lock(span_mutex_);
+    std::map<std::string, std::tuple<double,double,double>> out;
+    for (auto& kv : span_history_) {
+        auto& v = kv.second;
+        if (v.empty()) continue;
+        double p50 = Percentile(v, 50.0);
+        double p90 = Percentile(v, 90.0);
+        double p99 = Percentile(v, 99.0);
+        out[kv.first] = std::make_tuple(p50, p90, p99);
+    }
+    return out;
+}
+
 void PerformanceMonitor::MonitoringLoop() {
     while (monitoring_active_) {
         auto start_time = std::chrono::steady_clock::now();
@@ -438,3 +480,19 @@ PerformanceProfiler::IdentifyBottlenecks(int top_n) const {
 
 } // namespace Production
 } // namespace NeonGlyph
+static std::string GenerateSpanPercentilesJSONImpl(const PerformanceMonitor* pm) {
+    std::stringstream ss; ss << "{\n  \"spans\": {\n";
+    auto pct = pm ? pm->GetPercentiles() : std::map<std::string, std::tuple<double,double,double>>{};
+    size_t i = 0; for (const auto& kv : pct) {
+        const auto& name = kv.first; auto [p50,p90,p99] = kv.second;
+        ss << "    \"" << name << "\": { \"p50_us\": " << p50 << ", \"p90_us\": " << p90 << ", \"p99_us\": " << p99 << " }";
+        if (++i < pct.size()) ss << ",\n"; else ss << "\n";
+    }
+    ss << "  }\n}\n"; return ss.str();
+}
+
+std::string GenerateSpanPercentilesJSON() {
+    auto* pm = PerfMonitorRegistry::Get();
+    return GenerateSpanPercentilesJSONImpl(pm);
+}
+#include "production/PerfMonitorRegistry.h"

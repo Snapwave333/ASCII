@@ -52,6 +52,9 @@ public:
     // Performance monitoring
     float32 GetInferenceTimeMs() const { return m_inferenceTimeMs; }
     uint32 GetModelMemoryUsageMB() const { return m_modelMemoryUsageMB; }
+    
+    // Director System Integration
+    void ApplyDirective(const DirectorDirective& directive);
 
 private:
     // ONNX Runtime (optional - stubbed when not available)

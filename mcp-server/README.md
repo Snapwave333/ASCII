@@ -87,7 +87,7 @@ The server provides only metadata and descriptions - no actual ASCII frames are 
 
 - [Integration Guide](NEONGLYPH_INTEGRATION.md)
 - [Agent Prompts](AGENT_PROMPTS.md)
-- [Documentation Style Guide](../.trae/documents/DOCUMENTATION_STYLE_GUIDE.md)
+- [Documentation Style Guide](../docs/meta/documentation-style-guide.md)
 
 ## Change History
 

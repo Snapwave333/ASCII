@@ -1,0 +1,115 @@
+{
+    "test_configuration": {
+        "name": "NeonGlyph Advanced Visual Testing Suite",
+        "version": "1.0.0",
+        "description": "Comprehensive E2E testing for visual rendering, animations, and performance",
+        "test_duration_seconds": 30,
+        "performance_thresholds": {
+            "max_frame_time_ms": 16.67,
+            "max_render_time_ms": 12.0,
+            "max_present_time_ms": 2.0,
+            "max_jitter_ms": 1.0,
+            "max_dropped_frames": 0,
+            "min_fps": 60
+        },
+        "visual_content_requirements": {
+            "ascii_content_required": true,
+            "color_modes_required": ["mono", "truecolor", "ansi"],
+            "animations_required": true,
+            "minimum_animation_events": 3,
+            "required_visual_effects": ["MorphToTestCard", "RenderTestCard", "RenderNeonGlyphLogo"]
+        },
+        "regression_testing": {
+            "pixel_difference_threshold": 0.1,
+            "mse_threshold": 100.0,
+            "ssim_threshold": 0.95,
+            "generate_reference_images": true,
+            "create_visual_reports": true
+        },
+        "logging_configuration": {
+            "log_level": "INFO",
+            "save_application_logs": true,
+            "save_performance_metrics": true,
+            "save_screenshots": true,
+            "output_directory": "test_results"
+        }
+    },
+    "test_scenarios": [
+        {
+            "name": "Full Visual Pipeline Test",
+            "description": "Test complete visual rendering pipeline",
+            "duration_seconds": 30,
+            "expected_behaviors": [
+                "Application starts successfully",
+                "ASCII content is rendered",
+                "Color modes are detected",
+                "Performance metrics are within thresholds",
+                "Animations are detected"
+            ]
+        },
+        {
+            "name": "Performance Validation",
+            "description": "Validate performance metrics accuracy",
+            "duration_seconds": 15,
+            "expected_behaviors": [
+                "Frame time < 16.67ms for 60fps",
+                "No dropped frames",
+                "Consistent frame timing",
+                "Low jitter values"
+            ]
+        },
+        {
+            "name": "Animation Detection",
+            "description": "Test animation and visual effect detection",
+            "duration_seconds": 20,
+            "expected_behaviors": [
+                "Morph animations detected",
+                "Color mode changes detected",
+                "Visual effects logged",
+                "Minimum animation events triggered"
+            ]
+        },
+        {
+            "name": "Visual Regression",
+            "description": "Test visual regression detection",
+            "duration_seconds": 10,
+            "expected_behaviors": [
+                "Baseline images captured",
+                "Visual differences detected",
+                "Regression reports generated",
+                "Similarity metrics calculated"
+            ]
+        }
+    ],
+    "validation_criteria": {
+        "critical_checks": [
+            "Application must start and run without crashes",
+            "ASCII content must be detected in logs",
+            "Performance metrics must be within acceptable thresholds",
+            "At least one color mode must be detected",
+            "Animation events must be detected"
+        ],
+        "performance_checks": [
+            "Average frame time < 16.67ms",
+            "Maximum frame time < 20ms",
+            "Standard deviation < 2ms",
+            "Zero dropped frames",
+            "Jitter < 1ms"
+        ],
+        "visual_checks": [
+            "NeonGlyph logo rendered",
+            "Test card rendered",
+            "Color morphing detected",
+            "Animation sequences completed",
+            "Visual effects applied"
+        ]
+    },
+    "output_formats": {
+        "html_report": true,
+        "json_results": true,
+        "console_output": true,
+        "log_files": true,
+        "screenshots": true,
+        "performance_charts": true
+    }
+}

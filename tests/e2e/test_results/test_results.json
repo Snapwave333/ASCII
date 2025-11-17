@@ -1,0 +1,44 @@
+{
+  "test_start_time": "2025-11-15T20:45:43.090048",
+  "test_duration": 30,
+  "tests_run": [
+    {
+      "test_name": "Visual Rendering Pipeline",
+      "start_time": "2025-11-15T20:45:43.092768",
+      "result": "FAILED",
+      "details": {},
+      "error": "'bool' object is not subscriptable",
+      "end_time": "2025-11-15T20:45:51.206374"
+    },
+    {
+      "test_name": "Performance Metrics",
+      "start_time": "2025-11-15T20:45:51.207449",
+      "result": "FAILED",
+      "details": {},
+      "error": "'bool' object is not subscriptable",
+      "end_time": "2025-11-15T20:45:59.353166"
+    },
+    {
+      "test_name": "Animation Detection",
+      "start_time": "2025-11-15T20:45:59.361647",
+      "result": "FAILED",
+      "details": {},
+      "error": "No animation events detected during monitoring period",
+      "end_time": "2025-11-15T20:46:13.496975"
+    },
+    {
+      "test_name": "Visual Regression",
+      "start_time": "2025-11-15T20:46:13.500375",
+      "result": "FAILED",
+      "details": {
+        "content_validation": false,
+        "baseline_comparison": {}
+      },
+      "end_time": "2025-11-15T20:46:13.509052"
+    }
+  ],
+  "overall_result": "FAILED",
+  "performance_summary": {},
+  "visual_content_summary": {},
+  "animation_summary": {}
+}
