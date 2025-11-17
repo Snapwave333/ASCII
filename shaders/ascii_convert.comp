@@ -1,0 +1,98 @@
+#version 450
+
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+
+// Input texture
+layout(binding = 0, rgba8) uniform readonly image2D inputTexture;
+
+// ASCII conversion parameters
+layout(binding = 1) uniform ConversionParams {
+    uvec2 textureSize;
+    uvec2 asciiSize;
+    float brightness;
+    float contrast;
+    uint charsetSize;
+    uint padding;
+} params;
+
+// Character density lookup table
+layout(binding = 2) buffer CharsetBuffer {
+    float densities[];
+} charset;
+
+// Output ASCII data
+layout(binding = 3) buffer OutputBuffer {
+    uint asciiData[];
+} output;
+
+// Font atlas
+layout(binding = 4) uniform sampler2D fontAtlas;
+
+// Utility functions
+float luminance(vec4 color) {
+    return dot(color.rgb, vec3(0.299, 0.587, 0.114));
+}
+
+float adjustBrightnessContrast(float value, float brightness, float contrast) {
+    return (value * contrast) + brightness;
+}
+
+char findBestCharacter(float density, float[] densities, int count) {
+    float minDiff = 1.0;
+    int bestIndex = 0;
+    
+    for (int i = 0; i < count; i++) {
+        float diff = abs(density - densities[i]);
+        if (diff < minDiff) {
+            minDiff = diff;
+            bestIndex = i;
+        }
+    }
+    
+    return char(bestIndex);
+}
+
+void main() {
+    ivec2 globalID = ivec2(gl_GlobalInvocationID.xy);
+    
+    // Check bounds
+    if (globalID.x >= params.asciiSize.x || globalID.y >= params.asciiSize.y) {
+        return;
+    }
+    
+    // Calculate texture sampling region
+    ivec2 texelSize = ivec2(params.textureSize) / ivec2(params.asciiSize);
+    ivec2 sampleStart = globalID * texelSize;
+    ivec2 sampleEnd = min(sampleStart + texelSize, ivec2(params.textureSize));
+    
+    // Sample and average the region
+    float totalLuminance = 0.0;
+    int sampleCount = 0;
+    
+    for (int y = sampleStart.y; y < sampleEnd.y; y++) {
+        for (int x = sampleStart.x; x < sampleEnd.x; x++) {
+            vec4 color = imageLoad(inputTexture, ivec2(x, y));
+            float lum = luminance(color);
+            lum = adjustBrightnessContrast(lum, params.brightness, params.contrast);
+            totalLuminance += lum;
+            sampleCount++;
+        }
+    }
+    
+    float avgLuminance = totalLuminance / float(sampleCount);
+    
+    // Map luminance to character density
+    float normalizedDensity = clamp(avgLuminance, 0.0, 1.0);
+    
+    // Find best matching character
+    char bestChar = findBestCharacter(normalizedDensity, charset.densities, int(params.charsetSize));
+    
+    // Calculate output index
+    uint outputIndex = globalID.y * params.asciiSize.x + globalID.x;
+    
+    // Store ASCII character and properties
+    uint asciiValue = uint(bestChar);
+    uint packedData = (asciiValue & 0xFF) | ((uint(avgLuminance * 255.0) & 0xFF) << 8);
+    
+    output.asciiData[outputIndex] = packedData;
+}

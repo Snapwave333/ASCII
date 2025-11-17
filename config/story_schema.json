@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NeonGlyph Story Set Schema",
+  "description": "Schema for defining story arcs, acts, and scenes for the NeonGlyph ASCII art generator",
+  "type": "object",
+  "required": ["set_id", "total_duration_sec", "acts"],
+  "properties": {
+    "set_id": {
+      "type": "string",
+      "description": "Unique identifier for this story set",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "total_duration_sec": {
+      "type": "integer",
+      "description": "Total duration of the entire story set in seconds",
+      "minimum": 60,
+      "maximum": 7200
+    },
+    "default_palette": {
+      "type": "string",
+      "description": "Default color palette to use when no scene-specific palette is defined"
+    },
+    "default_motif": {
+      "type": "string",
+      "description": "Default visual motif to use when no scene-specific motif is defined"
+    },
+    "acts": {
+      "type": "array",
+      "description": "Array of acts that make up the story",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "time_range_sec", "theme_family", "scenes"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this act",
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable title for this act"
+          },
+          "time_range_sec": {
+            "type": "array",
+            "description": "Start and end time for this act in seconds",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "theme_family": {
+            "type": "array",
+            "description": "Array of theme keywords that define this act's visual style",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "arc_shape": {
+            "type": "string",
+            "description": "The emotional/intensity curve shape for this act",
+            "enum": ["slow_rise", "sharp_peak", "plateau", "plateau_with_peaks", "gentle_decline", "linear"],
+            "default": "linear"
+          },
+          "base_transition_duration_ms": {
+            "type": "number",
+            "description": "Base duration for transitions within this act in milliseconds",
+            "minimum": 100,
+            "maximum": 10000,
+            "default": 2000.0
+          },
+          "scenes": {
+            "type": "array",
+            "description": "Array of scenes within this act",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "required": ["id", "title", "relative_range", "intensity_curve", "dominant_palettes"],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Unique identifier for this scene",
+                  "pattern": "^[a-zA-Z0-9_-]+$"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Human-readable title for this scene"
+                },
+                "relative_range": {
+                  "type": "array",
+                  "description": "Relative start and end position within the act (0.0 to 1.0)",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                  }
+                },
+                "allowed_motifs": {
+                  "type": "array",
+                  "description": "Visual motifs that are encouraged in this scene",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "banned_motifs": {
+                  "type": "array",
+                  "description": "Visual motifs that should be avoided in this scene",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "intensity_curve": {
+                  "type": "string",
+                  "description": "Intensity progression within this scene (start->end)",
+                  "pattern": "^[0-9.]+->[0-9.]+$"
+                },
+                "dominant_palettes": {
+                  "type": "array",
+                  "description": "Primary color palettes for this scene",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "transition_speed": {
+                  "type": "number",
+                  "description": "Multiplier for transition speed in this scene",
+                  "minimum": 0.1,
+                  "maximum": 5.0,
+                  "default": 1.0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

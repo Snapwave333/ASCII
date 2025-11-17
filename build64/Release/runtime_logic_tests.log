@@ -1,0 +1,22 @@
+[ConfigManager] Warning: Failed to parse float value 'abc': invalid stof argument
+[ConfigManager] Warning: Failed to parse integer value 'notnumber': invalid stoul argument
+PASS: config safe parsing
+[ConfigManager] Loading configuration from: config/default.json
+PASS: default config fallback
+[VulkanContext] Error: Device not initialized in BeginFrame
+[VulkanContext] Error: Device not initialized in EndFrame
+PASS: vulkan defensive checks
+[VulkanContext] Creating Vulkan instance with validation...
+[VulkanContext] Performing pre-initialization safety checks...
+[VulkanContext] Testing basic Vulkan loader functionality...
+[VulkanContext] Vulkan loader test successful, found 15 layer(s)
+[VulkanContext] Vulkan API Version: 1.2
+[VulkanContext] Required extensions count: 3
+[VulkanContext] Extension[0]: VK_EXT_debug_utils
+[VulkanContext] Extension[1]: VK_KHR_win32_surface
+[VulkanContext] Extension[2]: VK_KHR_surface
+[VulkanContext] Validation layers enabled
+[VulkanContext] Creating Vulkan instance...
+[VulkanContext] Vulkan instance created successfully
+PASS: vulkan instance create
+ALL PASS

@@ -1,0 +1,107 @@
+# NeonGlyph Production Monitoring Configuration
+# Comprehensive monitoring setup with Prometheus, Grafana, and alerting
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'neonglyph-production'
+    environment: 'production'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - "neonglyph_alerts.yml"
+  - "neonglyph_rules.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    scrape_interval: 30s
+    metrics_path: /metrics
+
+  # NeonGlyph application metrics
+  - job_name: 'neonglyph-app'
+    static_configs:
+      - targets: ['localhost:8080']
+    scrape_interval: 10s
+    metrics_path: /metrics
+    params:
+      format: ['prometheus']
+    scrape_timeout: 5s
+    
+  # System metrics (node exporter)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['localhost:9100']
+    scrape_interval: 30s
+    metrics_path: /metrics
+
+  # Vulkan GPU metrics
+  - job_name: 'vulkan-metrics'
+    static_configs:
+      - targets: ['localhost:8081']
+    scrape_interval: 15s
+    metrics_path: /vulkan/metrics
+    params:
+      format: ['prometheus']
+
+  # Database metrics (PostgreSQL)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['localhost:9187']
+    scrape_interval: 30s
+    metrics_path: /metrics
+
+  # HTTP endpoint monitoring
+  - job_name: 'http-endpoints'
+    static_configs:
+      - targets: ['localhost:8082']
+    scrape_interval: 20s
+    metrics_path: /http/metrics
+    params:
+      endpoints: ['/health', '/api/config', '/api/errors']
+
+  # Error tracking metrics
+  - job_name: 'error-tracking'
+    static_configs:
+      - targets: ['localhost:8083']
+    scrape_interval: 10s
+    metrics_path: /errors/metrics
+    params:
+      severity_levels: ['CRITICAL', 'ERROR', 'WARNING']
+
+  # Performance metrics
+  - job_name: 'performance'
+    static_configs:
+      - targets: ['localhost:8084']
+    scrape_interval: 5s
+    metrics_path: /performance/metrics
+    params:
+      categories: ['vulkan', 'ascii_conversion', 'memory', 'cpu']
+
+# Remote write configuration for long-term storage
+remote_write:
+  - url: "http://cortex:9009/api/prom/push"
+    queue_config:
+      max_samples_per_send: 1000
+      max_shards: 200
+      capacity: 2500
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'neonglyph_.*'
+        action: keep
+
+# Remote read configuration
+remote_read:
+  - url: "http://cortex:9009/api/prom/read"
+    read_recent: true

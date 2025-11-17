@@ -1,0 +1,49 @@
+// NeonGlyph Windows Resource File
+#include <windows.h>
+#include "resource.h"
+
+// Icon resources
+IDI_MAIN_ICON ICON "assets/branding/neonglyph.ico"
+IDI_TRAY_ICON ICON "assets/branding/neonglyph-tray.ico"
+
+// Version information
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+FILEFLAGS 0x0L
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+FILESUBTYPE VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "NeonGlyph Development Team"
+            VALUE "FileDescription", "NeonGlyph - AI-Driven ASCII Visual Synthesis Engine"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "NeonGlyph.exe"
+            VALUE "LegalCopyright", "Copyright (C) 2024 NeonGlyph Development Team"
+            VALUE "OriginalFilename", "NeonGlyph.exe"
+            VALUE "ProductName", "NeonGlyph"
+            VALUE "ProductVersion", "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+// String table for system tray
+STRINGTABLE
+BEGIN
+    IDS_TRAY_TOOLTIP, "NeonGlyph - AI-Driven ASCII Visual Synthesis"
+    IDS_TRAY_SHOW, "&Show NeonGlyph"
+    IDS_TRAY_HIDE, "&Hide NeonGlyph"
+    IDS_TRAY_START, "&Start AI Show"
+    IDS_TRAY_STOP, "S&top AI Show"
+    IDS_TRAY_BREAK, "&Take AI Break"
+    IDS_TRAY_EXIT, "E&xit"
+END

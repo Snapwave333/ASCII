@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <linearGradient id="ng-favicon-grad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0FF0FC"/>
+      <stop offset="100%" stop-color="#FF4D67"/>
+    </linearGradient>
+  </defs>
+  <rect width="16" height="16" rx="3" fill="#0D0D0D" stroke="url(#ng-favicon-grad)" stroke-width="0.5"/>
+  <text x="8" y="12" font-family="Consolas, monospace" font-size="10" fill="url(#ng-favicon-grad)" text-anchor="middle">@</text>
+</svg>

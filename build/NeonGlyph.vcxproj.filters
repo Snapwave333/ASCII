@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\AIDirector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\AudioEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ConfigManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\IconGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\MusicAnalyzer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\PaletteManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\SafetyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\ScenarioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\StoryContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Theme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\VulkanContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\VulkanPerformanceMetrics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\WinIntegration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\cache\CacheMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\cache\RedisClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\LivePerformanceSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\NamingConventions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\PerfMonitorRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\PerformanceOptimizationTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\QualityAssuranceFramework.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\ThemeDevelopmentWorkflow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\VersionControlSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\chrom\Documents\trae_projects\ASCIi\src\production\VisualConsistencyChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\AIConductor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\AIDirector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ASCIIConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\AudioEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ComputePipelines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ConfigManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\DirectorTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\IconGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\MusicAnalyzer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\NeonGlyph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\NeonGlyphApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\OutputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\PaletteManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\SafetyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\ScenarioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\SeamlessWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\StoryContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\Theme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\VulkanContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\VulkanOptimizedContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\VulkanPerformanceMetrics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\WinIntegration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\WindowsIntegration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\cache\CacheMonitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\cache\RedisClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\cache\SegmentedLRUCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\chaos\IocpMetrics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\concurrency\LockFreeRingBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\concurrency\WorkStealingThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\LivePerformanceSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\NamingConventions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\PerfMonitorRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\PerformanceManagementSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\PerformanceOptimizationTracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\QualityAssuranceFramework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\ThemeDevelopmentWorkflow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\VersionControlSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\VisualConsistencyChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\VisualConsistencyChecker2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\chrom\Documents\trae_projects\ASCIi\include\production\VisualLanguageStandards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\chrom\Documents\trae_projects\ASCIi\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build\_deps\nlohmann_json-src\nlohmann_json.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0D6204AB-CAC2-3DD9-9CA1-232820AA2E35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{966BEA8F-3E39-337F-ABAC-472BC5DAF194}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

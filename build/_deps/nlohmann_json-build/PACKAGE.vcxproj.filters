@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\d728133b591887c888d38a52927ffbf5\PACKAGE_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{22CDBDE7-4089-35D7-A6F9-83FD4061A5FC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

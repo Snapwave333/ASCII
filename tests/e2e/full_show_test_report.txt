@@ -1,0 +1,29 @@
+============================================================
+NEONGLYPH FULL SHOW EXPERIENCE TEST REPORT
+============================================================
+
+PERFORMANCE METRICS:
+  Average Frame Time: 6.62ms
+  Maximum Frame Time: 6.71ms
+  Minimum Frame Time: 6.51ms
+  Average FPS: 151.0
+  Total Frames: 100
+
+VISUAL CONTENT:
+  Color Modes: truecolor, mono, ansi
+  ASCII Content: Not detected
+  Animations: None
+  Visual Effects: Vulkan_Rendering, Presentation_Layer, Performance_Variance, Frame_Jitter_Monitoring
+
+VALIDATION RESULTS:
+  PASS Performance Metrics Available
+  PASS Frame Times Reasonable
+  PASS Color Modes Detected
+  FAIL Ascii Content Rendering
+  FAIL Animations Active
+  PASS Visual Effects Enabled
+  PASS Performance Consistent
+
+OVERALL FULL SHOW EXPERIENCE: FAILED
+
+============================================================

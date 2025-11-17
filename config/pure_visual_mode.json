@@ -1,0 +1,43 @@
+{
+  "pure_visual_mode": {
+    "enabled": true,
+    "hide_hud": true,
+    "hide_status_bar": true,
+    "hide_performance_metrics": true,
+    "hide_ai_state": true,
+    "hide_audio_levels": true,
+    "hide_fps_counter": true,
+    "hide_system_info": true,
+    "hide_control_instructions": true,
+    "description": "Pure visual mode - viewers see only ASCII visuals, no information overlays"
+  },
+  "ai_internal_display": {
+    "enabled": true,
+    "console_output": true,
+    "file_logging": true,
+    "debug_info": true,
+    "performance_tracking": true,
+    "ai_state_monitoring": true,
+    "audio_analysis": true,
+    "description": "Internal AI processing - all data available for AI operations"
+  },
+  "viewer_experience": {
+    "clean_ascii_only": true,
+    "no_text_overlays": true,
+    "no_progress_indicators": true,
+    "no_status_messages": true,
+    "no_debug_info": true,
+    "cyberpunk_aesthetic": true,
+    "at_symbol_focus": true,
+    "description": "Clean, minimal visual experience for viewers"
+  },
+  "control_integration": {
+    "keyboard_shortcuts": true,
+    "system_tray": true,
+    "double_click_toggle": true,
+    "alt_key_combinations": true,
+    "f11_fullscreen": true,
+    "esc_exit_fullscreen": true,
+    "description": "Full control integration while maintaining clean visuals"
+  }
+}

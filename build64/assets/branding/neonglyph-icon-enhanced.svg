@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="ng-icon-enhanced-grad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0FF0FC"/>
+      <stop offset="50%" stop-color="#FF4D67"/>
+      <stop offset="100%" stop-color="#0FF0FC"/>
+    </linearGradient>
+    <filter id="ng-enhanced-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="ng-outer-glow">
+      <feGaussianBlur stdDeviation="8" result="outerGlow"/>
+      <feColorMatrix in="outerGlow" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 0"/>
+      <feBlend in="SourceGraphic" in2="outerGlow" mode="screen"/>
+    </filter>
+  </defs>
+  <rect width="256" height="256" rx="48" fill="#0D0D0D" stroke="url(#ng-icon-enhanced-grad)" stroke-width="6" filter="url(#ng-outer-glow)"/>
+  <circle cx="128" cy="128" r="96" fill="none" stroke="url(#ng-icon-enhanced-grad)" stroke-width="2" opacity="0.3"/>
+  <circle cx="128" cy="128" r="72" fill="none" stroke="url(#ng-icon-enhanced-grad)" stroke-width="1" opacity="0.5"/>
+  <text x="128" y="180" font-family="Consolas, monospace" font-size="144" fill="url(#ng-icon-enhanced-grad)" text-anchor="middle" filter="url(#ng-enhanced-glow)">@</text>
+  <text x="128" y="180" font-family="Consolas, monospace" font-size="144" fill="url(#ng-icon-enhanced-grad)" text-anchor="middle" opacity="0.3">@</text>
+</svg>

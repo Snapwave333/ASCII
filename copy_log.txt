@@ -1,0 +1,526 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Thursday, November 13, 2025 12:04:24 PM
+   Source : C:\Users\chrom\Documents\trae_projects\ASCIi\
+     Dest : C:\Users\chrom\OneDrive\Desktop\apps\Music Visualizer\
+
+    Files : *.*
+	    
+  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:3 /W:5 
+
+------------------------------------------------------------------------------
+
+	                   6	C:\Users\chrom\Documents\trae_projects\ASCIi\
+	    New File  		    1244	build.bat100%  
+	    New File  		    1060	build.sh100%  
+	    New File  		    3735	CMakeLists.txt100%  
+	    New File  		     591	copy_log.txt100%  
+	    New File  		    1835	docker-compose.yml100%  
+	    New File  		    4743	README.md100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\.trae\
+	  New Dir         11	C:\Users\chrom\Documents\trae_projects\ASCIi\.trae\documents\
+	    New File  		   17720	api-reference.md100%  
+	    New File  		   10705	architecture-overview.md100%  
+	    New File  		    2805	Build, Run, and Verify the Vulkan ASCII VJ Application.md100%  
+	    New File  		    6657	build-guide.md100%  
+	    New File  		   11069	build-run-verify-guide.md100%  
+	    New File  		    1902	Clarify Task Scope and Specifications.md100%  
+	    New File  		   12392	configuration-guide.md100%  
+	    New File  		   10197	DOCUMENTATION_INDEX.md100%  
+	    New File  		    6151	DOCUMENTATION_STYLE_GUIDE.md100%  
+	    New File  		   10497	DOCUMENTATION_UPDATE_SUMMARY.md100%  
+	    New File  		    4810	Windows Build, Branding, Theme, and Packaging Plan.md100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\assets\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\assets\branding\
+	    New File  		     736	logo.svg100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build\
+	    New File  		   14658	CMakeCache.txt100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\.cmake\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\.cmake\api\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\.cmake\api\v1\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\.cmake\api\v1\query\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build\.cmake\api\v1\query\client-vscode\
+	    New File  		     144	query.json100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\
+	    New File  		      86	cmake.check_cache100%  
+	    New File  		   11821	CMakeConfigureLog.yaml100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\
+	    New File  		    6456	CMakeCXXCompiler.cmake100%  
+	    New File  		   38912	CMakeDetermineCompilerABI_CXX.bin100%  
+	    New File  		     276	CMakeRCCompiler.cmake100%  
+	    New File  		     395	CMakeSystem.cmake100%  
+	    New File  		      90	VCTargetsPath.txt100%  
+	    New File  		    1261	VCTargetsPath.vcxproj100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\
+	    New File  		   29376	CMakeCXXCompilerId.cpp100%  
+	    New File  		   12800	CompilerIdCXX.exe100%  
+	    New File  		    2820	CompilerIdCXX.vcxproj100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\Debug\
+	    New File  		    1983	CMakeCXXCompilerId.obj100%  
+	    New File  		     349	CompilerIdCXX.exe.recipe100%  
+	  New Dir          9	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\Debug\CompilerIdCXX.tlog\
+	    New File  		     858	CL.command.1.tlog100%  
+	    New File  		     231	Cl.items.tlog100%  
+	    New File  		     864	CL.read.1.tlog100%  
+	    New File  		     468	CL.write.1.tlog100%  
+	    New File  		     220	CompilerIdCXX.lastbuildstate100%  
+	    New File  		    1098	link.command.1.tlog100%  
+	    New File  		    3650	link.read.1.tlog100%  
+	    New File  		     120	link.secondary.1.tlog100%  
+	    New File  		     458	link.write.1.tlog100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\tmp\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\Debug\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\VCTargetsPath\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\VCTargetsPath\Debug\
+	    New File  		     337	VCTargetsPath.recipe100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\3.31.6-msvc6\VCTargetsPath\Debug\VCTargetsPath.tlog\
+	    New File  		     206	VCTargetsPath.lastbuildstate100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build\CMakeFiles\pkgRedirects\
+	  New Dir         17	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\
+	    New File  		   36511	ALL_BUILD.vcxproj100%  
+	    New File  		     299	ALL_BUILD.vcxproj.filters100%  
+	    New File  		   22542	CMakeCache.txt100%  
+	    New File  		    4526	cmake_install.cmake100%  
+	    New File  		    3911	CPackConfig.cmake100%  
+	    New File  		    4376	CPackSourceConfig.cmake100%  
+	    New File  		   50489	e2e_test.vcxproj100%  
+	    New File  		     766	e2e_test.vcxproj.filters100%  
+	    New File  		   11039	INSTALL.vcxproj100%  
+	    New File  		     543	INSTALL.vcxproj.filters100%  
+	    New File  		    5866	NeonGlyph.sln100%  
+	    New File  		   54919	NeonGlyph.vcxproj100%  
+	    New File  		    5428	NeonGlyph.vcxproj.filters100%  
+	    New File  		   11446	PACKAGE.vcxproj100%  
+	    New File  		     543	PACKAGE.vcxproj.filters100%  
+	    New File  		   40962	ZERO_CHECK.vcxproj100%  
+	    New File  		     544	ZERO_CHECK.vcxproj.filters100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\assets\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\assets\branding\
+	    New File  		     736	logo.svg100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\
+	    New File  		      86	cmake.check_cache100%  
+	    New File  		   28445	CMakeConfigureLog.yaml100%  
+	    New File  		      55	generate.stamp100%  
+	    New File  		    6252	generate.stamp.depend100%  
+	    New File  		     186	generate.stamp.list100%  
+	    New File  		     781	TargetDirectories.txt100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\
+	    New File  		    6372	CMakeCXXCompiler.cmake100%  
+	    New File  		   53248	CMakeDetermineCompilerABI_CXX.bin100%  
+	    New File  		     212	CMakeRCCompiler.cmake100%  
+	    New File  		     395	CMakeSystem.cmake100%  
+	    New File  		      83	VCTargetsPath.txt100%  
+	    New File  		    1255	VCTargetsPath.vcxproj100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\
+	    New File  		   29376	CMakeCXXCompilerId.cpp100%  
+	    New File  		   15360	CompilerIdCXX.exe100%  
+	    New File  		    2806	CompilerIdCXX.vcxproj100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\Debug\
+	    New File  		    2389	CMakeCXXCompilerId.obj100%  
+	    New File  		     351	CompilerIdCXX.exe.recipe100%  
+	  New Dir          9	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\Debug\CompilerIdCXX.tlog\
+	    New File  		     836	CL.command.1.tlog100%  
+	    New File  		     235	Cl.items.tlog100%  
+	    New File  		     622	CL.read.1.tlog100%  
+	    New File  		     476	CL.write.1.tlog100%  
+	    New File  		     220	CompilerIdCXX.lastbuildstate100%  
+	    New File  		    1084	link.command.1.tlog100%  
+	    New File  		    3466	link.read.1.tlog100%  
+	    New File  		     122	link.secondary.1.tlog100%  
+	    New File  		     466	link.write.1.tlog100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\CompilerIdCXX\tmp\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\VCTargetsPath\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\Debug\
+	    New File  		     343	VCTargetsPath.recipe100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\Debug\VCTargetsPath.tlog\
+	    New File  		     206	VCTargetsPath.lastbuildstate100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\x64\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\3.31.6-msvc6\x64\Debug\
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\79163ff3010d09be1af3084110bdafe1\
+	    New File  		      24	generate.stamp.rule100%  
+	    New File  		      24	INSTALL_force.rule100%  
+	    New File  		      24	PACKAGE_force.rule100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\ddb0c3183a8b1801e4d1dc0cc72c7d0d\
+	    New File  		      24	INSTALL_force.rule100%  
+	    New File  		      24	PACKAGE_force.rule100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\CMakeFiles\pkgRedirects\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\e2e_test.dir\
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\e2e_test.dir\Release\
+	    New File  		     463	e2e_test.exe.recipe100%  
+	    New File  		  265795	e2e_test.obj100%  
+	  New Dir         12	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\e2e_test.dir\Release\e2e_test.tlog\
+	    New File  		    1334	CL.command.1.tlog100%  
+	    New File  		     152	Cl.items.tlog100%  
+	    New File  		   67482	CL.read.1.tlog100%  
+	    New File  		     310	CL.write.1.tlog100%  
+	    New File  		     569	CustomBuild.command.1.tlog100%  
+	    New File  		    6197	CustomBuild.read.1.tlog100%  
+	    New File  		     142	CustomBuild.write.1.tlog100%  
+	    New File  		     184	e2e_test.lastbuildstate100%  
+	    New File  		    1548	link.command.1.tlog100%  
+	    New File  		    3382	link.read.1.tlog100%  
+	    New File  		      89	link.secondary.1.tlog100%  
+	    New File  		     330	link.write.1.tlog100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\NeonGlyph.dir\
+	  New Dir          7	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\NeonGlyph.dir\Release\
+	    New File  		   1.0 m	AIDirector.obj 98%  100%  
+	    New File  		  248920	ConfigManager.obj100%  
+	    New File  		    8040	main.obj100%  
+	    New File  		   78435	MusicAnalyzer.obj100%  
+	    New File  		  117785	OutputManager.obj100%  
+	    New File  		  202299	Theme.obj100%  
+	    New File  		    9559	WinIntegration.obj100%  
+	  New Dir          8	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\NeonGlyph.dir\Release\NeonGlyph.tlog\
+	    New File  		    8300	CL.12796.write.1.tlog100%  
+	    New File  		   11434	CL.command.1.tlog100%  
+	    New File  		  323724	CL.read.1.tlog100%  
+	    New File  		     569	CustomBuild.command.1.tlog100%  
+	    New File  		    6197	CustomBuild.read.1.tlog100%  
+	    New File  		     142	CustomBuild.write.1.tlog100%  
+	    New File  		     184	NeonGlyph.lastbuildstate100%  
+	    New File  		       0	unsuccessfulbuild
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\Release\
+	    New File  		   48128	e2e_test.exe100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\x64\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\x64\Release\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\x64\Release\ZERO_CHECK\
+	    New File  		     318	ZERO_CHECK.recipe100%  
+	  New Dir          4	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\
+	    New File  		     664	CustomBuild.command.1.tlog100%  
+	    New File  		    7370	CustomBuild.read.1.tlog100%  
+	    New File  		     305	CustomBuild.write.1.tlog100%  
+	    New File  		     184	ZERO_CHECK.lastbuildstate100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-build\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-src\
+	  New Dir         10	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\
+	    New File  		    7898	ALL_BUILD.vcxproj100%  
+	    New File  		     334	ALL_BUILD.vcxproj.filters100%  
+	    New File  		    4864	CMakeCache.txt100%  
+	    New File  		    1580	CMakeLists.txt100%  
+	    New File  		    2054	cmake_install.cmake100%  
+	    New File  		    2665	cpp_httplib-populate.sln100%  
+	    New File  		   29429	cpp_httplib-populate.vcxproj100%  
+	    New File  		    3051	cpp_httplib-populate.vcxproj.filters100%  
+	    New File  		    7325	ZERO_CHECK.vcxproj100%  
+	    New File  		     571	ZERO_CHECK.vcxproj.filters100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\
+	    New File  		      86	cmake.check_cache100%  
+	    New File  		     356	CMakeConfigureLog.yaml100%  
+	    New File  		      55	generate.stamp100%  
+	    New File  		    3069	generate.stamp.depend100%  
+	    New File  		     107	generate.stamp.list100%  
+	    New File  		     330	TargetDirectories.txt100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\
+	    New File  		     395	CMakeSystem.cmake100%  
+	    New File  		      83	VCTargetsPath.txt100%  
+	    New File  		    1255	VCTargetsPath.vcxproj100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\Debug\
+	    New File  		     370	VCTargetsPath.recipe100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\Debug\VCTargetsPath.tlog\
+	    New File  		     233	VCTargetsPath.lastbuildstate100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\x64\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\3.31.6-msvc6\x64\Debug\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\b9c8d09e409a21eff9eda8bc77519166\
+	    New File  		      24	cpp_httplib-populate-complete.rule100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\cdf71075b458c56eef4fef0ed4686ca5\
+	    New File  		      24	cpp_httplib-populate.rule100%  
+	    New File  		      24	generate.stamp.rule100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\cpp_httplib-populate.dir\
+	    New File  		    2101	Labels.json100%  
+	    New File  		    1762	Labels.txt100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\Debug\
+	  New Dir          8	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\e516613e5ca4541b436f184cdadbe94b\
+	    New File  		      24	cpp_httplib-populate-build.rule100%  
+	    New File  		      24	cpp_httplib-populate-configure.rule100%  
+	    New File  		      24	cpp_httplib-populate-download.rule100%  
+	    New File  		      24	cpp_httplib-populate-install.rule100%  
+	    New File  		      24	cpp_httplib-populate-mkdir.rule100%  
+	    New File  		      24	cpp_httplib-populate-patch.rule100%  
+	    New File  		      24	cpp_httplib-populate-test.rule100%  
+	    New File  		      24	cpp_httplib-populate-update.rule100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\CMakeFiles\pkgRedirects\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\cpp_httplib-populate-prefix\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\cpp_httplib-populate-prefix\src\
+	    New File  		       0	v0.13.7.tar.gz
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\cpp_httplib-populate-prefix\src\cpp_httplib-populate-stamp\
+	    New File  		     234	cpp_httplib-populate-patch-info.txt100%  
+	    New File  		     270	cpp_httplib-populate-update-info.txt100%  
+	    New File  		    1502	cpp_httplib-populate-urlinfo.txt100%  
+	    New File  		    5426	download-cpp_httplib-populate.cmake100%  
+	    New File  		    2022	extract-cpp_httplib-populate.cmake100%  
+	    New File  		       0	verify-cpp_httplib-populate.cmake
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\cpp_httplib-populate-prefix\src\cpp_httplib-populate-stamp\Debug\
+	    New File  		       0	cpp_httplib-populate-mkdir
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\cpp_httplib-populate-prefix\tmp\
+	    New File  		       8	cpp_httplib-populate-cfgcmd.txt100%  
+	    New File  		    1873	cpp_httplib-populate-mkdirs.cmake100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\x64\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\x64\Debug\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\x64\Debug\cpp_httplib-populate\
+	  New Dir          5	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\x64\Debug\cpp_httplib-populate\cpp_http.0023B09C.tlog\
+	    New File  		     209	cpp_httplib-populate.lastbuildstate100%  
+	    New File  		   10631	CustomBuild.command.1.tlog100%  
+	    New File  		    8189	CustomBuild.read.1.tlog100%  
+	    New File  		    3424	CustomBuild.write.1.tlog100%  
+	    New File  		       0	unsuccessfulbuild
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\x64\Debug\ZERO_CHECK\
+	    New File  		     343	ZERO_CHECK.recipe100%  
+	  New Dir          4	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\cpp_httplib-subbuild\x64\Debug\ZERO_CHECK\ZERO_CHECK.tlog\
+	    New File  		     791	CustomBuild.command.1.tlog100%  
+	    New File  		    3159	CustomBuild.read.1.tlog100%  
+	    New File  		     253	CustomBuild.write.1.tlog100%  
+	    New File  		     209	ZERO_CHECK.lastbuildstate100%  
+	  New Dir         11	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-build\
+	    New File  		   16583	ALL_BUILD.vcxproj100%  
+	    New File  		     331	ALL_BUILD.vcxproj.filters100%  
+	    New File  		    1387	cmake_install.cmake100%  
+	    New File  		   11169	INSTALL.vcxproj100%  
+	    New File  		     543	INSTALL.vcxproj.filters100%  
+	    New File  		     118	nlohmann_json.pc100%  
+	    New File  		    3823	nlohmann_json.sln100%  
+	    New File  		     635	nlohmann_jsonConfig.cmake100%  
+	    New File  		     696	nlohmann_jsonConfigVersion.cmake100%  
+	    New File  		   11576	PACKAGE.vcxproj100%  
+	    New File  		     543	PACKAGE.vcxproj.filters100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-build\CMakeFiles\
+	    New File  		      55	generate.stamp100%  
+	    New File  		    1291	generate.stamp.depend100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\
+	    New File  		    7155	CMakeLists.txt100%  
+	    New File  		    1076	LICENSE.MIT100%  
+	    New File  		   19576	nlohmann_json.natvis100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\cmake\
+	    New File  		     710	config.cmake.in100%  
+	    New File  		     709	nlohmann_jsonConfigVersion.cmake.in100%  
+	    New File  		     126	pkg-config.pc.in100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\
+	  New Dir          5	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\
+	    New File  		    2279	adl_serializer.hpp100%  
+	    New File  		    3533	byte_container_with_subtype.hpp100%  
+	    New File  		  193862	json.hpp100%  
+	    New File  		    2469	json_fwd.hpp100%  
+	    New File  		   11447	ordered_map.hpp100%  
+	  New Dir         10	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\
+	    New File  		    3807	abi_macros.hpp100%  
+	    New File  		    9128	exceptions.hpp100%  
+	    New File  		    4016	hash.hpp100%  
+	    New File  		   37067	json_pointer.hpp100%  
+	    New File  		    1811	json_ref.hpp100%  
+	    New File  		   42861	macro_scope.hpp100%  
+	    New File  		    1220	macro_unscope.hpp100%  
+	    New File  		    6006	string_concat.hpp100%  
+	    New File  		    2168	string_escape.hpp100%  
+	    New File  		    4326	value_t.hpp100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\conversions\
+	    New File  		   18880	from_json.hpp100%  
+	    New File  		   38503	to_chars.hpp100%  
+	    New File  		   15749	to_json.hpp100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\input\
+	    New File  		  103174	binary_reader.hpp100%  
+	    New File  		   17372	input_adapters.hpp100%  
+	    New File  		   21370	json_sax.hpp100%  
+	    New File  		   54544	lexer.hpp100%  
+	    New File  		   18722	parser.hpp100%  
+	    New File  		     958	position_t.hpp100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\iterators\
+	    New File  		    1071	internal_iterator.hpp100%  
+	    New File  		    7962	iteration_proxy.hpp100%  
+	    New File  		    1757	iterator_traits.hpp100%  
+	    New File  		   23906	iter_impl.hpp100%  
+	    New File  		    3861	json_reverse_iterator.hpp100%  
+	    New File  		    3227	primitive_iterator.hpp100%  
+	  New Dir          7	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\meta\
+	    New File  		    5178	cpp_future.hpp100%  
+	    New File  		    2109	detected.hpp100%  
+	    New File  		     526	identity_tag.hpp100%  
+	    New File  		    6960	is_sax.hpp100%  
+	    New File  		     766	std_fs.hpp100%  
+	    New File  		   28099	type_traits.hpp100%  
+	    New File  		     597	void_t.hpp100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\meta\call_std\
+	    New File  		     453	begin.hpp100%  
+	    New File  		     451	end.hpp100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\detail\output\
+	    New File  		   69893	binary_writer.hpp100%  
+	    New File  		    4067	output_adapters.hpp100%  
+	    New File  		   39896	serializer.hpp100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\thirdparty\
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\include\nlohmann\thirdparty\hedley\
+	    New File  		   86068	hedley.hpp100%  
+	    New File  		    5500	hedley_undef.hpp100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\single_include\
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-src\single_include\nlohmann\
+	    New File  		  907858	json.hpp100%  
+	    New File  		    6268	json_fwd.hpp100%  
+	  New Dir         10	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\
+	    New File  		    7926	ALL_BUILD.vcxproj100%  
+	    New File  		     336	ALL_BUILD.vcxproj.filters100%  
+	    New File  		    4886	CMakeCache.txt100%  
+	    New File  		    1597	CMakeLists.txt100%  
+	    New File  		    2062	cmake_install.cmake100%  
+	    New File  		    2673	nlohmann_json-populate.sln100%  
+	    New File  		   29865	nlohmann_json-populate.vcxproj100%  
+	    New File  		    3097	nlohmann_json-populate.vcxproj.filters100%  
+	    New File  		    7347	ZERO_CHECK.vcxproj100%  
+	    New File  		     573	ZERO_CHECK.vcxproj.filters100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\
+	    New File  		      86	cmake.check_cache100%  
+	    New File  		     356	CMakeConfigureLog.yaml100%  
+	    New File  		      55	generate.stamp100%  
+	    New File  		    3079	generate.stamp.depend100%  
+	    New File  		     109	generate.stamp.list100%  
+	    New File  		     338	TargetDirectories.txt100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\
+	    New File  		     395	CMakeSystem.cmake100%  
+	    New File  		      83	VCTargetsPath.txt100%  
+	    New File  		    1255	VCTargetsPath.vcxproj100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\Debug\
+	    New File  		     372	VCTargetsPath.recipe100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\VCTargetsPath\x64\Debug\VCTargetsPath.tlog\
+	    New File  		     235	VCTargetsPath.lastbuildstate100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\x64\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3.31.6-msvc6\x64\Debug\
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\33f8c721730d9d2307e6f892153edd38\
+	    New File  		      24	generate.stamp.rule100%  
+	    New File  		      24	nlohmann_json-populate.rule100%  
+	  New Dir          8	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\3dabf2526d9ea824c80e6a2a2e985a73\
+	    New File  		      24	nlohmann_json-populate-build.rule100%  
+	    New File  		      24	nlohmann_json-populate-configure.rule100%  
+	    New File  		      24	nlohmann_json-populate-download.rule100%  
+	    New File  		      24	nlohmann_json-populate-install.rule100%  
+	    New File  		      24	nlohmann_json-populate-mkdir.rule100%  
+	    New File  		      24	nlohmann_json-populate-patch.rule100%  
+	    New File  		      24	nlohmann_json-populate-test.rule100%  
+	    New File  		      24	nlohmann_json-populate-update.rule100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\67c6e7f2a90d2c44aa46ab173220d85b\
+	    New File  		      24	nlohmann_json-populate-complete.rule100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\Debug\
+	    New File  		       0	nlohmann_json-populate-complete
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\nlohmann_json-populate.dir\
+	    New File  		    2149	Labels.json100%  
+	    New File  		    1808	Labels.txt100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\CMakeFiles\pkgRedirects\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\nlohmann_json-populate-prefix\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\nlohmann_json-populate-prefix\src\
+	    New File  		  109880	json.tar.xz100%  
+	  New Dir          6	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\nlohmann_json-populate-prefix\src\nlohmann_json-populate-stamp\
+	    New File  		    5446	download-nlohmann_json-populate.cmake100%  
+	    New File  		    2029	extract-nlohmann_json-populate.cmake100%  
+	    New File  		     234	nlohmann_json-populate-patch-info.txt100%  
+	    New File  		     270	nlohmann_json-populate-update-info.txt100%  
+	    New File  		    1537	nlohmann_json-populate-urlinfo.txt100%  
+	    New File  		       0	verify-nlohmann_json-populate.cmake
+	  New Dir          9	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\nlohmann_json-populate-prefix\src\nlohmann_json-populate-stamp\Debug\
+	    New File  		       0	nlohmann_json-populate-build
+	    New File  		       0	nlohmann_json-populate-configure
+	    New File  		       0	nlohmann_json-populate-done
+	    New File  		       0	nlohmann_json-populate-download
+	    New File  		       0	nlohmann_json-populate-install
+	    New File  		       0	nlohmann_json-populate-mkdir
+	    New File  		       0	nlohmann_json-populate-patch
+	    New File  		       0	nlohmann_json-populate-test
+	    New File  		       0	nlohmann_json-populate-update
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\nlohmann_json-populate-prefix\tmp\
+	    New File  		       8	nlohmann_json-populate-cfgcmd.txt100%  
+	    New File  		    1915	nlohmann_json-populate-mkdirs.cmake100%  
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\
+	  New Dir          0	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\ALL_BUILD\
+	    New File  		     704	ALL_BUILD.recipe100%  
+	  New Dir          4	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\ALL_BUILD\ALL_BUILD.tlog\
+	    New File  		     211	ALL_BUILD.lastbuildstate100%  
+	    New File  		     701	CustomBuild.command.1.tlog100%  
+	    New File  		    3024	CustomBuild.read.1.tlog100%  
+	    New File  		     208	CustomBuild.write.1.tlog100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\nlohmann_json-populate\
+	    New File  		     531	nlohmann_json-populate.recipe100%  
+	  New Dir          4	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\nlohmann_json-populate\nlohmann.2269C7C3.tlog\
+	    New File  		   10795	CustomBuild.command.1.tlog100%  
+	    New File  		    8401	CustomBuild.read.1.tlog100%  
+	    New File  		    3540	CustomBuild.write.1.tlog100%  
+	    New File  		     211	nlohmann_json-populate.lastbuildstate100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\ZERO_CHECK\
+	    New File  		     345	ZERO_CHECK.recipe100%  
+	  New Dir          4	C:\Users\chrom\Documents\trae_projects\ASCIi\build64\_deps\nlohmann_json-subbuild\x64\Debug\ZERO_CHECK\ZERO_CHECK.tlog\
+	    New File  		     801	CustomBuild.command.1.tlog100%  
+	    New File  		    3171	CustomBuild.read.1.tlog100%  
+	    New File  		     257	CustomBuild.write.1.tlog100%  
+	    New File  		     211	ZERO_CHECK.lastbuildstate100%  
+	  New Dir          3	C:\Users\chrom\Documents\trae_projects\ASCIi\config\
+	    New File  		     692	charsets.json100%  
+	    New File  		    1375	default.json100%  
+	    New File  		     987	palettes.json100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\config\themes\
+	    New File  		     200	dark.json100%  
+	    New File  		     202	light.json100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\docs\
+	    New File  		    9471	local-env.md100%  
+	  New Dir         15	C:\Users\chrom\Documents\trae_projects\ASCIi\include\
+	    New File  		    5017	AIConductor.h100%  
+	    New File  		    2345	AIDirector.h100%  
+	    New File  		    2304	Application.h100%  
+	    New File  		    4507	ASCIIConverter.h100%  
+	    New File  		    3861	AudioEngine.h100%  
+	    New File  		    5500	ComputePipelines.h100%  
+	    New File  		    1978	DirectorCommand.h100%  
+	    New File  		    1081	MusicAnalyzer.h100%  
+	    New File  		    6148	NeonGlyph.h100%  
+	    New File  		    4810	OutputManager.h100%  
+	    New File  		    1367	Renderer.h100%  
+	    New File  		   10583	SafetyManager.h100%  
+	    New File  		     822	Theme.h100%  
+	    New File  		    5638	VulkanContext.h100%  
+	    New File  		     450	WinIntegration.h100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\installer\
+	    New File  		    1041	NeonGlyph.nsi100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\monitoring\
+	    New File  		     214	prometheus.yml100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\resources\
+	    New File  		     687	app.rc100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\scripts\
+	    New File  		     261	dev-down.ps1100%  
+	    New File  		    1227	dev-up.ps1100%  
+	  New Dir          2	C:\Users\chrom\Documents\trae_projects\ASCIi\shaders\
+	    New File  		    2816	ascii_convert.comp100%  
+	    New File  		    2534	beat_detection.comp100%  
+	  New Dir         15	C:\Users\chrom\Documents\trae_projects\ASCIi\src\
+	    New File  		   21189	AIConductor.cpp100%  
+	    New File  		   10899	AIDirector.cpp100%  
+	    New File  		   17569	Application.cpp100%  
+	    New File  		   19813	ASCIIConverter.cpp100%  
+	    New File  		   10600	AudioEngine.cpp100%  
+	    New File  		   26282	ComputePipelines.cpp100%  
+	    New File  		   13631	ConfigManager.cpp100%  
+	    New File  		    1183	main.cpp100%  
+	    New File  		    6224	MusicAnalyzer.cpp100%  
+	    New File  		   15902	OutputManager.cpp100%  
+	    New File  		    6384	Renderer.cpp100%  
+	    New File  		   31888	SafetyManager.cpp100%  
+	    New File  		    3477	Theme.cpp100%  
+	    New File  		   21331	VulkanContext.cpp100%  
+	    New File  		    1925	WinIntegration.cpp100%  
+	  New Dir          1	C:\Users\chrom\Documents\trae_projects\ASCIi\tests\
+	    New File  		    2148	e2e_test.cpp100%  
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :       136       135         1         0         0         0
+   Files :       361       361         0         0         0         0
+   Bytes :    5.39 m    5.39 m         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :           15,462,546 Bytes/sec.
+   Speed :              884.774 MegaBytes/min.
+   Ended : Thursday, November 13, 2025 12:04:25 PM
+

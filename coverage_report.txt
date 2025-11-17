@@ -1,0 +1,1 @@
+No source for code: 'C:\Users\chrom\Documents\trae_projects\ASCIi\pyscript'; see https://coverage.readthedocs.io/en/7.10.7/messages.html#error-no-source

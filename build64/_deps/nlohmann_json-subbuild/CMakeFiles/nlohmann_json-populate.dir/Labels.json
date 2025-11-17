@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/nlohmann_json-populate"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/33f8c721730d9d2307e6f892153edd38/nlohmann_json-populate.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/67c6e7f2a90d2c44aa46ab173220d85b/nlohmann_json-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/chrom/Documents/trae_projects/ASCIi/build64/_deps/nlohmann_json-subbuild/CMakeFiles/3dabf2526d9ea824c80e6a2a2e985a73/nlohmann_json-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"nlohmann_json-populate"
+		],
+		"name" : "nlohmann_json-populate"
+	}
+}

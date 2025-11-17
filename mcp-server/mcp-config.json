@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "ascii-animated": {
+      "command": "node",
+      "args": ["dist/server.js"],
+      "cwd": "./mcp-server"
+    }
+  }
+}

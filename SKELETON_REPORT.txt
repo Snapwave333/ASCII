@@ -1,0 +1,93 @@
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-145-#ifdef NEONGLYPH_HAVE_ONNXRUNTIME
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-146-Result AIConductor::InitializeGenreClassifier() {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp:147:    // Create a simple genre classification model (placeholder)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-148-    // In a real implementation, this would load a pre-trained ONNX model
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-149-    
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-150-    // For now, create a dummy session that will use rule-based classification
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-151-    // m_genreClassifier = std::make_unique<Ort::Session>(*m_env, "genre_classifier_dummy.onnx", m_sessionOptions);
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp:152:    // For stubbed implementation, just set to nullptr and use rule-based logic
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-153-    m_genreClassifier = nullptr;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-154-    
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-163-#ifdef NEONGLYPH_HAVE_ONNXRUNTIME
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-164-Result AIConductor::InitializeMoodPredictor() {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp:165:    // Create a mood prediction model (placeholder)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-166-    // m_moodPredictor = std::make_unique<Ort::Session>(*m_env, "mood_predictor_dummy.onnx", m_sessionOptions);
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp:167:    // For stubbed implementation, just set to nullptr and use rule-based logic
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-168-    m_moodPredictor = nullptr;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-169-    
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-178-#ifdef NEONGLYPH_HAVE_ONNXRUNTIME
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-179-Result AIConductor::InitializeSceneGenerator() {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp:180:    // Create a scene generation model (placeholder)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-181-    // m_sceneGenerator = std::make_unique<Ort::Session>(*m_env, "scene_generator_dummy.onnx", m_sessionOptions);
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp:182:    // For stubbed implementation, just set to nullptr and use rule-based logic
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-183-    m_sceneGenerator = nullptr;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\AIConductor.cpp-184-    
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-198-    output.timestamp = uint(gl_GlobalInvocationID.x);
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-199-    
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp:200:    // Simple BPM estimation (placeholder)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-201-    if (isBeat) {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-202-        output.bpm = 120.0; // This would be calculated from beat intervals
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-295-    }
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-296-    
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp:297:    // Simple FFT implementation (placeholder)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-298-    // In a real implementation, you would use a more efficient algorithm
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-299-    
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-383-    }
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-384-    
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp:385:    // Compile to SPIR-V (placeholder - in real implementation, use glslang or similar)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-386-    std::vector<uint32_t> spirv;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ComputePipelines.cpp-387-    result = CompileGLSLToSPIRV(source, spirv);
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp-616-Result ASCIIConverter::ConvertSIMD(const uint8_t* inputTexture, uint32_t width, uint32_t height, 
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp-617-                                  ASCIIMapping* outputBuffer, uint32_t bufferSize) {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp:618:    // TODO: Implement SIMD-optimized conversion
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp-619-    // For now, fall back to CPU implementation
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\ASCIIConverter.cpp-620-    return ConvertCPU(inputTexture, width, height, outputBuffer, bufferSize);
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-196-
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-197-Result SpoutSender::CopyVulkanToD3D11(VkImage vulkanImage, uint32_t width, uint32_t height) {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:198:    // This is a placeholder implementation
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-199-    // In a real implementation, you would:
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-200-    // 1. Create a Vulkan buffer from the image
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-329-    // Send frame via NDI
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-330-    if (m_ndiSender && m_ndiVideoFrame) {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:331:        // Send frame (placeholder implementation)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-332-        m_frameCount++;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-333-    }
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-351-    // Send frame via NDI
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-352-    if (m_ndiSender && m_ndiVideoFrame) {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:353:        // Send frame (placeholder implementation)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-354-        m_frameCount++;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-355-    }
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-359-
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-360-Result NDISender::CreateNDISender() {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:361:    // Create NDI sender (placeholder implementation)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-362-    // In a real implementation, you would use the NDI SDK
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-363-    
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-367-
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-368-Result NDISender::CreateNDIVideoFrame() {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:369:    // Create NDI video frame (placeholder implementation)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-370-    m_frameBuffer.resize(m_width * m_height * 4);
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-371-    
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-375-
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-376-Result NDISender::ConvertVulkanToNDI(VkImage vulkanImage, uint32_t width, uint32_t height) {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:377:    // Convert Vulkan image to NDI format (placeholder implementation)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-378-    // In a real implementation, you would:
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-379-    // 1. Create a Vulkan buffer from the image
+--
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-400-
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-401-Result NDISender::UpdateNetworkStatistics() {
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:402:    // Update network statistics (placeholder implementation)
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp:403:    m_bitrate = 10000000; // 10 Mbps placeholder
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-404-    m_droppedFrames = 0;
+c:\Users\chrom\Documents\trae_projects\ASCIi\src\OutputManager.cpp-405-
