@@ -1063,7 +1063,7 @@ Result VulkanContext::EndFrame() {
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &m_commandBuffers[m_currentFrame];
     submitInfo.signalSemaphoreCount = m_swapchain != VK_NULL_HANDLE ? 1u : 0u;
-    submitInfo.pSignalSemaphores = m_swapchain != VK_NULL_HANDLE ? &m_renderFinishedSemaphores[m_currentImageIndex] : nullptr;
+    submitInfo.pSignalSemaphores = m_swapchain != VK_NULL_HANDLE ? &m_renderFinishedSemaphores[m_currentFrame] : nullptr;
     VkResult submitResult = vkQueueSubmit(m_graphicsQueue, 1, &submitInfo, m_inFlightFences[m_currentFrame]);
     if (submitResult != VK_SUCCESS) {
         std::cerr << "[VulkanContext] Error: Failed to submit command buffer in EndFrame" << std::endl;
@@ -1073,7 +1073,7 @@ Result VulkanContext::EndFrame() {
         VkPresentInfoKHR presentInfo{};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = &m_renderFinishedSemaphores[m_currentImageIndex];
+        presentInfo.pWaitSemaphores = &m_renderFinishedSemaphores[m_currentFrame];
         presentInfo.swapchainCount = 1;
         presentInfo.pSwapchains = &m_swapchain;
         presentInfo.pImageIndices = &m_currentImageIndex;
