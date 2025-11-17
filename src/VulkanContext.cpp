@@ -986,6 +986,65 @@ Result VulkanContext::BeginFrame() {
         range.baseArrayLayer = 0;
         range.layerCount = 1;
         vkCmdClearColorImage(m_commandBuffers[m_currentFrame], image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, &clear, 1, &range);
+        // NOTE: Staging buffer copy and transition to PRESENT_SRC moved to EndFrame()
+        // so that Render() can update the staging buffer first
+    }
+    // NOTE: Command buffer is NOT ended here - EndFrame() will record the copy command and end it
+
+    return Result::Success;
+}
+
+Result VulkanContext::EndFrame() {
+    // Validate Vulkan objects before use
+    if (m_device == VK_NULL_HANDLE) {
+        std::cerr << "[VulkanContext] Error: Device not initialized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_graphicsQueue == VK_NULL_HANDLE) {
+        std::cerr << "[VulkanContext] Error: Graphics queue not initialized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_currentFrame >= MAX_FRAMES_IN_FLIGHT) {
+        std::cerr << "[VulkanContext] Error: Invalid frame index in EndFrame" << std::endl;
+        return Result::InvalidArgument;
+    }
+
+    // Validate vector sizes
+    if (m_commandBuffers.size() != MAX_FRAMES_IN_FLIGHT) {
+        std::cerr << "[VulkanContext] Error: Command buffers vector not properly sized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_inFlightFences.size() != MAX_FRAMES_IN_FLIGHT) {
+        std::cerr << "[VulkanContext] Error: Fences vector not properly sized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_renderFinishedSemaphores.size() != MAX_FRAMES_IN_FLIGHT) {
+        std::cerr << "[VulkanContext] Error: Render finished semaphores vector not properly sized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_commandBuffers[m_currentFrame] == VK_NULL_HANDLE) {
+        std::cerr << "[VulkanContext] Error: Command buffer not initialized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_inFlightFences[m_currentFrame] == VK_NULL_HANDLE) {
+        std::cerr << "[VulkanContext] Error: Fence not initialized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    if (m_renderFinishedSemaphores[m_currentFrame] == VK_NULL_HANDLE) {
+        std::cerr << "[VulkanContext] Error: Render finished semaphore not initialized in EndFrame" << std::endl;
+        return Result::InitializationFailed;
+    }
+
+    // Record copy from staging buffer to swapchain image (after Render() has updated staging buffer)
+    if (m_swapchain != VK_NULL_HANDLE) {
+        VkImage image = m_swapchainImages[m_currentImageIndex];
         if (m_hasPendingFrame && m_stagingBuffer != VK_NULL_HANDLE) {
             VkBufferImageCopy copy{};
             copy.bufferOffset = 0;
@@ -1001,6 +1060,12 @@ Result VulkanContext::BeginFrame() {
             std::cout << "[VulkanContext] Copied staging buffer to swapchain image: extent="
                       << m_swapchainExtent.width << "x" << m_swapchainExtent.height << std::endl;
         }
+        VkImageSubresourceRange range{};
+        range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        range.baseMipLevel = 0;
+        range.levelCount = 1;
+        range.baseArrayLayer = 0;
+        range.layerCount = 1;
         VkImageMemoryBarrier barrier2{};
         barrier2.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
         barrier2.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
@@ -1013,62 +1078,13 @@ Result VulkanContext::BeginFrame() {
         barrier2.subresourceRange = range;
         vkCmdPipelineBarrier(m_commandBuffers[m_currentFrame], VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier2);
     }
+
+    // End command buffer recording
     if (vkEndCommandBuffer(m_commandBuffers[m_currentFrame]) != VK_SUCCESS) {
-        std::cerr << "[VulkanContext] Error: Failed to end command buffer" << std::endl;
+        std::cerr << "[VulkanContext] Error: Failed to end command buffer in EndFrame" << std::endl;
         return Result::Error;
     }
-    
-    return Result::Success;
-}
 
-Result VulkanContext::EndFrame() {
-    // Validate Vulkan objects before use
-    if (m_device == VK_NULL_HANDLE) {
-        std::cerr << "[VulkanContext] Error: Device not initialized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_graphicsQueue == VK_NULL_HANDLE) {
-        std::cerr << "[VulkanContext] Error: Graphics queue not initialized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_currentFrame >= MAX_FRAMES_IN_FLIGHT) {
-        std::cerr << "[VulkanContext] Error: Invalid frame index in EndFrame" << std::endl;
-        return Result::InvalidArgument;
-    }
-    
-    // Validate vector sizes
-    if (m_commandBuffers.size() != MAX_FRAMES_IN_FLIGHT) {
-        std::cerr << "[VulkanContext] Error: Command buffers vector not properly sized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_inFlightFences.size() != MAX_FRAMES_IN_FLIGHT) {
-        std::cerr << "[VulkanContext] Error: Fences vector not properly sized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_renderFinishedSemaphores.size() != MAX_FRAMES_IN_FLIGHT) {
-        std::cerr << "[VulkanContext] Error: Render finished semaphores vector not properly sized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_commandBuffers[m_currentFrame] == VK_NULL_HANDLE) {
-        std::cerr << "[VulkanContext] Error: Command buffer not initialized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_inFlightFences[m_currentFrame] == VK_NULL_HANDLE) {
-        std::cerr << "[VulkanContext] Error: Fence not initialized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
-    if (m_renderFinishedSemaphores[m_currentFrame] == VK_NULL_HANDLE) {
-        std::cerr << "[VulkanContext] Error: Render finished semaphore not initialized in EndFrame" << std::endl;
-        return Result::InitializationFailed;
-    }
-    
     VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_TRANSFER_BIT };
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;

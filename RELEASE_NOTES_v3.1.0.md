@@ -37,6 +37,12 @@ This release addresses **critical stability issues** that caused the application
 - **Files:** `src/Application.cpp` lines 234-239 (added)
 - **Impact:** `UpdateFramePixels()` returned `InitializationFailed` silently, no pixels ever copied to swapchain, only clear color displayed
 
+### 5. **Fixed Command Buffer Timing for Pixel Copy** (CRITICAL)
+- **Issue:** Black screen persisted even with staging buffer created
+- **Root Cause:** Copy command was recorded in `BeginFrame()` BEFORE `Render()` updated the staging buffer, so stale/empty data was copied
+- **Files:** `src/VulkanContext.cpp` lines 989-1086 - Moved copy operation from `BeginFrame()` to `EndFrame()`
+- **Impact:** Now command recording happens in correct order: clear → (Render updates buffer) → copy → present
+
 ---
 
 ## Build System Improvements
