@@ -293,14 +293,34 @@ Result ASCIIConverter::CreateFontAtlas(uint32_t fontSize, const std::string& fon
     
     // Load font face
     FT_Face face;
-    std::string fontPath = "C:/Windows/Fonts/" + fontName + ".ttf";
-    if (FT_New_Face(ft, fontPath.c_str(), 0, &face)) {
-        // Try alternative font
-        fontPath = "C:/Windows/Fonts/consola.ttf";
-        if (FT_New_Face(ft, fontPath.c_str(), 0, &face)) {
-            FT_Done_FreeType(ft);
-            return Result::FileNotFound;
+    std::vector<std::string> fontPaths;
+
+    // Platform-specific font paths
+#ifdef _WIN32
+    const char* winDir = std::getenv("WINDIR");
+    std::string fontsDir = winDir ? std::string(winDir) + "/Fonts/" : "C:/Windows/Fonts/";
+    fontPaths.push_back(fontsDir + fontName + ".ttf");
+    fontPaths.push_back(fontsDir + "consola.ttf");
+    fontPaths.push_back(fontsDir + "cour.ttf");  // Courier New fallback
+    fontPaths.push_back(fontsDir + "arial.ttf"); // Arial fallback
+#else
+    // Linux/Unix font paths
+    fontPaths.push_back("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
+    fontPaths.push_back("/usr/share/fonts/TTF/" + fontName + ".ttf");
+    fontPaths.push_back("/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf");
+#endif
+
+    bool loaded = false;
+    for (const auto& path : fontPaths) {
+        if (FT_New_Face(ft, path.c_str(), 0, &face) == 0) {
+            loaded = true;
+            break;
         }
+    }
+
+    if (!loaded) {
+        FT_Done_FreeType(ft);
+        return Result::FileNotFound;
     }
     
     FT_Set_Pixel_Sizes(face, 0, fontSize);

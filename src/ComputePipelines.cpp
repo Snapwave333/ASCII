@@ -456,12 +456,26 @@ Result ComputeShaderManager::CompileGLSLToSPIRV(const std::string& source, std::
         if (!std::filesystem::exists(exe)) exe = bin / "glslangValidator";
     }
     if (exe.empty() || !std::filesystem::exists(exe)) {
-        std::vector<std::filesystem::path> candidates = {
-            std::filesystem::path("C:/VulkanSDK/1.4.328.1/Bin/glslangValidator.exe"),
-            std::filesystem::path("C:/VulkanSDK/1.4.312.1/Bin/glslangValidator.exe"),
-            std::filesystem::path("C:/VulkanSDK/Bin/glslangValidator.exe")
+        // Try to find any VulkanSDK version in common locations
+        std::vector<std::filesystem::path> sdkRoots = {
+            std::filesystem::path("C:/VulkanSDK"),
+            std::filesystem::path("D:/VulkanSDK"),
+            std::filesystem::path(std::getenv("ProgramFiles") ? std::getenv("ProgramFiles") : "") / "VulkanSDK"
         };
-        for (auto& c : candidates) { if (std::filesystem::exists(c)) { exe = c; break; } }
+        for (const auto& root : sdkRoots) {
+            if (std::filesystem::exists(root)) {
+                for (const auto& entry : std::filesystem::directory_iterator(root)) {
+                    if (entry.is_directory()) {
+                        auto candidate = entry.path() / "Bin" / "glslangValidator.exe";
+                        if (std::filesystem::exists(candidate)) {
+                            exe = candidate;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!exe.empty() && std::filesystem::exists(exe)) break;
+        }
     }
     if (exe.empty() || !std::filesystem::exists(exe)) {
         return Result::ValidationFailed;

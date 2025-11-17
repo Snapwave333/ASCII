@@ -92,12 +92,14 @@ enum class Result : uint32 {
     DeviceLost = 6,
     InitializationFailed = 7,
     AlreadyInitialized = 8,
-    FileNotFound = 8,
     PermissionDenied = 9,
     NetworkError = 10,
     ValidationFailed = 11,
     UnsupportedOperation = 12,
-    NotInitialized = 13
+    NotInitialized = 13,
+    FileNotFound = 14,
+    ConfigurationError = 15,
+    ResourceBusy = 16
 };
 
 // Log levels

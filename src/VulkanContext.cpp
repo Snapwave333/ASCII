@@ -763,12 +763,27 @@ void main() {}
             if (!std::filesystem::exists(exe)) exe = bin / "glslangValidator";
         }
         if (exe.empty() || !std::filesystem::exists(exe)) {
-            std::vector<std::filesystem::path> candidates = {
-                std::filesystem::path("C:/VulkanSDK/1.4.328.1/Bin/glslangValidator.exe"),
-                std::filesystem::path("C:/VulkanSDK/1.4.312.1/Bin/glslangValidator.exe"),
-                std::filesystem::path("C:/VulkanSDK/Bin/glslangValidator.exe")
+            // Try to find any VulkanSDK version in common locations
+            std::vector<std::filesystem::path> sdkRoots = {
+                std::filesystem::path("C:/VulkanSDK"),
+                std::filesystem::path("D:/VulkanSDK"),
+                std::filesystem::path(std::getenv("ProgramFiles") ? std::getenv("ProgramFiles") : "") / "VulkanSDK"
             };
-            for (auto& c : candidates) { if (std::filesystem::exists(c)) { exe = c; break; } }
+            for (const auto& root : sdkRoots) {
+                if (std::filesystem::exists(root)) {
+                    // Find latest version directory
+                    for (const auto& entry : std::filesystem::directory_iterator(root)) {
+                        if (entry.is_directory()) {
+                            auto candidate = entry.path() / "Bin" / "glslangValidator.exe";
+                            if (std::filesystem::exists(candidate)) {
+                                exe = candidate;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!exe.empty() && std::filesystem::exists(exe)) break;
+            }
         }
         if (exe.empty() || !std::filesystem::exists(exe)) {
             std::cout << "ShaderCompile glslangValidator not found" << std::endl;
@@ -1063,7 +1078,7 @@ Result VulkanContext::EndFrame() {
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &m_commandBuffers[m_currentFrame];
     submitInfo.signalSemaphoreCount = m_swapchain != VK_NULL_HANDLE ? 1u : 0u;
-    submitInfo.pSignalSemaphores = m_swapchain != VK_NULL_HANDLE ? &m_renderFinishedSemaphores[m_currentImageIndex] : nullptr;
+    submitInfo.pSignalSemaphores = m_swapchain != VK_NULL_HANDLE ? &m_renderFinishedSemaphores[m_currentFrame] : nullptr;
     VkResult submitResult = vkQueueSubmit(m_graphicsQueue, 1, &submitInfo, m_inFlightFences[m_currentFrame]);
     if (submitResult != VK_SUCCESS) {
         std::cerr << "[VulkanContext] Error: Failed to submit command buffer in EndFrame" << std::endl;
@@ -1073,7 +1088,7 @@ Result VulkanContext::EndFrame() {
         VkPresentInfoKHR presentInfo{};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = &m_renderFinishedSemaphores[m_currentImageIndex];
+        presentInfo.pWaitSemaphores = &m_renderFinishedSemaphores[m_currentFrame];
         presentInfo.swapchainCount = 1;
         presentInfo.pSwapchains = &m_swapchain;
         presentInfo.pImageIndices = &m_currentImageIndex;

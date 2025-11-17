@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(NeonGlyph VERSION 3.0.1 LANGUAGES CXX)
+project(NeonGlyph VERSION 3.1.0 LANGUAGES CXX)
 
 enable_testing()
 option(NEONGLYPH_BUILD_TESTS "Build test executables" OFF)
@@ -118,22 +118,27 @@ endif()
 target_link_libraries(NeonGlyph
     ${Vulkan_LIBRARIES}
     Threads::Threads
-    # Windows-specific libraries
-    winmm.lib
-    mmdevapi.lib
-    avrt.lib  # For audio thread priority functions
-    # audioclient.lib  # This library doesn't exist - WASAPI is included in mmdevapi.lib
-    propsys.lib
-    d3d11.lib
-    dxgi.lib
-    d3dcompiler.lib
-    # Explicit Vulkan library path
-    "C:/VulkanSDK/1.4.328.1/Lib/vulkan-1.lib"
 )
+
+# Windows-specific libraries
+if(WIN32)
+    target_link_libraries(NeonGlyph
+        winmm.lib
+        mmdevapi.lib
+        avrt.lib  # For audio thread priority functions
+        propsys.lib
+        d3d11.lib
+        dxgi.lib
+        d3dcompiler.lib
+        shell32.lib
+        user32.lib
+        ws2_32.lib
+    )
+endif()
 
 # Conditional linking
 target_link_libraries(NeonGlyph glfw)
-target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=0)
+target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_GLFW=1)
 target_compile_definitions(NeonGlyph PRIVATE NEONGLYPH_HAVE_DIRECTOR=0)
 target_include_directories(NeonGlyph PRIVATE ${CMAKE_BINARY_DIR}/_deps/glfw-src/include)
 if(glfw_SOURCE_DIR)
